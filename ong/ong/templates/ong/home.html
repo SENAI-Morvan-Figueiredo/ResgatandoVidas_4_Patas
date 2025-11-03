@@ -7,25 +7,24 @@
 <header class="home-header">
   <!-- Top bar: logo + menu -->
   <div class="top-bar">
-  <!-- Logo à esquerda -->
-  <div class="logo-wrap">
-    <a href="{% url 'home' %}">
-      <img src="{% static 'img/logo.png' %}" alt="Logotipo 4 Patas" class="logo">
-    </a>
+    <!-- Logo à esquerda -->
+    <div class="logo-wrap">
+      <a href="{% url 'home' %}">
+        <img src="{% static 'img/logo.png' %}" alt="Logotipo 4 Patas" class="logo">
+      </a>
+    </div>
+
+    <!-- Menu centralizado -->
+    <nav class="menu-centralizado">
+      <ul>
+        <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
+        <li><a href="index.html">Nossa História</a></li>
+        <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
+        <li><a href="adotados.html">Adotados</a></li>
+        <li><a href="{% url 'doacoes' %}">Doações</a></li>
+      </ul>
+    </nav>
   </div>
-
-  <!-- Menu centralizado -->
-  <nav class="menu-centralizado">
-    <ul>
-      <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
-      <li><a href="index.html">Nossa História</a></li>
-      <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
-      <li><a href="adotados.html">Adotados</a></li>
-      <li><a href="{% url 'doacoes' %}">Doações</a></li>
-    </ul>
-  </nav>
-</div>
-
 
   <!-- Hero centralizado -->
   <div class="hero-content">
@@ -33,7 +32,7 @@
     <p class="desca">
       Nosso trabalho é salvar, cuidar e encontrar lares para gatinhos que precisam de amor.
     </p>
-    <button class="btadote">ADOTE</button>
+    <button class="btadote" onclick="window.location.href='{% url 'adocoes:lista' %}'">ADOTE</button>
   </div>
 
   <!-- Patinhas -->
@@ -44,52 +43,59 @@
 </header>
 {% endblock header %}
 
-
-
 {% block extra_head %}
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
 
 {% block content %}
   <!-- SEÇÃO "RESGATANDO VIDAS" -->
-  <section class="intro container-lg">
+  <section class="intro">
     <div class="intro-content">
       <h2>RESGATANDO VIDAS 4 PATAS</h2>
       <p class="intro-text">
-        A RESGATANDO VIDAS 4PATAS atua desde 2014, como protetora independente em ações de resgate, tratamento e adoção de gatos abandonados ou vítimas de maus-tratos. Sendo que mais ativos desde 2019. Já resgatamos, acolhemos, tratamos e castramos mais de 500 gatos.
-        Todo esse trabalho sempre dependeu de doações de pessoas sensibilizadas pelos casos. Os animais sempre foram acolhidos na minha própria casa, e nos últimos anos, pelo aumento da demanda, em “Lares Temporários” até que possam ser adotados de forma responsável por uma família. Atualmente cuidamos de aproximadamente 50 gatos (entre adultos e filhotes).
-        Nossas adoções sempre foram feitas de forma responsável, para pessoas que possam dar continuidade ao nosso trabalho, proporcionando para esses gatinhos, saúde física e emocional, além da segurança que também é primordial para que nossos resgatados não voltem a ter acesso às ruas, voltando a ficarem expostos a todo tipo de perigo do qual foram retirados e salvos. Também realizamos um trabalho constante de acompanhamento dos nossos adotados.
-        “Nunca foi um trabalho fácil! E por diversas vezes já tentei parar, pois muito me sobrecarrega na minha vida pessoal e profissional, porém, infelizmente devido à falta de conscientização da maioria das pessoas em relação à castração e a segurança dos animais, isso nunca foi possível.” Cláudia Lopes (Fundadora e única responsável pela Resgatando Vidas 4Patas)
+      A RESGATANDO VIDAS 4PATAS atua desde 2014, como protetora independente em ações de resgate, tratamento e adoção de gatos abandonados ou vítimas de maus-tratos. Sendo que mais ativos desde 2019. Já resgatamos, acolhemos, tratamos e castramos mais de 500 gatos.
+      Todo esse trabalho sempre dependeu de doações de pessoas sensibilizadas pelos casos. Os animais sempre foram acolhidos na minha própria casa, e nos últimos anos, pelo aumento da demanda, em "Lares Temporários" até que possam ser adotados de forma responsável por uma família. Atualmente cuidamos de aproximadamente 50 gatos (entre adultos e filhotes).
+      Nossas adoções sempre foram feitas de forma responsável, para pessoas que possam dar continuidade ao nosso trabalho, proporcionando para esses gatinhos, saúde física e emocional, além da segurança que também é primordial para que nossos resgatados não voltem a ter acesso às ruas, voltando a ficarem expostos a todo tipo de perigo do qual foram retirados e salvos. Também realizamos um trabalho constante de acompanhamento dos nossos adotados.
+      "Nunca foi um trabalho fácil! E por diversas vezes já tentei parar, pois muito me sobrecarrega na minha vida pessoal e profissional, porém, infelizmente devido à falta de conscientização da maioria das pessoas em relação à castração e a segurança dos animais, isso nunca foi possível." Cláudia Lopes (Fundadora e única responsável pela Resgatando Vidas 4Patas)
       </p>
     </div>
 
     <div class="intro-image">
-      <img src="{% static 'img/gato_fundo_rosa.png' %}" alt="Gato" class="circle-img">
+      <img src="{% static 'img/gato_fundo_rosa.svg' %}" alt="Gato" class="circle-img">
     </div>
   </section>
 
-  <!-- SEÇÃO DOE -->
+  <!-- SEÇÃO DOE (FULLSCREEN) -->
   <section class="doe-section">
-    <div class="doe-content">
-      <h2>DOE</h2>
-      <p>
-        Sua doação via PIX nos ajuda a oferecer tudo o que os gatinhos precisam:
-        ração, medicamentos, exames e tratamentos. Assim, garantimos não só
-        alimentação adequada, mas também saúde e muito carinho.
-      </p>
-      <p class="destaque">Cada contribuição transforma vidas!</p>
-      <a href="#" class="btn-doe">Doe amor, Doe comida</a>
+    <div class="doe-wrapper">
+      <!-- Imagem do pote de ração -->
+      <div class="doe-image">
+        <img src="{% static 'img/fundo_doe.svg' %}" alt="Pote de ração">
+      </div>
+
+      <!-- Conteúdo da direita -->
+      <div class="doe-content">
+        <h2>DOE</h2>
+        <p>
+          Sua doação via PIX nos ajuda a oferecer tudo o que os gatinhos precisam:
+          ração, medicamentos, exames e tratamentos. Assim, garantimos não só
+          alimentação adequada, mas também saúde e muito carinho.
+        </p>
+        <p class="destaque">Cada contribuição transforma vidas!</p>
+        <a href="{% url 'doacoes' %}" class="btn-doe">Doe amor, Doe comida</a>
+      </div>
     </div>
   </section>
 
- <!-- ONDA SEPARADORA (full-bleed) -->
-  <div class="wave-separator">
-    <svg viewBox="0 0 1440 130" preserveAspectRatio="none" class="wave-svg">
-      <path d="M0,40 C150,140 350,0 540,40 C730,80 930,40 1110,60 C1290,80 1440,40 1440,40 L1440,140 L0,140 Z"></path>
-    </svg>
-  </div>
+  <!-- Ondinha -->
+  <section class="onda-section">
+    <div class="onda-image">
+      <img src="{% static 'img/ondinha.svg' %}" alt="Onda decorativa">
+    </div>
+  </section>
 
-  <!-- SEÇÃO LAR TEMPORÁRIO (section sem container-lg; conteúdo dentro do container) -->
+  <!-- SEÇÃO LAR TEMPORÁRIO (FULLSCREEN) -->
   <section class="lar" id="lar">
     <div class="container-lg">
       <h3 class="section-title">LAR TEMPORÁRIO</h3>
@@ -100,7 +106,7 @@
       <div class="cards">
         <article class="card">
           <div class="icon">
-            <img src="{% static 'img/icon-paw.png' %}" alt="Salvando Vidas">
+            <img src="{% static 'img/icon-paw.svg' %}" alt="Salvando Vidas">
           </div>
           <h4>Salvando Vidas</h4>
           <p>Você oferece um lar temporário seguro para gatos que precisam de cuidados especiais.</p>
@@ -108,7 +114,7 @@
 
         <article class="card">
           <div class="icon">
-            <img src="{% static 'img/icon-home.png' %}" alt="Sem Compromisso">
+            <img src="{% static 'img/icon-home.svg' %}" alt="Sem Compromisso">
           </div>
           <h4>Sem Compromisso Permanente</h4>
           <p>O período de acolhimento é temporário, até encontrarmos uma família definitiva.</p>
@@ -116,7 +122,7 @@
 
         <article class="card">
           <div class="icon">
-            <img src="{% static 'img/icon-clock.png' %}" alt="Flexibilidade">
+            <img src="{% static 'img/icon-clock.svg' %}" alt="Flexibilidade">
           </div>
           <h4>Flexibilidade</h4>
           <p>Você escolhe por quanto tempo pode acolher, respeitando sua disponibilidade.</p>
@@ -126,26 +132,31 @@
       <div class="cta-center">
         <a href="{% url 'lares_temporarios:lista' %}" class="btn-ghost">Quero Ser Lar Temporário</a>
       </div>
-    </div> <!-- fim container-lg -->
+    </div>
   </section>
 
-  <!-- BANNER IMAGEM GRANDE -->
-  <!-- <section class="banner-image">
-    <img src="{% static 'img/banner-cat.jpg' %}" alt="Gato brincando" class="cover">
-  </section> -->
-
-  <!-- CONSIDERE ADOTAR UM GATO ADULTO -->
-  <!-- <section class="adulto container-lg">
-    <div class="adulto-content">
-      <h3>CONSIDERE ADOTAR <span>UM GATO ADULTO</span></h3>
-      <p>Conheça todos os nossos gatinhos disponíveis para adoção. Cada um tem uma história única e está esperando por uma família amorosa.</p>
-      <a href="" class="btn-secondary">Quero Adotar</a>
+  <!-- SEÇÃO GATO ADULTO (FULLSCREEN) -->
+  <section class="gato-adulto-section">
+    <div class="gato-adulto-image">
+      <img src="{% static 'img/gato_adulto.svg' %}" alt="Gato adulto">
     </div>
-  </section> -->
+  </section>
+
+  <!-- SEÇÃO CONSIDERE ADOTAR -->
+<section class="considere-adotar">
+  <div class="considere-container">
+    <div class="texto">
+      <h2>CONSIDERE ADOTAR</h2>
+      <h2 class="subtitle">UM GATO ADULTO</h2>
+      <p class="description">
+        Conheça todos os nossos gatinhos disponíveis para adoção. Cada um tem uma história única e está esperando por uma família amorosa.
+      </p>
+    </div>
+    <div class="botao">
+      <a href="{% url 'adocoes:lista' %}" class="btn-adotar">Quero Adotar</a>
+    </div>
+  </div>
+</section>
 
   <!-- FOOTER vem do base.html (já incluído) -->
 {% endblock content %}
-
-{% block extra_js %}
-  <script src="{% static 'js/script.js' %}"></script>
-{% endblock extra_js %}
