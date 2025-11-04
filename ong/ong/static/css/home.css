@@ -188,7 +188,7 @@ header h1 em {
   }
 
   .top-bar {
-    padding: 12px 20px;
+    padding: 12px 80px;
   }
 
   .logo-wrap img.logo {
@@ -219,9 +219,17 @@ header h1 em {
   }
 
   .top-bar {
-    flex-direction: column;
-    padding: 10px 15px;
+    /* flex-direction: column; */
+    padding: 10px 90px;
     gap: 8px;
+  }
+
+  .logo-wrap {
+    margin-right: -10%;
+  }
+
+  .logo-wrap img.logo {
+    width: 60%;
   }
 
   .menu-centralizado{

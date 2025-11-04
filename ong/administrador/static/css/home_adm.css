@@ -115,9 +115,49 @@
   transform: translateX(4px);
 }
 
-/* Ajustes para telas pequenas */
-@media (max-width: 420px) {
-  .nav-right .user-circle { width: 3rem; height: 3rem; }
-  .user-dropdown { min-width: 180px; max-width: 220px; top: calc(100% + 0.4rem); }
-  .user-card { padding: 0.45rem; border-radius: 10px; }
+@media (max-width: 1400px) {
+.nav-right .user-circle {
+  margin-top: 10%;
+}
+.user-dropdown {
+  right: 4rem; 
+  top: 6.5rem; 
+}
+}
+
+@media (max-width: 1024px) {
+.nav-right .user-circle {
+  margin-top: -15%;
+  margin-left: 90%;
+}
+.user-dropdown {
+  right: 2rem; 
+  top: 6rem; 
+}
+}
+
+@media (max-width: 899px) {
+.nav-right .user-circle {
+  margin-top: 15%;
+  margin-left: -50%;
+}
+.user-dropdown {
+  right: 2rem; 
+  top: 6rem; 
+}
+}
+
+@media (max-width: 768px) {
+.nav-right .user-circle {
+  margin-top: 5%;
+  margin-left: -100%;
+}
+#userToggle{
+  width: 50px;
+  height: 50px;
+}
+.user-dropdown {
+  right: 2.6rem; 
+  top: 4.5rem; 
+}
 }
