@@ -1,62 +1,87 @@
 {% extends 'ong/base.html' %}
+{% load static %}
 {% block title %}Gatos para Adoção{% endblock %}
 {% block content %}
-<div class="hero mb-4">
-  <div class="d-flex justify-content-between align-items-center">
-    <h2 class="mb-0"> Adote Um Gatinho <small class="text-muted">({{ page_obj.paginator.count }})</small></h2>
-    <a href="{% url 'adocoes:formulario_adocao' %}" class="btn btn-primary">Quero Adotar</a>
-  </div>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/adocao.css' %}">
+{% endblock %}
 
-  <form method="get" class="row g-2 mt-3">
-    <div class="col-md-4">
-      <input name="q" value="{{ request.GET.q }}" class="form-control" placeholder="Nome do Gato">
-    </div>
-    <div class="col-md-3">
-      <select name="sexo" class="form-select">
-        <option value="">Todos os sexos</option>
-        <option value="fêmea" {% if request.GET.sexo == 'fêmea' %}selected{% endif %}>Fêmea</option>
-        <option value="macho" {% if request.GET.sexo == 'macho' %}selected{% endif %}>Macho</option>
-      </select>
-    </div>
-    <div class="col-md-2">
-      <button class="btn btn-outline-secondary w-100">Filtrar</button>
-    </div>
+
+<div class="hero mb-4 d-flex justify-content-between align-items-center flex-wrap">
+  <!-- Título -->
+  <h2 class="mb-0">
+    Adote Um Gatinho
+    {% if total_count %}
+    <small class="text-muted">({{ total_count }})</small>
+    {% endif %}
+  </h2>
+
+  <!-- Barra de pesquisa e filtros -->
+  <form method="GET" action="" class="d-flex gap-2 mt-2 mt-md-0">
+    <!-- Filtro_Nome -->
+    <input type="text" name="nome" class="form-control form-control-sm search-input" placeholder="Nome do Gato"
+      onkeyup="debounceSubmit(this.form, 600)" value="{{ request.GET.nome|default:'' }}">
+
+    <!-- Filtro_Sexo -->
+    <select name="sexo" class="form-select form-select-sm search-input" onchange="this.form.submit()">
+      <option value="">Todos os sexos</option>
+      {# CORREÇÃO AQUI: Usando o operador de comparação simples '=' que é a forma aceita pelo DTL para esta comparação. #}
+      <option value="M" {% if request.GET.sexo == 'M' %}selected{% endif %}>Macho</option>
+      <option value="F" {% if request.GET.sexo == 'F' %}selected{% endif %}>Fêmea</option>
+    </select>
   </form>
 </div>
 
-<div class="row g-3">
+<div class="row g-4">
   {% for gato in gatos %}
-  <div class="col-lg-4 col-md-6">
-    <div class="card card-cat h-100">
-      {% if gato.imagem %}
-      <img src="{{ gato.imagem.url }}" class="card-img-top" style="height:220px;object-fit:cover;border-top-left-radius:12px;border-top-right-radius:12px;">
-      {% endif %}
-      <div class="card-body">
-        <h5 class="card-title">{{ gato.nome }}</h5>
-        <p class="card-text small text-muted">{{ gato.descricao|truncatechars:80 }}</p>
-        <div class="d-flex justify-content-between align-items-center mt-3">
-          <div>
-            <a href="{% url 'adocoes:detail' gato.pk %}" class="btn btn-sm btn-outline-secondary">Ver</a>
-            <a href="{% url 'adocoes:formulario_adocao' %}?gato={{ gato.pk }}" class="btn btn-sm btn-primary">Solicitar Adoção</a>
+  <div class="col-lg-3 col-md-4 col-sm-6">
+    <a href="{% url 'adocoes:detail' gato.pk %}" class="text-decoration-none text-dark">
+      <div class="card border-0 h-100 rounded-4 overflow-hidden">
+        {% if gato.imagem %}
+        <img src="{{ gato.imagem.url }}" class="card-img-top" alt="{{ gato.nome }}"
+          style="object-fit: cover; height: 200px;">
+        {% else %}
+        <img src="https://placehold.co/300x200?text=Sem+Foto" class="card-img-top" alt="Sem imagem">
+        {% endif %}
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="card-title mb-0">{{ gato.nome }}</h5>
           </div>
+          <p class="card-text mb-2">
+            {{ gato.idade }} |
+            {% if gato.sexo == 'M' %}Macho{% else %}Fêmea{% endif %}
+            {% if gato.lar_temporario %} | Lar Temporário{% endif %}
+          </p>
         </div>
       </div>
-    </div>
+    </a>
   </div>
   {% empty %}
-  <p>Nenhum gato encontrado.</p>
+  <p class="text-center">Nenhum gato disponível no momento.</p>
   {% endfor %}
 </div>
 
-<nav class="mt-4">
-  <ul class="pagination">
-    {% if page_obj.has_previous %}
-      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Anterior</a></li>
-    {% endif %}
-    <li class="page-item disabled"><span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span></li>
-    {% if page_obj.has_next %}
-      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Próxima</a></li>
-    {% endif %}
-  </ul>
-</nav>
+<div class="botoes_ver">
+  {% if not show_all and total_count > gatos|length %}
+  <a href="?show_all=true" class="btn-ver-todos">
+    Ver Todos
+    <img src="{% static 'img/seta_baixo.png' %}" alt="Seta para baixo" class="arrow-img">
+  </a>
+  {% elif show_all %}
+  <a href="?" class="btn-ver-todos">
+    Ver Menos
+    <img src="{% static 'img/seta_cima.png' %}" alt="Seta para cima" class="arrow-img">
+  </a>
+  {% endif %}
+</div>
+
+
+<script>
+  let debounceTimer;
+  function debounceSubmit(form, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => { form.submit(); }, delay);
+  }
+</script>
+
 {% endblock %}
