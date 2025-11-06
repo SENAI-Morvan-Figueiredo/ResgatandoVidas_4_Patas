@@ -1,7 +1,7 @@
 import logging
 from django.views.generic import CreateView
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from gatos.models import Gato
 from lares_temporarios.models import LarTemporarioAtual
 from adocoes.models import Adotados
@@ -88,66 +88,63 @@ def dashboard_admin_lar_temporario(request):
 
 logger = logging.getLogger(__name__)
 
-class GatoCreateView(CreateView):
-    model = Gato
-    form_class = GatoForm
-    template_name = 'gatos/adicionar_gato_form.html'
+# -------------------------------------------------------------------------------------------------- Da tela adicionar_gato_form
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        data = self.request.POST or None
-        context['gato_form'] = GatoForm(data, self.request.FILES or None)
-        context['cuidado_form'] = CuidadoForm(data)
-        context['temperamento_form'] = TemperamentoForm(data)
-        context['moradia_form'] = MoradiaForm(data)
-        context['sociavel_form'] = SociavelForm(data)
-        return context
-
-    def _save_related(self, form, gato):
-        """
-        Salva um formulário relacionado (Cuidado, Temperamento, etc.)
-        tentando associar ao gato se existir campo 'gato' ou relação inversa.
-        """
-        instance = form.save(commit=False)
-        if 'gato' in [f.name for f in form._meta.model._meta.get_fields()]:
-            instance.gato = gato
-        instance.save()
-
-        # Checa se Gato possui campo que referencia o model
-        for f in Gato._meta.get_fields():
-            remote = getattr(f, 'remote_field', None)
-            if remote and getattr(remote, 'model', None) == form._meta.model:
-                setattr(gato, f.name, instance)
-                gato.save()
-                break
-
-        return instance
-
-    def post(self, request, *args, **kwargs):
+# View que vai adicionar o gato
+def adicionar_gato(request):
+    # Se o método for POST, significa que o usuário clicou em “Enviar” no formulário
+    if request.method == 'POST':
+        # Pega as informações dos forms - instância
         gato_form = GatoForm(request.POST, request.FILES)
         cuidado_form = CuidadoForm(request.POST)
         temperamento_form = TemperamentoForm(request.POST)
-        moradia_form = MoradiaForm(request.POST)
         sociavel_form = SociavelForm(request.POST)
+        moradia_form = MoradiaForm(request.POST)
 
-        if all(f.is_valid() for f in [gato_form, cuidado_form, temperamento_form, moradia_form, sociavel_form]):
-            gato = gato_form.save()
-            self._save_related(cuidado_form, gato)
-            self._save_related(temperamento_form, gato)
-            self._save_related(moradia_form, gato)
-            self._save_related(sociavel_form, gato)
+        # Verificação se todos estão válidos (tipo de dado, campos obrigatorios) - vai vê se foi preenchido da forma certa
+        if all([
+            gato_form.is_valid(),
+            cuidado_form.is_valid(),
+            temperamento_form.is_valid(),
+            sociavel_form.is_valid(),
+            moradia_form.is_valid()
+        ]):
+            
+            # Salva cada formulário auxiliar primeiro
+            cuidado = cuidado_form.save()
+            temperamento = temperamento_form.save()
+            sociavel = sociavel_form.save()
+            moradia = moradia_form.save()
 
-            messages.success(request, "Gato e formulários relacionados salvos com sucesso.")
-            return redirect(self.get_success_url())
-        
-        # Renderiza com erros
-        context = self.get_context_data()
-        context['gato_form'] = gato_form
-        context['cuidado_form'] = cuidado_form
-        context['temperamento_form'] = temperamento_form
-        context['moradia_form'] = moradia_form
-        context['sociavel_form'] = sociavel_form
-        return render(request, self.template_name, context)
+            # Cria o gato, associando os objetos salvos
+            gato = gato_form.save(commit=False) # Cria o objeto gato, mas ainda não salva no bd
+            gato.cuidado = cuidado
+            gato.temperamento = temperamento
+            gato.sociavel = sociavel
+            gato.moradia = moradia
+            gato.save() # Após todos as informações inseridas, salva no bd
+
+            return redirect('gatos:dashboard_admin_adocoes') # Se tudo der certinho, vai te redirecionar para a tela de dashboard_admin_adocoes
+
+    # Caso não seja o método POST - Cria todos os formulários vazios, prontos para preenchimento.
+    else:
+        gato_form = GatoForm()
+        cuidado_form = CuidadoForm()
+        temperamento_form = TemperamentoForm()
+        sociavel_form = SociavelForm()
+        moradia_form = MoradiaForm()
+
+    # Envio dos formulários para o template
+    context = {
+        'gato_form': gato_form,
+        'cuidado_form': cuidado_form,
+        'temperamento_form': temperamento_form,
+        'sociavel_form': sociavel_form,
+        'moradia_form': moradia_form,
+    }
+
+    return render(request, 'gatos/adicionar_gato_form.html', context)
+
 # ---------------------------------------------------------------------------------------- Da tela dashboard_admin_adotados
 
 # View que vai mandar as informações para os cards e tambem para o filtro

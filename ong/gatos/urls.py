@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import dashboard_admin_adocoes, excluir_gato_ajax, dashboard_admin_lar_temporario, dashboard_admin_adotados, excluir_adotado_ajax
-from . import views
+from .views import dashboard_admin_adocoes, excluir_gato_ajax, dashboard_admin_lar_temporario, dashboard_admin_adotados, excluir_adotado_ajax, adicionar_gato
 
 app_name = 'gatos'
 
@@ -10,5 +9,5 @@ urlpatterns = [
     path("excluir_adotado_ajax/<int:adotado_id>/", excluir_adotado_ajax, name="excluir_adotado_ajax"),    # Pop-up de confirmar exclusão
     path("dashboard_admin_lar_temporario", dashboard_admin_lar_temporario, name="dashboard_admin_lar_temporario"),    # Função para conseguir acessar a tela de DashBoard do Admin - Com os gatos para Lar_Temporario
     path("dashboard_admin_adotados", dashboard_admin_adotados, name="dashboard_admin_adotados"),    # Função para conseguir acessar a tela de DashBoard do Admin - Com os gatos Adotados
-    path('adicionar_gato/', views.GatoCreateView.as_view(), name='adicionar_gato'),
+    path('adicionar_gato/', adicionar_gato, name='adicionar_gato'), # Função de Registrar gato
 ]

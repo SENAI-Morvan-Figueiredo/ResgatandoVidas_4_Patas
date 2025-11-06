@@ -1,0 +1,79 @@
+/* Css da página base_admin
+Página Base do DashBoard*/
+
+
+/* Cabeçalho */
+.dashboard-header {
+    background: #f3f5ff;
+    border-radius: 0 0 2rem 2rem;
+    padding: 2rem 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.dashboard-header h2 {
+    font-weight: 700;
+    color: #5a6ac9;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+}
+
+
+/* Cards de estatísticas - Quantidade */
+.stat-card {
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: 0.2s ease-in-out;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-card h4 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #5a6ac9;
+    /* número azul */
+}
+
+.stat-card p {
+    margin: 0;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+
+/* Botões de navegação entre os conteúdos */
+.nav-tabs {
+    border: none;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.nav-tabs .nav-link {
+    border-radius: 0.75rem;
+    border: none;
+    background: #dee2e6;
+    /* cinza claro */
+    color: #495057;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link.active {
+    background: #fff;
+    /* branca */
+    color: #5a6ac9;
+    /* azul */
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.col-md-3 p {
+    color: #5a6ac9;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 750;
+}

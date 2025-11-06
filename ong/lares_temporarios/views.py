@@ -15,30 +15,50 @@ class GatoListView(ListView):
     model = Gato
     template_name = 'lares_temporarios/lar_temporario_list.html'
     context_object_name = 'gatos'
-    paginate_by = 12
+    paginate_by = None  # controle manual como no outro app
+
+    def get(self, request, *args, **kwargs):
+        # controle do botão Ver Mais / Ver Menos
+        self.show_all = request.GET.get('show_all', 'false').lower() == 'true'
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         try:
-            qs = Gato.objects.filter(adotados__isnull=True)
+            qs = Gato.objects.filter(adotados__isnull=True, lar_temporario=1)
+
             try:
                 qs = qs.order_by('-created_at')
-            except FieldError:
+            except Exception:
                 qs = qs.order_by('-id')
-            q = self.request.GET.get('q')
+
+            # Filtro por nome
+            nome_filter = self.request.GET.get('nome')
+            if nome_filter:
+                qs = qs.filter(nome__icontains=nome_filter)
+
+            # Filtro por sexo
             sexo_filter = self.request.GET.get('sexo')
+            if sexo_filter == 'F':
+                qs = qs.filter(sexo='F')
+            elif sexo_filter == 'M':
+                qs = qs.filter(sexo='M')
 
-            if q:
-                qs = qs.filter(nome__icontains=q)
+            # Limita a 8 gatos se não for show_all
+            if not getattr(self, 'show_all', False):
+                qs = qs[:8]
 
-            if sexo_filter == 'fêmea':
-                qs = qs.filter(sexo__lte=1)
-            elif sexo_filter == 'macho':
-                qs = qs.filter(sexo__gt=1)
             return qs
 
         except Exception as e:
             logger.exception("Erro em GatoListView.get_queryset: %s", e)
             return Gato.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['show_all'] = getattr(self, 'show_all', False)
+        context['total_count'] = Gato.objects.filter(adotados__isnull=True, lar_temporario=1).count()
+        return context
+
 
 
 class GatoDetailView(DetailView):
@@ -100,6 +120,7 @@ def formulario_lar_temporario(request):
         form = LarTemporarioForm(initial=initial)
 
     return render(request, 'lares_temporarios/lar_temporario_form.html', {'form': form, 'gato': gato})
+
 
 class LarTemporarioSuccessView(TemplateView):
     template_name = 'lares_temporarios/lar_temporario_sucess.html'
