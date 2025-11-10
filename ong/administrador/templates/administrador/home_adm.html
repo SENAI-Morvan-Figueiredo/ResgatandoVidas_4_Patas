@@ -12,7 +12,6 @@
 
 {% block header %}
 <header class="home-header">
-  <!-- Top bar: hamburger (esq) + logo (centro) + user (dir) -->
   <div class="top-bar">
     <!-- Botão hamburguer (aparece em mobile) -->
     <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav" type="button">
@@ -39,8 +38,8 @@
     <!-- Menu desktop (mantido para telas grandes) -->
     <nav id="primaryNav" class="menu-centralizado" aria-hidden="false" role="navigation">
       <ul>
+        <li><a href="#nossa-historia">Home</a></li>
         <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
-        <li><a href="index.html">Nossa História</a></li>
         <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
         <li><a href="adotados.html">Adotados</a></li>
         <li><a href="{% url 'doacoes' %}">Doações</a></li>
@@ -50,8 +49,8 @@
     <!-- Menu móvel (painel parcial vindo da direita) -->
     <nav id="mobileNav" class="mobile-nav" aria-hidden="true" aria-label="Menu principal" role="navigation">
       <ul>
+        <li><a href="#nossa-historia">Home</a></li>
         <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
-        <li><a href="index.html">Nossa História</a></li>
         <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
         <li><a href="adotados.html">Adotados</a></li>
         <li><a href="{% url 'doacoes' %}">Doações</a></li>
