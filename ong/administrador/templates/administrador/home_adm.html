@@ -1,0 +1,79 @@
+{% extends "ong/home.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/home_adm.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/adm.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+<header class="home-header">
+  <div class="top-bar">
+    <!-- Botão hamburguer (aparece em mobile) -->
+    <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav" type="button">
+      <span class="hamburger-box"><span class="hamburger-inner"></span></span>
+    </button>
+
+    <!-- Logo central -->
+    <div class="logo-wrap">
+      <img src="{% static 'img/logo.png' %}" alt="Logotipo 4 Patas" class="logo">
+    </div>
+
+    <!-- Ícone usuário (direita) -->
+    <div class="nav-right">
+      <button id="userToggle" class="user-circle" aria-expanded="false" aria-controls="userDropdown" aria-haspopup="true" aria-label="Abrir menu do usuário" type="button">
+        <img src="{% static 'img/icone_usuario.svg' %}" alt="Usuário">
+      </button>
+
+      <div id="userDropdown" class="user-dropdown user-card" role="menu" aria-hidden="true">
+          <a href="{% url 'admin:index' %}" class="user-card-link"><img src="{% static 'img/adm_painel.svg' %}" alt=""> Admin Painel</a>
+          <a href="{% url 'logout' %}" class="user-card-link"><img src="{% static 'img/sair.svg' %}" alt=""> Sair</a>
+      </div>
+    </div>
+
+    <!-- Menu desktop (mantido para telas grandes) -->
+    <nav id="primaryNav" class="menu-centralizado" aria-hidden="false" role="navigation">
+      <ul>
+        <li><a href="#nossa-historia">Home</a></li>
+        <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
+        <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
+        <li><a href="adotados.html">Adotados</a></li>
+        <li><a href="{% url 'doacoes' %}">Doações</a></li>
+      </ul>
+    </nav>
+
+    <!-- Menu móvel (painel parcial vindo da direita) -->
+    <nav id="mobileNav" class="mobile-nav" aria-hidden="true" aria-label="Menu principal" role="navigation">
+      <ul>
+        <li><a href="#nossa-historia">Home</a></li>
+        <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
+        <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
+        <li><a href="adotados.html">Adotados</a></li>
+        <li><a href="{% url 'doacoes' %}">Doações</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Backdrop para quando mobileNav estiver aberto -->
+  <div id="mobileBackdrop" class="mobile-backdrop" aria-hidden="true"></div>
+
+  <!-- Hero centralizado -->
+  <div class="hero-content">
+    <h1>Resgatando Vidas <em>4 patas</em></h1>
+    <p class="desca">
+      Nosso trabalho é salvar, cuidar e encontrar lares para gatinhos que precisam de amor.
+    </p>
+    <button class="btadote" onclick="window.location.href='{% url 'adocoes:lista' %}'">ADOTE</button>
+  </div>
+
+  <!-- Patinhas -->
+  <img src="{% static 'img/pataa.png' %}" alt="pata1" class="pataa">
+  <img src="{% static 'img/patab.png' %}" alt="pata2" class="patab">
+  <img src="{% static 'img/patac.png' %}" alt="pata3" class="patac">
+  <img src="{% static 'img/patad.png' %}" alt="pata4" class="patad">
+</header>
+{% endblock header %}

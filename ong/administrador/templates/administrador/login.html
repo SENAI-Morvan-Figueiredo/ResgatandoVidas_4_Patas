@@ -20,8 +20,7 @@
 
         <!-- A caixa da frente (branca, com o formulário) -->
         <div class="login-container">
-            <h2>LOGIN  
-ADMINISTRADOR</h2>
+            <h2>LOGIN  ADMINISTRADOR</h2>
             
             <form method="POST">
                 {% csrf_token %}
@@ -32,7 +31,7 @@ ADMINISTRADOR</h2>
                 <label for="senha">Senha:</label>
                 <input type="password" name="senha" id="senha" required autocomplete="off">
 
-                <button type="submit">ENTRAR</button>
+                <button type="submit"><a href="{% url 'home_adm' %}">ENTRAR</a></button>
             </form>
 
             {% if messages %}

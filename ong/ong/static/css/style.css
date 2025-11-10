@@ -54,11 +54,13 @@ html, body {
     font-weight: bold;
     color: #4F76BB;
     text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
 }
 
 .nav-center span:hover,
 .nav-center a:hover {
-    text-decoration: underline;
+    transform: scale(1.06);
     cursor: pointer;
 }
 

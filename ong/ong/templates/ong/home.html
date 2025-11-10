@@ -9,16 +9,14 @@
   <div class="top-bar">
     <!-- Logo à esquerda -->
     <div class="logo-wrap">
-      <a href="{% url 'home' %}">
-        <img src="{% static 'img/logo.png' %}" alt="Logotipo 4 Patas" class="logo">
-      </a>
+      <img src="{% static 'img/logo.png' %}" alt="Logotipo 4 Patas" class="logo">
     </div>
 
     <!-- Menu centralizado -->
     <nav class="menu-centralizado">
       <ul>
+        <li><a href="#nossa-historia">Home</a></li>
         <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
-        <li><a href="index.html">Nossa História</a></li>
         <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
         <li><a href="adotados.html">Adotados</a></li>
         <li><a href="{% url 'doacoes' %}">Doações</a></li>
@@ -50,7 +48,7 @@
 
 {% block content %}
   <!-- SEÇÃO "RESGATANDO VIDAS" -->
-  <section class="intro">
+  <section class="intro" id="nossa-historia">
     <div class="intro-content">
       <h2>RESGATANDO VIDAS 4 PATAS</h2>
       <p class="intro-text">
