@@ -1,16 +1,9 @@
-{% extends "ong/home.html" %}
 {% load static %}
 
-{% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/home_adm.css' %}">
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
-{% endblock %}
 
-{% block extra_scripts %}
 <script src="{% static 'js/adm.js' %}"></script>
-{% endblock %}
 
-{% block header %}
 <header class="home-header">
   <div class="top-bar">
     <!-- Botão hamburguer (aparece em mobile) -->
@@ -61,19 +54,5 @@
   <!-- Backdrop para quando mobileNav estiver aberto -->
   <div id="mobileBackdrop" class="mobile-backdrop" aria-hidden="true"></div>
 
-  <!-- Hero centralizado -->
-  <div class="hero-content">
-    <h1>Resgatando Vidas <em>4 patas</em></h1>
-    <p class="desca">
-      Nosso trabalho é salvar, cuidar e encontrar lares para gatinhos que precisam de amor.
-    </p>
-    <button class="btadote" onclick="window.location.href='{% url 'adocoes:lista' %}'">ADOTE</button>
-  </div>
-
-  <!-- Patinhas -->
-  <img src="{% static 'img/pataa.png' %}" alt="pata1" class="pataa">
-  <img src="{% static 'img/patab.png' %}" alt="pata2" class="patab">
-  <img src="{% static 'img/patac.png' %}" alt="pata3" class="patac">
-  <img src="{% static 'img/patad.png' %}" alt="pata4" class="patad">
 </header>
-{% endblock header %}
+
