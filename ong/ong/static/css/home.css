@@ -229,7 +229,7 @@ header h1 em {
   }
 
   .logo-wrap img.logo {
-    width: 60%;
+    width: 70%;
   }
 
   .menu-centralizado{
@@ -276,8 +276,8 @@ header h1 em {
     padding: 8px 12px;
   }
 
-  .logo-wrap img.logo {
-    width: 45px;
+   .logo-wrap img.logo {
+    margin-top: 20%;
   }
 
   .menu-centralizado ul {
@@ -290,21 +290,12 @@ header h1 em {
 
   .hero-content {
     padding: 15px 12px 40px 12px;
-    margin-top: 10%;
-  }
-
-  header h1 {
-    font-size: 18px;
+    margin-top: 2%;
   }
 
   .btadote {
-    font-size: 11px;
-    padding: 7px 60px;
-  }
-
-  .desca {
-    font-size: 11px;
-  
+    font-size: 15px;
+    padding: 10px 60px;
   }
 
   .pataa, .patab, .patac, .patad {
