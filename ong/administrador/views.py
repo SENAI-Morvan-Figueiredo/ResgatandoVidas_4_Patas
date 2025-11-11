@@ -1,30 +1,31 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Adminstrador
 
 def login_view(request):
     if request.method == "POST":
-        email = request.POST.get("email")
+        username_or_email = request.POST.get("email")  # pode ser email ou username
         senha = request.POST.get("senha")
 
-        try:
-            admin = Adminstrador.objects.get(email=email, senha=senha)
-            request.session["admin_id"] = admin.id
-            request.session["admin_email"] = admin.email
+        user = authenticate(request, username=username_or_email, password=senha)
+
+        if user is not None:
+            login(request, user)
             return redirect("home")
-        except Adminstrador.DoesNotExist:
-            messages.error(request, "Email ou senha inválidos.")
+        else:
+            messages.error(request, "E-mail/Usuário ou senha inválidos.")
             return redirect("login")
 
     return render(request, "administrador/login.html")
 
 
 def logout_view(request):
-    request.session.flush()  # remove todos os dados da sessão
+    logout(request)
     return redirect("login")
 
+
 def dashboard_view(request):
-    if not request.session.get("admin_id"):
-        return redirect("login")  # se não estiver logado, volta para o login
-      
+    if not request.user.is_authenticated:
+        return redirect("login")
+
     return render(request, "home.html")
