@@ -7,44 +7,6 @@
 {% if user.is_authenticated %}
 
 <header class="home-header">
-  <!-- Top bar: logo + menu -->
-  <div class="top-bar">
-    <!-- Logo à esquerda -->
-    <div class="logo-wrap">
-      <img src="{% static 'img/logo.png' %}" alt="Logotipo 4 Patas" class="logo">
-    </div>
-
-    <!-- Menu centralizado -->
-    <nav class="menu-centralizado">
-      <ul>
-        <li><a href="#nossa-historia">Home</a></li>
-        <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
-        <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
-        <li><a href="adotados.html">Adotados</a></li>
-        <li><a href="{% url 'doacoes' %}">Doações</a></li>
-      </ul>
-    </nav>
-  </div>
-
-  <!-- Hero centralizado -->
-  <div class="hero-content">
-    <h1>Resgatando Vidas <em>4 patas</em></h1>
-    <p class="desca">
-      Nosso trabalho é salvar, cuidar e encontrar lares para gatinhos que precisam de amor.
-    </p>
-    <button class="btadote" onclick="window.location.href='{% url 'adocoes:lista' %}'">ADOTE</button>
-  </div>
-
-  <!-- Patinhas -->
-  <img src="{% static 'img/pataa.png' %}" alt="pata1" class="pataa">
-  <img src="{% static 'img/patab.png' %}" alt="pata2" class="patab">
-  <img src="{% static 'img/patac.png' %}" alt="pata3" class="patac">
-  <img src="{% static 'img/patad.png' %}" alt="pata4" class="patad">
-</header>
-
-{% else %}
-
-<header class="home-header">
   <div class="top-bar">
     <!-- Botão hamburguer (aparece em mobile) -->
     <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav"
@@ -96,6 +58,44 @@
 
   <!-- Backdrop para quando mobileNav estiver aberto -->
   <div id="mobileBackdrop" class="mobile-backdrop" aria-hidden="true"></div>
+
+  <!-- Hero centralizado -->
+  <div class="hero-content">
+    <h1>Resgatando Vidas <em>4 patas</em></h1>
+    <p class="desca">
+      Nosso trabalho é salvar, cuidar e encontrar lares para gatinhos que precisam de amor.
+    </p>
+    <button class="btadote" onclick="window.location.href='{% url 'adocoes:lista' %}'">ADOTE</button>
+  </div>
+
+  <!-- Patinhas -->
+  <img src="{% static 'img/pataa.png' %}" alt="pata1" class="pataa">
+  <img src="{% static 'img/patab.png' %}" alt="pata2" class="patab">
+  <img src="{% static 'img/patac.png' %}" alt="pata3" class="patac">
+  <img src="{% static 'img/patad.png' %}" alt="pata4" class="patad">
+</header>
+
+{% else %}
+
+<header class="home-header">
+  <!-- Top bar: logo + menu -->
+  <div class="top-bar">
+    <!-- Logo à esquerda -->
+    <div class="logo-wrap">
+      <img src="{% static 'img/logo.png' %}" alt="Logotipo 4 Patas" class="logo">
+    </div>
+
+    <!-- Menu centralizado -->
+    <nav class="menu-centralizado">
+      <ul>
+        <li><a href="#nossa-historia">Home</a></li>
+        <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
+        <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
+        <li><a href="adotados.html">Adotados</a></li>
+        <li><a href="{% url 'doacoes' %}">Doações</a></li>
+      </ul>
+    </nav>
+  </div>
 
   <!-- Hero centralizado -->
   <div class="hero-content">
