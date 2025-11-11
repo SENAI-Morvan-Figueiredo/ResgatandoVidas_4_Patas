@@ -294,11 +294,7 @@ margin-top: -30%;
 
 .mobile-nav {
   top: 550px;
-  height: 37vh; 
+  height: 44vh; 
   padding: 20px 22px;
 }
-}
-
-@media (max-width: 420px){
-
 }
