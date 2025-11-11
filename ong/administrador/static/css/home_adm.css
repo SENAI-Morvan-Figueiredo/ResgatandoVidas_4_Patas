@@ -235,14 +235,6 @@
   .hamburger { display: none; }
 }
 
-@media (max-width: 420px) {
-  .mobile-nav {
-    height: 48vh;
-    width: 98%;
-    padding: 18px;
-  }
-}
-
 @media (max-width: 1400px) {
 .nav-right .user-circle {
   width: 3.5rem;
@@ -276,11 +268,11 @@
 
 @media (max-width: 768px) {
   .nav-right .user-circle {
-  margin-top: -30%;
+margin-top: -30%;
   margin-left: 120%;
 }
 
-  .user-dropdown {
+.user-dropdown {
   right: 1rem;
 }
 }
@@ -291,12 +283,22 @@
   left: 15%;
 }
 
-  .nav-right .user-circle {
+.nav-right .user-circle {
   margin-top: -3%;
   margin-left: 150%;
 }
 
-  .user-dropdown {
+.user-dropdown {
   right: -1rem;
 }
+
+.mobile-nav {
+  top: 550px;
+  height: 37vh; 
+  padding: 20px 22px;
+}
+}
+
+@media (max-width: 420px){
+
 }
