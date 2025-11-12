@@ -6,11 +6,18 @@
 {% block header %}
 {% if user.is_authenticated %}
 
+{% block extra_scripts %}
+<script src="{% static 'js/adm.js' %}"></script>
+{% endblock %}
+
+<link rel="stylesheet" href="{% static 'css/home_adm.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <header class="home-header">
   <div class="top-bar">
     <!-- Botão hamburguer (aparece em mobile) -->
-    <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav"
-      type="button">
+    <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav" type="button">
       <span class="hamburger-box"><span class="hamburger-inner"></span></span>
     </button>
 
@@ -21,15 +28,13 @@
 
     <!-- Ícone usuário (direita) -->
     <div class="nav-right">
-      <button id="userToggle" class="user-circle" aria-expanded="false" aria-controls="userDropdown"
-        aria-haspopup="true" aria-label="Abrir menu do usuário" type="button">
+      <button id="userToggle" class="user-circle" aria-expanded="false" aria-controls="userDropdown" aria-haspopup="true" aria-label="Abrir menu do usuário" type="button">
         <img src="{% static 'img/icone_usuario.svg' %}" alt="Usuário">
       </button>
 
       <div id="userDropdown" class="user-dropdown user-card" role="menu" aria-hidden="true">
-        <a href="{% url 'admin:index' %}" class="user-card-link"><img src="{% static 'img/adm_painel.svg' %}" alt="">
-          Admin Painel</a>
-        <a href="{% url 'logout' %}" class="user-card-link"><img src="{% static 'img/sair.svg' %}" alt=""> Sair</a>
+          <a href="{% url 'admin:index' %}" class="user-card-link"><img src="{% static 'img/adm_painel.svg' %}" alt=""> Admin Painel</a>
+          <a href="{% url 'logout' %}" class="user-card-link"><img src="{% static 'img/sair.svg' %}" alt=""> Sair</a>
       </div>
     </div>
 
@@ -77,6 +82,9 @@
 
 {% else %}
 
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <header class="home-header">
   <!-- Top bar: logo + menu -->
   <div class="top-bar">
@@ -115,16 +123,6 @@
 
 {% endif %}
 {% endblock header %}
-
-{% block extra_scripts %}
-<script src="{% static 'js/adm.js' %}"></script>
-{% endblock %}
-
-{% block extra_head %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
-<link rel="stylesheet" href="{% static 'css/home_adm.css' %}">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-{% endblock %}
 
 {% block content %}
 <!-- SEÇÃO "RESGATANDO VIDAS" -->
