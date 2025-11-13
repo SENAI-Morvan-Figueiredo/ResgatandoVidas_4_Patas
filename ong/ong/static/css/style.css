@@ -79,40 +79,20 @@ html, body {
 
 
 /* Responsivo para nav */
+@media (max-width: 900px) {
+  .nav-left .logo {
+    height: 100px;
+    width: auto;
+    margin-left: 20%;
+  }
+}
+
 @media (max-width: 768px) {
-    .nav-bar {
-        flex-direction: column;
-        gap: 1rem;
-        top: 60%;
-    }
+    
 
     .nav-left .logo {
         height: 70px;
         margin-bottom: 10px;
-    }
-
-    .menu-toggle {
-        display: flex;
-        align-self: center;
-    }
-
-    .nav-center {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        background-color: rgba(255, 255, 255, 0.95);
-        padding: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .nav-center.active {
-        display: flex;
-    }
-
-    .nav-center span,
-    .nav-center a {
-        font-size: 1rem;
     }
 }
 
