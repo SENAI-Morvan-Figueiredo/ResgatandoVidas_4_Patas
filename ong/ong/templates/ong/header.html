@@ -1,5 +1,11 @@
 {% load static %}
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/home_adm.css' %}">
+
+{% block extra_scripts %}
+<script src="{% static 'js/adm.js' %}"></script>
+{% endblock %}
+
 <div class="header-container">
     <img src="{% static 'img/header.png' %}" alt="Header da ONG" class="header-image">
 
@@ -8,11 +14,11 @@
             <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo">
         </div>
 
-        <!-- Botão de menu hamburguer -->
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <div></div>
-            <div></div>
-            <div></div>
+         <div class="top-bar">
+            <!-- Botão hamburguer (aparece em mobile) -->
+            <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav" type="button">
+                <span class="hamburger-box"><span class="hamburger-inner"></span></span>
+            </button>
         </div>
 
    <!-- Menu de navegação -->
@@ -30,10 +36,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function toggleMenu() {
-        const navMenu = document.getElementById('navMenu');
-        navMenu.classList.toggle('active');
-    }
-</script>

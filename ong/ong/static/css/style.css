@@ -72,21 +72,6 @@ html, body {
     border: 2px solid #ccc;
 }
 
-/* --- Botão Hamburguer --- */
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 5px;
-}
-
-.menu-toggle div {
-    width: 25px;
-    height: 3px;
-    background-color: #4F76BB;
-    transition: all 0.3s ease;
-}
-
 /* Responsivo para nav */
 @media (max-width: 768px) {
     .nav-bar {
