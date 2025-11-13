@@ -1,6 +1,9 @@
 {% load static %}
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+{% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/home_adm.css' %}">
+{% endblock %}
 
 {% block extra_scripts %}
 <script src="{% static 'js/adm.js' %}"></script>
@@ -14,25 +17,33 @@
             <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo">
         </div>
 
-         <div class="top-bar">
-            <!-- Botão hamburguer (aparece em mobile) -->
-            <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav" type="button">
-                <span class="hamburger-box"><span class="hamburger-inner"></span></span>
-            </button>
-        </div>
+        <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav" type="button">
+          <span class="hamburger-box"><span class="hamburger-inner"></span></span>
+        </button>
 
-   <!-- Menu de navegação -->
-    <nav class="nav-center" id="navMenu" role="navigation" aria-label="Menu principal">
-      <!-- Ajuste os nomes entre '' se a sua app usar outro nome de URL -->
-      <a class="nav-link" href="{% url 'home' %}">Home</a>
-      <a class="nav-link" href="{% url 'adocoes:lista' %}">Adoção</a>
-      <a class="nav-link" href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a>
-      <a class="nav-link" href="">Adotados</a>
-      <a class="nav-link" href="{% url 'doacoes' %}">Doações</a>
-    </nav>
-
-        <div class="nav-right">
-            <!-- <div class="user-circle"></div> -->
-        </div>
+          <!-- Menu de navegação -->
+        <nav id="primaryNav" class="menu-centralizado" aria-hidden="false" role="navigation">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
+                <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
+                <li><a href="adotados.html">Adotados</a></li>
+                <li><a href="{% url 'doacoes' %}">Doações</a></li>
+            </ul>
+        </nav>
     </div>
 </div>
+
+{# Menu móvel (painel parcial vindo da direita / bottom) #}
+<nav id="mobileNav" class="mobile-nav" aria-hidden="true" aria-label="Menu principal" role="navigation">
+  <ul>
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
+    <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
+    <li><a href="">Adotados</a></li>
+    <li><a href="{% url 'doacoes' %}">Doações</a></li>
+  </ul>
+</nav>
+
+{# Backdrop para quando mobileNav estiver aberto #}
+<div id="mobileBackdrop" class="mobile-backdrop" aria-hidden="true"></div>

@@ -21,15 +21,17 @@ html, body {
 .nav-bar {
     position: absolute;
     top: 37%;
-    left: 50%;
+    left: 53%;
     transform: translate(-50%, -50%);
+    margin-left: -2.8%;
     
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    padding: 15px 15px;
     flex-wrap: wrap;
 
-    width: 90%;
+    width: 100%;
     max-width: 1200px;
     color: #4F76BB;
 }
@@ -37,40 +39,44 @@ html, body {
 .nav-left .logo {
     height: 100px;
     width: auto;
+    margin-left: 50%;
 }
 
-.nav-center {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+.menu-centralizado {
+  position: relative;
+  transform: none;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
-.nav-center span,
-.nav-center a {
-    font-size: 25px;
-    font-weight: bold;
-    color: #4F76BB;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: inline-block;
+.menu-centralizado ul {
+  display: flex;
+  list-style: none;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.nav-center span:hover,
-.nav-center a:hover {
-    transform: scale(1.06);
-    cursor: pointer;
+.menu-centralizado ul li{
+  margin-top: 5%;
 }
 
-.nav-right .user-circle {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: white;
-    border: 2px solid #ccc;
+.menu-centralizado ul li a {
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  display: inline-block;
 }
+
+.menu-centralizado ul li a:hover {
+  transform: scale(1.06);
+}
+
 
 /* Responsivo para nav */
 @media (max-width: 768px) {
