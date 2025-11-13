@@ -150,6 +150,56 @@ def adicionar_gato(request):
 
     return render(request, 'gatos/adicionar_gato_form.html', context)
 
+# ---------------------------------------------------------------------------------------- Da tela editar_gato_form
+
+@login_required(login_url='login')
+def editar_gato(request, gato_id):
+    # Busca o gato e suas relações
+    gato = get_object_or_404(Gato, id=gato_id)
+    cuidado = gato.cuidado
+    temperamento = gato.temperamento
+    sociavel = gato.sociavel
+    moradia = gato.moradia
+
+    if request.method == 'POST':
+        gato_form = GatoForm(request.POST, request.FILES, instance=gato)
+        cuidado_form = CuidadoForm(request.POST, instance=cuidado)
+        temperamento_form = TemperamentoForm(request.POST, instance=temperamento)
+        sociavel_form = SociavelForm(request.POST, instance=sociavel)
+        moradia_form = MoradiaForm(request.POST, instance=moradia)
+
+        if all([
+            gato_form.is_valid(),
+            cuidado_form.is_valid(),
+            temperamento_form.is_valid(),
+            sociavel_form.is_valid(),
+            moradia_form.is_valid()
+        ]):
+            gato_form.save()
+            cuidado_form.save()
+            temperamento_form.save()
+            sociavel_form.save()
+            moradia_form.save()
+            return redirect('gatos:dashboard_admin_adocoes')
+
+    else:
+        gato_form = GatoForm(instance=gato)
+        cuidado_form = CuidadoForm(instance=cuidado)
+        temperamento_form = TemperamentoForm(instance=temperamento)
+        sociavel_form = SociavelForm(instance=sociavel)
+        moradia_form = MoradiaForm(instance=moradia)
+
+    context = {
+        'gato_form': gato_form,
+        'cuidado_form': cuidado_form,
+        'temperamento_form': temperamento_form,
+        'sociavel_form': sociavel_form,
+        'moradia_form': moradia_form,
+    }
+
+    return render(request, 'gatos/adicionar_gato_form.html', context)
+
+
 # ---------------------------------------------------------------------------------------- Da tela dashboard_admin_adotados
 
 # View que vai mandar as informações para os cards e tambem para o filtro

@@ -4,11 +4,13 @@
 {% block title %}Home - Resgatando Vidas 4 Patas{% endblock %}
 
 {% block header %}
-{% if user.is_authenticated %}
 
-{% block extra_scripts %}
+<!-- --------------------------------------------------------------------------------------------------------------------------- -->
+<!-- Caso a Pessoa esteja logada, vai carregar o Header de Adm -->
+
+{% if user.is_authenticated %} 
+
 <script src="{% static 'js/adm.js' %}"></script>
-{% endblock %}
 
 <link rel="stylesheet" href="{% static 'css/home_adm.css' %}">
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
@@ -33,7 +35,7 @@
       </button>
 
       <div id="userDropdown" class="user-dropdown user-card" role="menu" aria-hidden="true">
-          <a href="{% url 'admin:index' %}" class="user-card-link"><img src="{% static 'img/adm_painel.svg' %}" alt=""> Admin Painel</a>
+          <a href="{% url 'gatos:dashboard_admin_adocoes' %}" class="user-card-link"><img src="{% static 'img/adm_painel.svg' %}" alt=""> Admin Painel</a>
           <a href="{% url 'logout' %}" class="user-card-link"><img src="{% static 'img/sair.svg' %}" alt=""> Sair</a>
       </div>
     </div>
@@ -79,6 +81,9 @@
   <img src="{% static 'img/patac.png' %}" alt="pata3" class="patac">
   <img src="{% static 'img/patad.png' %}" alt="pata4" class="patad">
 </header>
+
+<!-- --------------------------------------------------------------------------------------------------------------------------- -->
+<!-- Se ela não estiver logada, vai carregar o normal -->
 
 {% else %}
 
