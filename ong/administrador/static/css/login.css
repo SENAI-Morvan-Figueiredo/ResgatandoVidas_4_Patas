@@ -65,6 +65,7 @@ body {
     font-weight: 500;
 }
 
+.login-container input[type="text"],
 .login-container input[type="email"],
 .login-container input[type="password"] {
     padding: 12px;
@@ -77,6 +78,7 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
+.login-container input[type="text"]:focus,
 .login-container input[type="email"]:focus,
 .login-container input[type="password"]:focus {
     border-color: #f87171;
