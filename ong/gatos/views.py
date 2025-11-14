@@ -150,17 +150,18 @@ def adicionar_gato(request):
 
     return render(request, 'gatos/adicionar_gato_form.html', context)
 
-# ---------------------------------------------------------------------------------------- Da tela editar_gato_form
+# ---------------------------------------------------------------------------------------- Da tela adicionar_gato_form - Função de editar gato
 
 @login_required(login_url='login')
 def editar_gato(request, gato_id):
-    # Busca o gato e suas relações
+    # Busca o gato e suas relações - para preencher os formulários com os dados existentes
     gato = get_object_or_404(Gato, id=gato_id)
     cuidado = gato.cuidado
     temperamento = gato.temperamento
     sociavel = gato.sociavel
     moradia = gato.moradia
 
+    # Se o método for POST, significa que o usuário clicou em “Enviar” no formulário
     if request.method == 'POST':
         gato_form = GatoForm(request.POST, request.FILES, instance=gato)
         cuidado_form = CuidadoForm(request.POST, instance=cuidado)
@@ -168,6 +169,7 @@ def editar_gato(request, gato_id):
         sociavel_form = SociavelForm(request.POST, instance=sociavel)
         moradia_form = MoradiaForm(request.POST, instance=moradia)
 
+        # Verificação se todos estão válidos (tipo de dado, campos obrigatorios) - vai vê se foi preenchido da forma certa
         if all([
             gato_form.is_valid(),
             cuidado_form.is_valid(),
@@ -175,6 +177,7 @@ def editar_gato(request, gato_id):
             sociavel_form.is_valid(),
             moradia_form.is_valid()
         ]):
+            # Salva os formulários atualizados
             gato_form.save()
             cuidado_form.save()
             temperamento_form.save()
@@ -182,6 +185,7 @@ def editar_gato(request, gato_id):
             moradia_form.save()
             return redirect('gatos:dashboard_admin_adocoes')
 
+    # Caso não seja o método POST - Cria todos os formulários preenchidos com os dados existentes.
     else:
         gato_form = GatoForm(instance=gato)
         cuidado_form = CuidadoForm(instance=cuidado)

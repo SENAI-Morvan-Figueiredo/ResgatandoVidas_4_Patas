@@ -19,8 +19,10 @@
 
     <h1 class="form-title">
         {% if gato_form.instance.pk %}
+            <!-- Caso seja a função de editar -->
             EDITAR INFORMAÇÕES DO GATO
         {% else %}
+            <!-- Caso seja a função de adicionar -->
             ADICIONE UM GATO PARA ADOÇÃO
         {% endif %}
     </h1>
@@ -298,8 +300,10 @@
             <div class="form-actions">
                 <button type="submit" class="btn-submit">
                     {% if gato_form.instance.pk %}
+                        <!-- Caso seja a função de editar -->
                         Salvar Alterações
                     {% else %}
+                        <!-- Caso seja a função de adicionar -->
                         Enviar
                     {% endif %}
                 </button>

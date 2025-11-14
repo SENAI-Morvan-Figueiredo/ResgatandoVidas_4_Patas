@@ -153,6 +153,7 @@ class Gato(models.Model):
         LarTemporarioAtual = apps.get_model('lares_temporarios', 'LarTemporarioAtual')
         return LarTemporarioAtual.objects.filter(gato=self).exists()
     
+    # Método para calcular a idade do gato - formato meses/anos/anos e meses
     @property
     def idade(self):
         """Retorna a idade formatada: meses / anos / anos e meses."""
