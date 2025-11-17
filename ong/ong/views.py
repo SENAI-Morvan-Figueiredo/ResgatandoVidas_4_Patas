@@ -5,6 +5,3 @@ def doacoes(request):
 
 def home(request):
     return render(request, 'ong/home.html')
-
-def home_adm(request):
-    return render(request, 'administrador/home_adm.html')
