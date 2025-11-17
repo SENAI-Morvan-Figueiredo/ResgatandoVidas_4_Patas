@@ -35,7 +35,7 @@
 <div class="row g-4">
   {% for gato in gatos %}
   <div class="col-lg-3 col-md-4 col-sm-6">
-    <a href="{% url 'adocoes:detail' gato.pk %}" class="text-decoration-none text-dark">
+    <a href="{% url 'adocoes:detail' gato.pk %}" class="text-decoration-none">
       <div class="card border-0 h-100 rounded-4 overflow-hidden">
         {% if gato.imagem %}
         <img src="{{ gato.imagem.url }}" class="card-img-top" alt="{{ gato.nome }}"
