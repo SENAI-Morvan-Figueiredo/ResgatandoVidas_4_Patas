@@ -1,16 +1,18 @@
 import logging
 from django.views.generic import CreateView
-from django.shortcuts import render , redirect , get_list_or_404
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
 from gatos.models import Gato
-from lares_temporarios.models import LarTemporarioAtual
-from adocoes.models import Adotados
+from lares_temporarios.models import LarTemporarioAtual , LarTemporario , HistoricoLarTemporario
+from adocoes.models import Adotados , Adocao
+from datetime import datetime
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from .forms import GatoForm, CuidadoForm, TemperamentoForm, SociavelForm, MoradiaForm
 from django.urls import reverse_lazy
 from django.db.models import Q
-
+from django.utils import timezone
 
 # ---------------------------------------------------------------------------------------- Da tela dashboard_admin_adocoes
 
@@ -87,6 +89,7 @@ def dashboard_admin_lar_temporario(request):
 
 logger = logging.getLogger(__name__)
 
+
 class GatoCreateView(CreateView):
     model = Gato
     form_class = GatoForm
@@ -153,35 +156,63 @@ class GatoCreateView(CreateView):
             return self.render_to_response(context)
       
 
+# -------------------------------------------------------------------------------------------------- Da tela adicionar_gato_form
 
-    # def form_invalid(self, form, *related_forms):
-    #     """Exibe erros de validação de todos os formulários."""
-    #     if not related_forms:
-    #         cuidado_form = CuidadoForm(self.request.POST or None)
-    #         temperamento_form = TemperamentoForm(self.request.POST or None)
-    #         moradia_form = MoradiaForm(self.request.POST or None)
-    #         sociavel_form = SociavelForm(self.request.POST or None)
-    #     else:
-    #         cuidado_form, temperamento_form, moradia_form, sociavel_form = related_forms
+# View que vai adicionar o gato
+def adicionar_gato(request):
+    # Se o método for POST, significa que o usuário clicou em “Enviar” no formulário
+    if request.method == 'POST':
+        # Pega as informações dos forms - instância
+        gato_form = GatoForm(request.POST, request.FILES)
+        cuidado_form = CuidadoForm(request.POST)
+        temperamento_form = TemperamentoForm(request.POST)
+        sociavel_form = SociavelForm(request.POST)
+        moradia_form = MoradiaForm(request.POST)
 
-    #     context = self.get_context_data(
-    #         cuidado_form=cuidado_form,
-    #         temperamento_form=temperamento_form,
-    #         moradia_form=moradia_form,
-    #         sociavel_form=sociavel_form
-    #     )
-    #     context['form'] = form
+        # Verificação se todos estão válidos (tipo de dado, campos obrigatorios) - vai vê se foi preenchido da forma certa
+        if all([
+            gato_form.is_valid(),
+            cuidado_form.is_valid(),
+            temperamento_form.is_valid(),
+            sociavel_form.is_valid(),
+            moradia_form.is_valid()
+        ]):
+            
+            # Salva cada formulário auxiliar primeiro
+            cuidado = cuidado_form.save()
+            temperamento = temperamento_form.save()
+            sociavel = sociavel_form.save()
+            moradia = moradia_form.save()
 
-    #     if form.errors:
-    #         print("❌ Erros em GatoForm:", form.errors)
-    #         messages.error(self.request, f"Erros em GatoForm: {form.errors}")
+            # Cria o gato, associando os objetos salvos
+            gato = gato_form.save(commit=False) # Cria o objeto gato, mas ainda não salva no bd
+            gato.cuidado = cuidado
+            gato.temperamento = temperamento
+            gato.sociavel = sociavel
+            gato.moradia = moradia
+            gato.save() # Após todos as informações inseridas, salva no bd
 
-    #     for related in related_forms or []:
-    #         if related.errors:
-    #             print(f"⚠️ Erros em {related.__class__.__name__}: {related.errors}")
-    #             messages.error(self.request, f"Erros em {related.__class__.__name__}: {related.errors}")
+            return redirect('gatos:dashboard_admin_adocoes') # Se tudo der certinho, vai te redirecionar para a tela de dashboard_admin_adocoes
 
-    #     return self.render_to_response(context)
+    # Caso não seja o método POST - Cria todos os formulários vazios, prontos para preenchimento.
+    else:
+        gato_form = GatoForm()
+        cuidado_form = CuidadoForm()
+        temperamento_form = TemperamentoForm()
+        sociavel_form = SociavelForm()
+        moradia_form = MoradiaForm()
+
+    # Envio dos formulários para o template
+    context = {
+        'gato_form': gato_form,
+        'cuidado_form': cuidado_form,
+        'temperamento_form': temperamento_form,
+        'sociavel_form': sociavel_form,
+        'moradia_form': moradia_form,
+    }
+
+    return render(request, 'gatos/adicionar_gato_form.html', context)
+
 
 # ---------------------------------------------------------------------------------------- Da tela dashboard_admin_adotados
 
@@ -220,3 +251,115 @@ def excluir_adotado_ajax(request, adotado_id):
         return JsonResponse({"status": "ok", "mensagem": f"Gato {adotado.gato.nome} excluído com sucesso!"})
     except Adotados.DoesNotExist:
         return JsonResponse({"status": "erro", "mensagem": "Registro não encontrado."}, status=404)
+    
+
+# ---------------------------------------------------------------------------------------- Da tela formulario_lar_temporario
+
+def registrar_lar_temporario(request):
+    if request.method == "POST":
+        gato_id = request.POST.get("gato")
+        lar_id = request.POST.get("lar")
+        data_inicio = request.POST.get("data_inicio")
+
+        gato = get_object_or_404(Gato, id=gato_id)
+        lar = get_object_or_404(LarTemporario, id=lar_id)
+
+        # Verifica se já está em lar atual
+        if LarTemporarioAtual.objects.filter(gato=gato).exists():
+            messages.warning(request, f"O gato {gato.nome} já está em um lar temporário ativo.")
+            return redirect("gatos:dashboard_admin_lar_temporario")
+
+        # Cria lar atual
+        lar_atual = LarTemporarioAtual.objects.create(
+            gato=gato,
+            lar_temporario=lar,
+            data_inicio=data_inicio
+        )
+
+        # Marca o gato como estando em lar temporário
+        gato.lar_temporario = True
+        gato.save()
+
+        # Cria histórico
+        HistoricoLarTemporario.objects.create(
+            gato=gato,
+            lar_temporario=lar,
+            data_inicio=data_inicio
+        )
+
+        messages.success(request, "Lar temporário registrado com sucesso!")
+        return redirect("gatos:dashboard_admin_lar_temporario")
+
+    # --------------------------
+    # GET → Exibir formulário
+    # --------------------------
+
+    # IDs dos gatos adotados
+    adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
+
+    # IDs dos gatos que já têm lar temporário atual
+    em_lar_ids = LarTemporarioAtual.objects.values_list("gato_id", flat=True)
+
+    # Filtrando gatos disponíveis
+    gatos_disponiveis = (
+        Gato.objects.filter(lar_temporario=True)          # precisam de lar
+            .exclude(id__in=adotados_ids)                # não estão adotados
+            .exclude(id__in=em_lar_ids)                  # não estão em lar ativo
+    )
+
+    context = {
+        "gatos": gatos_disponiveis,
+        "lares": LarTemporario.objects.all(),
+    }
+
+    return render(request, "gatos/registrar_lar_temporario.html", context)
+
+
+# ----------------------------------------------
+
+def registrar_adocao(request):
+    if request.method == "POST":
+        gato_id = request.POST.get("gato")
+        adotante_id = request.POST.get("adotante")  # nome do select no HTML
+        data_inicio = request.POST.get("data_inicio")
+        foto = request.FILES.get("foto")
+
+        gato = get_object_or_404(Gato, id=gato_id)
+        adotante = get_object_or_404(Adocao, id=adotante_id)
+
+        # --- impedir adoção duplicada ---
+        if Adotados.objects.filter(gato=gato).exists():
+            messages.warning(request, f"O gato {gato.nome} já foi adotado!")
+            return redirect("gatos:dashboard_admin_adocoes")
+
+        # --- registro da adoção ---
+        Adotados.objects.create(
+            imagem=foto,
+            gato=gato,
+            adocao=adotante,
+            data_inicio=data_inicio or datetime.today().date()
+        )
+
+        # --- marca o gato como adotado ---
+        gato.adotado = True
+        gato.save()
+
+        # --- remove do lar atual se ele estava ---
+        LarTemporarioAtual.objects.filter(gato=gato).delete()
+
+        messages.success(request, "Adoção registrada com sucesso!")
+        return redirect("gatos:dashboard_admin_adocoes")
+
+    # ---------------- GET ----------------
+
+    # remove apenas gatos já adotados
+    gatos_adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
+
+    gatos_disponiveis = Gato.objects.exclude(id__in=gatos_adotados_ids)
+
+    context = {
+        "gatos": gatos_disponiveis,
+        "adotantes": Adocao.objects.all(),  # tabela adotante
+    }
+
+    return render(request, "gatos/registrar_adocao.html", context)
