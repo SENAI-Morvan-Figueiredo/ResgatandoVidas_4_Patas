@@ -2,6 +2,10 @@
 {% load static %}
 {% block title %}{{ gato.nome }} — Adoção{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/adocao_detail.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="detail-hero py-4">
   <div class="container">
@@ -20,26 +24,59 @@
       <!-- Info ao lado -->
       <div class="col-lg-7">
         <h1 class="cat-name mb-1">{{ gato.nome }}</h1>
-        <p class="cat-meta text-muted mb-3">{{ gato.idade }} • {{ gato.sexo|default:"Sexo" }}</p>
-
+        <p class="cat-meta text-muted mb-3">
+            {{ gato.idade }} •
+            {% if gato.sexo == 'M' %}
+                Macho
+            {% elif gato.sexo == 'F' %}
+                Fêmea
+            {% else %}
+                Sexo
+            {% endif %}
+        </p>
         <h5 class="section-title">História de {{ gato.nome }}</h5>
         <p class="cat-history text-muted mb-3">{{ gato.descricao|default:"Sem descrição." }}</p>
 
-        <h5 class="section-title">Mais detalhes sobre {{ gato.nome }}</h5>
+       <h5 class="section-title">Mais detalhes sobre {{ gato.nome }}</h5>
+
+        <!-- BADGES dinâmicas: só mostram se o campo existir / for truthy -->
         <div class="badges mb-3">
-          {# Exemplo de labels; ajuste conforme seus campos reais #}
-          <span class="badge tag">Dócil</span>
-          <span class="badge tag">Brincalhão</span>
-          <span class="badge tag">Castrado</span>
-          <span class="badge tag">Vacinado</span>
-          <span class="badge tag">Vermifugado</span>
-          <span class="badge tag">Para Adoção</span>
+          {% if gato.temperamento %}
+            <span class="badge tag">{{ gato.temperamento }}</span>
+          {% endif %}
+          {% if gato.cuidado %}
+            <span class="badge tag">{{ gato.cuidado }}</span>
+          {% endif %}
+          {% if gato.sociavel %}
+            <span class="badge tag">{{ gato.sociavel }}</span>
+          {% endif %}
+          {% if gato.moradia %}
+            <span class="badge tag">{{ gato.moradia }}</span>
+          {% endif %}
+          {% if gato.castrado %}
+            <span class="badge tag">Castrado</span>
+          {% endif %}
+          {% if gato.vacinado %}
+            <span class="badge tag">Vacinado</span>
+          {% endif %}
+          {% if gato.vermifugado %}
+            <span class="badge tag">Vermifugado</span>
+          {% endif %}
         </div>
 
-        <a href="{% url 'adocoes:formulario_adocao' %}?gato={{ gato.pk }}" class="btn btn-adotar btn-lg">
-          <span class="paw">🐾</span> Quero Adotar
-        </a>
+        <div class="botão-lar">
+          <a href="{% url 'lares_temporarios:formulario_lar_temporario' %}?gato={{ gato.pk }}" class="btn btn-lar btn-lg">
+            <img src="{% static 'img/patinha.png' %}" alt="Patinha" class="patinha"> Quero Ser Lar Temporário
+          </a>
+        </div>
+
+        <div class="botão">
+          <a href="{% url 'adocoes:formulario_adocao' %}?gato={{ gato.pk }}" class="btn btn-adotar btn-lg">
+            <img src="{% static 'img/patinha.png' %}" alt="Patinha" class="patinha"> Quero Adotar
+          </a>
+        </div>
       </div>
+      
     </div>
 
     <!-- Outros gatos -->
@@ -48,26 +85,36 @@
       <div class="row g-3 mt-3">
         {% for o in other_gatos %}
           <div class="col-md-3 col-sm-6">
-            <div class="card card-cat small-card h-100">
-              {% if o.imagem %}
-                <img src="{{ o.imagem.url }}" class="card-img-top small-img" alt="{{ o.nome }}">
-              {% else %}
-                <img src="{% static 'img/placeholder-thumb.jpg' %}" class="card-img-top small-img" alt="sem imagem">
-              {% endif %}
-              <div class="card-body py-2 px-3">
-                <h6 class="mb-1 small-name">{{ o.nome }}</h6>
-                <p class="small-meta text-muted mb-0">
-                  {% if o.idade %}{{ o.idade }}{% else %}—{% endif %} •
-                  {% if o.lar_temporario %}Lar Temporário{% endif %}
-                </p>
-                <div class="mt-2 d-flex justify-content-end">
-                  <a href="{% url 'adocoes:detail' o.pk %}" class="btn btn-sm btn-outline-secondary">Ver</a>
+            <a href="{% url 'adocoes:detail' o.pk %}" class="card-link">
+                <div class="card card-cat small-card h-100">
+                    {% if o.imagem %}
+                        <img src="{{ o.imagem.url }}" class="card-img-top small-img" alt="{{ o.nome }}">
+                    {% else %}
+                        <img src="{% static 'img/placeholder-thumb.jpg' %}" class="card-img-top small-img" alt="sem imagem">
+                    {% endif %}
+
+                    <div class="card-body py-2 px-3">
+                      <h6 class="mb-1 small-name">{{ o.nome }}</h6>
+                      <p class="small-meta text-muted mb-0">
+
+                          {% if o.idade %}{{ o.idade }}{% else %}—{% endif %} |
+
+                          {% if o.sexo == 'M' %}
+                              Macho
+                          {% elif o.sexo == 'F' %}
+                              Fêmea
+                          {% else %}
+                              Sexo
+                          {% endif %}
+
+                          {% if o.lar_temporario %}
+                              | Lar Temporário
+                          {% endif %}
+                      </p>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        {% empty %}
-          <p>Nenhum outro gato disponível no momento.</p>
+            </a>
+        </div>
         {% endfor %}
       </div>
 
