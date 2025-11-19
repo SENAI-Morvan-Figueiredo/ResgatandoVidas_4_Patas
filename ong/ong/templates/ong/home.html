@@ -86,20 +86,25 @@
 <!-- Se ela não estiver logada, vai carregar o normal -->
 
 {% else %}
-
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'css/home_adm.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/hamburguer.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <header class="home-header">
   <!-- Top bar: logo + menu -->
+	  <!-- Botão hamburguer (aparece em mobile) -->
+	  <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav" type="button">
+	    <span class="hamburger-box"><span class="hamburger-inner"></span></span>
+	  </button>
   <div class="top-bar">
     <!-- Logo à esquerda -->
     <div class="logo-wrap">
-      <img src="{% static 'img/logo.png' %}" alt="Logotipo 4 Patas" class="logo">
+      <img src="{% static 'img/logo.svg' %}" alt="Logotipo 4 Patas" class="logo">
     </div>
 
     <!-- Menu centralizado -->
-    <nav class="menu-centralizado">
+    <nav id="primaryNav" class="menu-centralizado" aria-hidden="false" role="navigation">
       <ul>
         <li><a href="#nossa-historia">Home</a></li>
         <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
@@ -108,7 +113,21 @@
         <li><a href="{% url 'doacoes' %}">Doações</a></li>
       </ul>
     </nav>
-  </div>
+	  </div>
+	
+	  <!-- Menu móvel (painel parcial vindo da direita) -->
+	  <nav id="mobileNav" class="mobile-nav" aria-hidden="true" aria-label="Menu principal" role="navigation">
+	    <ul>
+	      <li><a href="#nossa-historia">Home</a></li>
+	      <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
+	      <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
+	      <li><a href="adotados.html">Adotados</a></li>
+	      <li><a href="{% url 'doacoes' %}">Doações</a></li>
+	    </ul>
+	  </nav>
+	
+	  <!-- Backdrop para quando mobileNav estiver aberto -->
+	  <div id="mobileBackdrop" class="mobile-backdrop" aria-hidden="true"></div>
 
   <!-- Hero centralizado -->
   <div class="hero-content">
@@ -126,7 +145,9 @@
   <img src="{% static 'img/patad.png' %}" alt="pata4" class="patad">
 </header>
 
+
 {% endif %}
+
 {% endblock header %}
 
 {% block content %}

@@ -24,7 +24,7 @@
       </button>
 
       <div id="userDropdown" class="user-dropdown user-card" role="menu" aria-hidden="true">
-          <a href="{% url 'admin:index' %}" class="user-card-link"><img src="{% static 'img/adm_painel.svg' %}" alt=""> Admin Painel</a>
+          <a href="{% url 'gatos:dashboard_admin_adocoes' %}" class="user-card-link"><img src="{% static 'img/adm_painel.svg' %}" alt=""> Admin Painel</a>
           <a href="{% url 'logout' %}" class="user-card-link"><img src="{% static 'img/sair.svg' %}" alt=""> Sair</a>
       </div>
     </div>
@@ -32,7 +32,7 @@
     <!-- Menu desktop (mantido para telas grandes) -->
     <nav id="primaryNav" class="menu-centralizado" aria-hidden="false" role="navigation">
       <ul>
-        <li><a href="#nossa-historia">Home</a></li>
+        <li><a href="{% url 'home' %}">Home</a></li>
         <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
         <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
         <li><a href="adotados.html">Adotados</a></li>

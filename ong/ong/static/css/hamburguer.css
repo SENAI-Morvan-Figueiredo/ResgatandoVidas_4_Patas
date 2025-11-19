@@ -1,0 +1,41 @@
+@media (max-width: 900px){
+.hamburger {
+ margin-top: -20%;
+}
+}
+
+@media (max-width: 660px){
+.hamburger {
+ margin-top: -23%;
+}
+}
+
+@media (max-width: 570px){
+.hamburger {
+ margin-top: -27%;
+}
+}
+
+@media (max-width: 480px){
+.hamburger {
+ margin-top: -32%;
+}
+}
+
+@media (max-width: 380px){
+.hamburger {
+ margin-top: -39%;
+}
+}
+
+@media (max-width: 320px){
+.hamburger {
+ margin-top: -46%;
+}
+}
+
+@media (max-width: 260px){
+.hamburger {
+ margin-top: -57%;
+}
+}

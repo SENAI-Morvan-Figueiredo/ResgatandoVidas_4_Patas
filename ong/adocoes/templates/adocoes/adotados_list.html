@@ -3,7 +3,7 @@
 {% block title %}Gatos Adotados{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/adotados.css' %}">
+<link rel="stylesheet" href="{% static 'css/adocao.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -36,12 +36,7 @@
                 <h5 class="card-title mb-2 text-center">
                     {{ item.adocao.nome }} adotou {{ item.gato.nome }}
                 </h5>
-
-                {% if item.data_inicio %}
-                <p class="card-text text-center text-muted mb-0">
-                    Adotado em {{ item.data_inicio }}
-                </p>
-                {% endif %}
+                
             </div>
         </div>
     </div>
