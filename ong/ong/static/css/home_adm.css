@@ -93,6 +93,20 @@
   transform: translateX(4px);
 }
 
+/* --- Header Styles Atualizados --- */
+.header-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.header-container img {
+    display: block;
+    width: 100%;
+    height: 170px;
+    max-height: 100vh; /* Garante que não ultrapasse a tela em altura */
+}
+
 /* ===========================
    TOP BAR (logo, menu, ícones)
 =========================== */
