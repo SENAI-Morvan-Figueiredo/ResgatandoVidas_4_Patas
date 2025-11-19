@@ -2,328 +2,38 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/adocao.css' %}">
+<link rel="stylesheet" href="{% static 'css/registrar_lar.css' %}">
 
 <a href="{% url 'gatos:dashboard_admin_lar_temporario' %}" class="back-link">&larr; Voltar</a>
 
 <div class="form-container">
     <h1 class="form-title">REGISTRAR LAR TEMPORARIO</h1>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post">
         {% csrf_token %}
 
-        {% if gato_form.non_field_errors %}
-            <div class="alert alert-danger">{{ gato_form.non_field_errors }}</div>
-        {% endif %}
-        {% if cuidado_form.non_field_errors %}
-            <div class="alert alert-danger">{{ cuidado_form.non_field_errors }}</div>
-        {% endif %}
+        <label>Gato</label>
+        <select name="gato" required>
+            <option value="">Selecione o gato</option>
+            {% for gato in gatos %}
+                <option value="{{ gato.id }}">{{ gato.nome }}</option>
+            {% endfor %}
+        </select>
 
-        <!-- Identificação -->
-        <div class="form-section">
-            <h2 class="section-title">Identificação</h2>
-            <div class="form-group">
-                {{ gato_form.nome.label_tag }} {{ gato_form.nome }}
-                {{ gato_form.nome.errors }}
-            </div>
+        <label>Voluntário</label>
+        <select name="lar" required>
+            <option value="">Selecione o voluntário</option>
+            {% for lar in lares %}
+                <option value="{{ lar.id }}">{{ lar.nome }}</option>
+            {% endfor %}
+        </select>
 
-            <div class="form-row">
-                <div class="form-group">
-                    {{ gato_form.idade.label_tag }} {{ gato_form.idade }}
-                    {{ gato_form.idade.errors }}
-                </div>
+        <label>Início</label>
+        <input type="date" name="data_inicio" required>
 
-                <div class="form-group radio-field">
-                    {{ gato_form.sexo.label_tag }}
-                    <div class="radio-options">
-                        {{ gato_form.sexo }}
-                        {{ gato_form.sexo.errors }}
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group radio-field">
-                {{ gato_form.lar_temporario.label_tag }}
-                <div class="radio-options">
-                    {{ gato_form.lar_temporario }}
-                    {{ gato_form.lar_temporario.errors }}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {{ gato_form.descricao.label_tag }} {{ gato_form.descricao }}
-                {{ gato_form.descricao.errors }}
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    {{ gato_form.imagem.label_tag }} {{ gato_form.imagem }}
-                    {{ gato_form.imagem.errors }}
-                    <div class="image-preview" style="margin-top:10px;">
-                        <img id="preview-img" src="#" alt="Pré-visualização" style="max-width:200px; display:none; border-radius:8px;"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-                        
-        <!-- Cuidados Veterinários -->
-        <div class="form-section">
-            <h2 class="section-title">Cuidados Veterinários</h2>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ cuidado_form.castrado }}
-                        <span class="chip-text">Castrado</span>
-                    </label>
-                    {{ cuidado_form.castrado.errors }}
-                    </div>
-
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ cuidado_form.vacinado }}
-                        <span class="chip-text">Vacinado</span>
-                    </label>
-                    {{ cuidado_form.vacinado.errors }}
-                    </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ cuidado_form.vermifugado }}
-                        <span class="chip-text">Vermifugado</span>
-                    </label>
-                    {{ cuidado_form.vermifugado.errors }}
-                    </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ cuidado_form.cuidado_especial }}
-                        <span class="chip-text">Cuidado Especial</span>
-                    </label>
-                    {{ cuidado_form.cuidado_especial.errors }}
-                    </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ cuidado_form.fiv_negativo }}
-                        <span class="chip-text">FIV-</span>
-                    </label>
-                    {{ cuidado_form.fiv_negativo.errors }}
-                    </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ cuidado_form.fiv_positivo }}
-                        <span class="chip-text">FIV+</span>
-                    </label>
-                    {{ cuidado_form.fiv_positivo.errors }}
-                    </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ cuidado_form.felv_negativo }}
-                        <span class="chip-text">FELV-</span>
-                    </label>
-                    {{ cuidado_form.felv_negativo.errors }}
-                    </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ cuidado_form.felv_positivo }}
-                        <span class="chip-text">FELV+</span>
-                    </label>
-                    {{ cuidado_form.felv_positivo.errors }}
-                    </div>
-            </div>
-        </div>
-
-        <!-- Temperamento -->
-        <div class="form-section">
-            <h2 class="section-title">Temperamento</h2>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ temperamento_form.docil }}
-                        <span class="chip-text">Dócil</span>
-                    </label>
-                    {{ temperamento_form.docil.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ temperamento_form.agressivo }}
-                        <span class="chip-text">Agressivo</span>
-                    </label>
-                    {{ temperamento_form.agressivo.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ temperamento_form.calmo }}
-                        <span class="chip-text">Calmo</span>
-                    </label>
-                    {{ temperamento_form.calmo.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ temperamento_form.brincalhao }}
-                        <span class="chip-text">Brincalhão</span>
-                    </label>
-                    {{ temperamento_form.brincalhao.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ temperamento_form.arisco }}
-                        <span class="chip-text">Arisco</span>
-                    </label>
-                    {{ temperamento_form.arisco.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ temperamento_form.independente }}
-                        <span class="chip-text">Independente</span>
-                    </label>
-                    {{ temperamento_form.independente.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ temperamento_form.carente }}
-                        <span class="chip-text">Carente</span>
-                    </label>
-                    {{ temperamento_form.carente.errors }}
-                </div>
-            </div>
-        </div>
-
-         <!-- Vive bem com -->
-        <div class="form-section">
-            <h2 class="section-title">Vive bem com</h2>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ moradia_form.casa_com_quintal }}
-                        <span class="chip-text">Casa com quintal</span>
-                    </label>
-                    {{ moradia_form.casa_com_quintal.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ moradia_form.apartamento }}
-                        <span class="chip-text">Apartamento</span>
-                    </label>
-                    {{ moradia_form.apartamento.errors }}
-                </div>
-            </div>
-        </div>
-
-        <!-- Sociavel com -->
-        <div class="form-section">
-            <h2 class="section-title">Sociável com</h2>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ sociavel_form.gatos }}
-                        <span class="chip-text">Gatos</span>
-                    </label>
-                    {{ sociavel_form.gatos.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ sociavel_form.desconhecidos }}
-                        <span class="chip-text">Desconhecidos</span>
-                    </label>
-                    {{ sociavel_form.desconhecidos.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ sociavel_form.cachorros }}
-                        <span class="chip-text">Cachorros</span>
-                    </label>
-                    {{ sociavel_form.cachorros.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ sociavel_form.criancas }}
-                        <span class="chip-text">Crianças</span>
-                    </label>
-                    {{ sociavel_form.criancas.errors }}
-                </div>
-
-                <div class="checkbox-item">
-                    <label class="chip">
-                        {{ sociavel_form.nao_sociavel }}
-                        <span class="chip-text">Não Sociável</span>
-                    </label>
-                    {{ sociavel_form.nao_sociavel.errors }}
-                </div>
-            </div>
-        </div>
-
-        <!-- Botão -->
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">Enviar</button>
-            </div>
+        <button type="submit">Registrar</button>
     </form>
+
 </div>
 
-<script>
-// CHECKBOX 
-document.addEventListener('DOMContentLoaded', () => {
-    // Seleciona todos os labels com a classe chip
-    const chips = document.querySelectorAll('.chip');
-
-    chips.forEach(chip => {
-        // Encontra o input checkbox dentro do mesmo label
-        const checkbox = chip.querySelector('input[type="checkbox"]');
-
-        // Se checkbox já estiver marcado, aplica a classe selected
-        if (checkbox.checked) {
-            chip.classList.add('selected');
-        }
-
-        // Ao clicar no chipdata:image
-        chip.addEventListener('click', (e) => {
-            e.preventDefault(); // evita qualquer comportamento padrão
-
-            // Alterna o estado do checkbox
-            checkbox.checked = !checkbox.checked;
-
-            // Alterna a classe selected
-            chip.classList.toggle('selected');
-        });
-    });
-});
-
-
-// FOTO 
-document.addEventListener('DOMContentLoaded', () => {
-    const fileInput = document.querySelector('input[type="file"][name="imagem"]');
-    const preview = document.getElementById('preview-img');
-
-    if(fileInput) {
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    preview.src = event.target.result;
-                    preview.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = "#";
-                preview.style.display = 'none';
-            }
-        });
-    }
-});
-</script>
 {% endblock %}

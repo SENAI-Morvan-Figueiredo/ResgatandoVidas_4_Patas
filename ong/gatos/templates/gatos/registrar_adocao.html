@@ -1,0 +1,47 @@
+{% extends "ong/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/registrar_adocao.css' %}">
+
+<a href="{% url 'gatos:dashboard_admin_adotados' %}" class="back-link">&larr; Voltar</a>
+
+<div class="form-container">
+    <h1 class="form-title">REGISTRAR UMA ADOÇÃO</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label>Gato</label>
+        <select name="gato" required>
+            <option value="">Selecione o gato</option>
+            {% for gato in gatos %}
+                <option value="{{ gato.id }}">
+                    {{ gato.nome }}
+                    {% if gato.lar_temporario %}(Em Lar Temporário){% endif %}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Adotante</label>
+        <select name="adotante" required>
+            <option value="">Selecione o adotante</option>
+            {% for adotante in adotantes %}
+                <option value="{{ adotante.id }}">
+                    {{ adotante.nome }} — {{ adotante.email }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Início</label>
+        <input type="date" name="data_inicio" required>
+
+        <label>Foto do gato</label>
+        <input type="file" name="foto">
+
+        <button type="submit">Registrar</button>
+    </form>
+
+</div>
+
+{% endblock %}

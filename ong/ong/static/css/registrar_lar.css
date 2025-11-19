@@ -1,0 +1,87 @@
+/* ===== Fundo geral ===== */
+body {
+    background-color: #f5f6fc;
+    font-family: "Inter", sans-serif;
+}
+
+/* ===== Link voltar ===== */
+.back-link {
+    display: inline-block;
+    margin: 20px 0 0 20px;
+    color: #4F76BB;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* ===== Container do formulário ===== */
+.form-container {
+    background: #fff;
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+}
+
+/* ===== Título ===== */
+.form-title {
+    text-align: center;
+    color: #4F76BB;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+/* ===== Labels ===== */
+.form-container label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #4F76BB;
+}
+
+/* ===== Inputs & Selects ===== */
+.form-container input,
+.form-container select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #cfd6e6;
+    background-color: #f9faff;
+    color: #4F76BB;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+/* ===== Focus ===== */
+.form-container input:focus,
+.form-container select:focus {
+    border-color: #4F76BB;
+    box-shadow: 0 0 0 0.15rem rgba(79, 118, 187, 0.22);
+}
+
+/* ===== Botão ===== */
+.form-container button {
+    margin-top: 30px;
+    padding: 14px;
+    width: 100%;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 12px;
+    background-color: #4F76BB;
+    color: white;
+    font-weight: 600;
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #3b5fa0;
+    transform: translateY(-2px);
+}

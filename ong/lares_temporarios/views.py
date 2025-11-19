@@ -8,6 +8,7 @@ from .models import LarTemporario , HistoricoLarTemporario , LarTemporarioAtual
 from gatos.models import Gato
 from .forms import LarTemporarioForm
 from django.utils.timezone import now
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
@@ -124,3 +125,7 @@ def formulario_lar_temporario(request):
 
 class LarTemporarioSuccessView(TemplateView):
     template_name = 'lares_temporarios/lar_temporario_sucess.html'
+
+# ------------------------
+
+
