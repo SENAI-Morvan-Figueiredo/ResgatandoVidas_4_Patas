@@ -37,21 +37,38 @@
         <h5 class="section-title">História de {{ gato.nome }}</h5>
         <p class="cat-history text-muted mb-3">{{ gato.descricao|default:"Sem descrição." }}</p>
 
-        <h5 class="section-title">Mais detalhes sobre {{ gato.nome }}</h5>
+         <!-- BADGES dinâmicas: só mostram se o campo existir / for truthy -->
         <div class="badges mb-3">
-          {# Exemplo de labels; ajuste conforme seus campos reais #}
-          <span class="badge tag">Dócil</span>
-          <span class="badge tag">Brincalhão</span>
-          <span class="badge tag">Castrado</span>
-          <span class="badge tag">Vacinado</span>
-          <span class="badge tag">Vermifugado</span>
-          <span class="badge tag">Para Adoção</span>
+          {% if gato.temperamento %}
+            <span class="badge tag">{{ gato.temperamento }}</span>
+          {% endif %}
+          {% if gato.cuidado %}
+            <span class="badge tag">{{ gato.cuidado }}</span>
+          {% endif %}
+          {% if gato.sociavel %}
+            <span class="badge tag">{{ gato.sociavel }}</span>
+          {% endif %}
+          {% if gato.moradia %}
+            <span class="badge tag">{{ gato.moradia }}</span>
+          {% endif %}
+          {% if gato.castrado %}
+            <span class="badge tag">Castrado</span>
+          {% endif %}
+          {% if gato.vacinado %}
+            <span class="badge tag">Vacinado</span>
+          {% endif %}
+          {% if gato.vermifugado %}
+            <span class="badge tag">Vermifugado</span>
+          {% endif %}
         </div>
 
+        <div class="botão">
         <a href="{% url 'adocoes:formulario_adocao' %}?gato={{ gato.pk }}" class="btn btn-adotar btn-lg">
           <img src="{% static 'img/patinha.png' %}" alt="Patinha" class="patinha"> Quero Adotar
         </a>
+        </div>
       </div>
+      
     </div>
 
     <!-- Outros gatos -->
@@ -72,7 +89,7 @@
                       <h6 class="mb-1 small-name">{{ o.nome }}</h6>
                       <p class="small-meta text-muted mb-0">
 
-                          {% if o.idade %}{{ o.idade }}{% else %}—{% endif %} •
+                          {% if o.idade %}{{ o.idade }}{% else %}—{% endif %} |
 
                           {% if o.sexo == 'M' %}
                               Macho
@@ -83,7 +100,7 @@
                           {% endif %}
 
                           {% if o.lar_temporario %}
-                              • Lar Temporário
+                              | Lar Temporário
                           {% endif %}
                       </p>
                   </div>

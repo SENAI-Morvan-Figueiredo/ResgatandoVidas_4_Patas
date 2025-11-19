@@ -213,6 +213,46 @@ header h1 em {
   .patad { right: -40%; }
 }
 
+@media (max-width: 991px) {
+  header.home-header {
+    min-height: 400px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    padding: 10px 0px;
+    gap: 8px;
+  }
+
+  .logo-wrap {
+    margin-right: -10%;
+  }
+
+  .logo-wrap img.logo {
+    width: 70%;
+  }
+
+  .menu-centralizado{
+    transform: translateX(-3%);
+  }
+
+  .menu-centralizado ul {
+    font-size: 1rem;
+  }
+
+  .menu-centralizado ul li a {
+    font-size: 15px;
+  }
+
+  .hero-content {
+    padding: 50px 15px 50px 15px;
+  }
+
+  .pataa, .patab, .patac, .patad {
+    top: 155px;
+  }
+}
+
 @media (max-width: 768px) {
   header.home-header {
     min-height: 400px;

@@ -144,12 +144,3 @@ class SociavelForm(forms.ModelForm):
         
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------
          
-# class LarTemporarioForm(forms.ModelForm):
-#     class Meta:
-#         model = LarTemporario
-#         fields = '__all__'
-
-#         widgets = {
-#         'nome': forms.TextInput(attrs={'class': 'form-control'}),
-#         'disponibilidade_inicio': forms.DateField(attrs={'class': 'form-control'}),
-#     }

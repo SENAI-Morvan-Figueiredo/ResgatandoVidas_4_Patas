@@ -1,6 +1,6 @@
 body {
     background: #F6F7FF !important;
-    font-family: "Inter", sans-serif;
+    /* font-family: "Inter", sans-serif; */
 }
 
 /* CONTAINER PRINCIPAL */
@@ -21,25 +21,28 @@ body {
 
 .main-photo {
     width: 100%;
+    height: 450px;
+    object-fit: cover; /* evita distorção */
+    object-position: center; /* centraliza o corte */
     border-radius: 14px;
 }
 
 /* ================= TÍTULO E INFOS ================= */
 .cat-name {
     font-size: 2.6rem;
-    font-weight: 800;
+    font-weight: 700;
     color: #4F76BB;
 }
 
 .cat-meta {
     color: #8fa2d1 !important;
-    font-size: 0.95rem;
+    font-size: 1.2rem;
     font-weight: 500;
 }
 
 /* ================= HISTÓRIA ================= */
 .section-title {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: #F58285;
     margin-bottom: 8px;
@@ -47,15 +50,16 @@ body {
 }
 
 .cat-history {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #4F76BB !important;
     max-width: 500px;
+    font-weight: 600;
 }
 
 /* ================= BADGES ================= */
 .badges {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
@@ -63,26 +67,47 @@ body {
     background: #FFE6E7;
     color: #F58285;
     border-radius: 8px;
-    padding: 6px 12px;
-    font-weight: 600;
-    font-size: 0.85rem;
+    padding: 10px 12px;
+    font-weight: 700;
+    font-size: 1rem;
 }
 
 /* ================= BOTÃO "QUERO ADOTAR" ================= */
-.btn-adotar {
+.botão{
+    padding-top: 20px;
+}
+
+.botão-lar{
+    padding-top: 20px;
+}
+
+.btn-adotar,
+.btn-lar {
     background: #4F76BB;
     color: #fff;
-    padding: 14px 32px;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 600;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 700;
     transition: 0.2s;
     border: none;
-    box-shadow: 0 4px 10px rgba(79,118,187,0.25);
+    box-shadow: 0 4px 10px #5371BA;
+    display: flex;
+    justify-content: center;
 }
 
 .btn-adotar:hover {
-    background: #3d5fa1;
+    background: #476ba8;
+    color: #fff;
+}
+
+.btn-lar:hover {
+    background: #476ba8;
+    color: #fff;
+}
+
+.patinha{
+    margin-right: 10px;
 }
 
 /* ================= SEÇÃO - OUTROS GATOS ================= */
@@ -91,8 +116,8 @@ body {
 }
 
 .other-title {
-    font-size: 1.7rem;
-    font-weight: 800;
+    font-size: 2rem;
+    font-weight: 700;
     color: #4F76BB;
 }
 
@@ -111,18 +136,18 @@ body {
 }
 
 .small-img {
-    height: 170px;
+    height: 200px;
     object-fit: cover;
 }
 
 .small-name {
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: #4F76BB;
 }
 
 .small-meta {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #7890c2 !important;
 }
 
