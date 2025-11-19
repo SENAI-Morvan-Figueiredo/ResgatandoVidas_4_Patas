@@ -105,3 +105,28 @@ def formulario_adocao(request):
         form = AdocaoForm()
 
     return render(request, 'adocoes/adocao_form.html', {'form': form, 'gato': gato})
+
+
+class AdotadosListView(ListView):
+    model = Adotados
+    template_name = 'adocoes/adotados_list.html'
+    context_object_name = 'adotados'
+    paginate_by = None  # controle manual igual na página de adoção
+
+    def get(self, request, *args, **kwargs):
+        self.show_all = request.GET.get('show_all', 'false').lower() == 'true'
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = Adotados.objects.order_by('-created_at')
+
+        if not getattr(self, 'show_all', False):
+            qs = qs[:8]
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['show_all'] = getattr(self, 'show_all', False)
+        ctx['total_count'] = Adotados.objects.count()
+        return ctx
