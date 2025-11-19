@@ -14,21 +14,16 @@
   {% block extra_head %}{% endblock %}
 </head>
 <body>
-{% block header %}
-  {% if user.is_authenticated %}
-    {% include "ong/partials/header_admin.html" %}
-  {% else %}
-    {% include "ong/partials/header.html" %}
-  {% endif %}
-{% endblock %}
-
+  {% block header %}
+    {% include "ong/header.html" %}
+  {% endblock %}
 
 
   <div class="container my-4">
     {% block content %}{% endblock %}
   </div>
 
-  {% include "ong/partials/footer.html" %}
+  {% include "ong/footer.html" %}
 
   <!-- <div class="text-center my-3">
     <a href="{% url 'doacoes' %}" class="btn btn-primary">Doações</a>

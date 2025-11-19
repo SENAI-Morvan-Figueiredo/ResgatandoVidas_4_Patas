@@ -209,7 +209,6 @@ body {
     border: 1px solid #e6e9f2;
     box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.08);
     margin-top: 40px;
-    /* sombra suave, leve e elegante */
 }
 
 .row.g-4>.col-lg-3> a >.card:hover,
@@ -219,6 +218,18 @@ body {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     /* leve aumento no hover */
 }
+
+/* Nome do gato nos cards */
+.card .card-title {
+    color: #4F76BB !important; /* roxo */
+    font-weight: 700;
+}
+
+/* Informações do gato (idade, sexo, lar temporário) */
+.card .card-text {
+    color: #4F76BB !important;
+}
+
 
 /* Ajuste da barra de filtros ao lado do título */
 .hero form {

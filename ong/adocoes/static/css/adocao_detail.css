@@ -1,0 +1,187 @@
+body {
+    background: #F6F7FF !important;
+    /* font-family: "Inter", sans-serif; */
+}
+
+/* CONTAINER PRINCIPAL */
+.detail-hero {
+    padding-top: 40px;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+/* ================= FOTO GRANDE ================= */
+.image-card {
+    border-radius: 14px;
+    overflow: hidden;
+    border: none;
+}
+
+.main-photo {
+    width: 100%;
+    height: 450px;
+    object-fit: cover; /* evita distorção */
+    object-position: center; /* centraliza o corte */
+    border-radius: 14px;
+}
+
+/* ================= TÍTULO E INFOS ================= */
+.cat-name {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #4F76BB;
+}
+
+.cat-meta {
+    color: #8fa2d1 !important;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* ================= HISTÓRIA ================= */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #F58285;
+    margin-bottom: 8px;
+    margin-top: 20px;
+}
+
+.cat-history {
+    font-size: 1rem;
+    color: #4F76BB !important;
+    max-width: 500px;
+    font-weight: 600;
+}
+
+/* ================= BADGES ================= */
+.badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.badge.tag {
+    background: #FFE6E7;
+    color: #F58285;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+/* ================= BOTÃO "QUERO ADOTAR" ================= */
+.botão{
+    padding-top: 20px;
+}
+
+.botão-lar{
+    padding-top: 20px;
+}
+
+.btn-adotar,
+.btn-lar {
+    background: #4F76BB;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    transition: 0.2s;
+    border: none;
+    box-shadow: 0 4px 10px #5371BA;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-adotar:hover {
+    background: #476ba8;
+    color: #fff;
+}
+
+.btn-lar:hover {
+    background: #476ba8;
+    color: #fff;
+}
+
+.patinha{
+    margin-right: 10px;
+}
+
+/* ================= SEÇÃO - OUTROS GATOS ================= */
+.other-section {
+    margin-top: 70px;
+}
+
+.other-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4F76BB;
+}
+
+/* ================= CARDS DOS OUTROS GATOS ================= */
+.card-cat.small-card {
+    border-radius: 14px;
+    border: 1px solid #e6e9f2;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.06);
+    transition: 0.25s;
+    overflow: hidden;
+}
+
+.card-cat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.small-img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.small-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #4F76BB;
+}
+
+.small-meta {
+    font-size: 0.9rem;
+    color: #7890c2 !important;
+}
+
+/* ================= LINK "VER TODOS" ================= */
+.card-link {
+    text-decoration: none !important;
+}
+
+.card-link:hover {
+    text-decoration: none !important;
+}
+
+.link-more {
+    color: #4F76BB;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+/* ================= RESPONSIVIDADE ================= */
+@media (max-width: 992px) {
+    .cat-name {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .row.g-4 {
+        text-align: center;
+    }
+    .cat-history {
+        margin: 0 auto;
+    }
+    .badges {
+        justify-content: center;
+    }
+}
