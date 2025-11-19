@@ -17,7 +17,15 @@
 
 <div class="form-container">
 
-    <h1 class="form-title">ADICIONE UM GATO PARA ADOÇÃO</h1>
+    <h1 class="form-title">
+        {% if gato_form.instance.pk %}
+            <!-- Caso seja a função de editar -->
+            EDITAR INFORMAÇÕES DO GATO
+        {% else %}
+            <!-- Caso seja a função de adicionar -->
+            ADICIONE UM GATO PARA ADOÇÃO
+        {% endif %}
+    </h1>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -39,8 +47,8 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    {{ gato_form.idade.label_tag }} {{ gato_form.idade }}
-                    {{ gato_form.idade.errors }}
+                    {{ gato_form.data_nascimento.label_tag }} {{ gato_form.data_nascimento }}
+                    {{ gato_form.data_nascimento.errors }}
                 </div>
 
                 <div class="form-group radio-field">
@@ -290,7 +298,15 @@
 
         <!-- Botão de enviar -->
             <div class="form-actions">
-                <button type="submit" class="btn-submit">Enviar</button>
+                <button type="submit" class="btn-submit">
+                    {% if gato_form.instance.pk %}
+                        <!-- Caso seja a função de editar -->
+                        Salvar Alterações
+                    {% else %}
+                        <!-- Caso seja a função de adicionar -->
+                        Enviar
+                    {% endif %}
+                </button>
             </div>
 
     </form>

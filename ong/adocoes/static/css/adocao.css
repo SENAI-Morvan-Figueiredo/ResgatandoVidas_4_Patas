@@ -68,20 +68,17 @@ body {
     color: #4F76BB;
 }
 
-/* =================== Inputs de Texto, Textarea e Selects (CORRIGIDO) =================== */
-/*
-  Aplica o estilo APENAS aos tipos de input que devem ocupar 100% da largura.
-  Isso exclui os inputs do tipo "radio" para evitar conflitos.
-*/
+/* =================== Inputs de Texto, Textarea e Selects =================== */
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="number"],
 .form-group input[type="tel"],
 .form-group input[type="url"],
 .form-group input[type="password"],
+.form-group input[type="date"],
 .form-group textarea,
 .form-group select {
-    width: 100%; 
+    width: 100%;
     padding: 10px 14px;
     border: 1px solid #4F76BB;
     border-radius: 8px;
@@ -91,54 +88,40 @@ body {
     background-color: #F6F7FF;
 }
 
-/* Efeito de foco para os campos de texto */
 .form-group input[type="text"]:focus,
 .form-group input[type="email"]:focus,
 .form-group input[type="number"]:focus,
 .form-group input[type="tel"]:focus,
 .form-group input[type="url"]:focus,
 .form-group input[type="password"]:focus,
+.form-group input[type="date"]:focus,
 .form-group textarea:focus,
 .form-group select:focus {
     border-color: #eee;
 }
 
-
-/* =================== Radios (Sim / Não) - SOLUÇÃO DEFINITIVA =================== */
-
-/*
-  O Django renderiza cada opção (bolinha + texto) dentro de outro <div>.
-  Vamos alinhar a bolinha e o texto corretamente.
-*/
+/* =================== Radios (Sim / Não) =================== */
 .form-group > div > div {
     display: flex;
-    flex-direction: row; /* Alinha a bolinha e o texto lado a lado */
+    flex-direction: row;
     align-items: center;
-    gap: 36px; /* Espaço entre a bolinha e o texto "Sim" ou "Não" */
+    gap: 36px;
 }
 
-/*
-  Ajuste final para o label de cada opção ("Sim", "Não").
-  Isso evita que ele tenha margens ou pesos de fonte indesejados.
-*/
 .form-group > div > div label {
     margin-bottom: 0;
     font-weight: normal;
     cursor: pointer;
 }
 
-/*
-  Reset para os inputs de rádio para garantir que não herdem estilos indesejados.
-*/
 .form-group input[type="radio"] {
-    width: auto; /* Garante que a largura não seja 100% */
+    width: auto;
     padding: 0;
     margin: 0;
     border: none;
     border-radius: 0;
-    box-shadow: none; /* Remove qualquer sombra que possa ser herdada */
+    box-shadow: none;
 }
-
 
 /* =================== Botão Submit =================== */
 .btn-submit {
@@ -152,7 +135,7 @@ body {
     cursor: pointer;
     transition: 0.3s;
     width: 100%;
-    margin-top: 20px; /* Adiciona um espaço acima do botão */
+    margin-top: 20px;
 }
 
 .btn-submit:hover {
@@ -187,6 +170,118 @@ body {
     gap: 5px;
 }
 
+
+/* ==================== adocao_list.html =================== */
+
+/* ==================== Barra de Pesquisa =================== */
+
+.search-input {
+    font-size: 0.9rem;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #cfd6e6;
+    padding: 0.4rem 0.8rem;
+    box-shadow: none;
+    color: #4F76BB;
+}
+
+
+/* Placeholder menor - Filtro_Nome */
+.search-input::placeholder {
+    font-size: 0.85rem;
+    color: #4F76BB; /*  Diz respeito a cor da letra */
+}
+
+.text-muted {
+    color: #4F76BB !important;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: bold;
+}
+
+/* =================== Cards de Adoção =================== */
+/* Hover para os cards de adoção */
+/* Tornar o link que engloba o card um bloco que ocupa todo espaço */
+.row.g-4>.col-lg-3> a >.card,
+.row.g-4>.col-md-4> a >.card,
+.row.g-4>.col-sm-6> a >.card {
+    border-radius: 16px;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    border: 1px solid #e6e9f2;
+    box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.08);
+    margin-top: 40px;
+    /* sombra suave, leve e elegante */
+}
+
+.row.g-4>.col-lg-3> a >.card:hover,
+.row.g-4>.col-md-4> a >.card:hover,
+.row.g-4>.col-sm-6> a >.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    /* leve aumento no hover */
+}
+
+/* Ajuste da barra de filtros ao lado do título */
+.hero form {
+    min-width: 200px;
+}
+
+.hero form input,
+.hero form select {
+    height: 36px;
+    font-size: 0.85rem;
+}
+
+/* Garantir que fique alinhado horizontalmente e responsivo */
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .hero form {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+    }
+    .hero form input,
+    .hero form select {
+        flex: 1;
+    }
+}
+
+
+h2{
+    color: #4F76BB;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: bold;
+}
+
+
+.btn-ver-todos {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4F76BB;
+    text-decoration: none;
+    gap: 4px; /* Espaço entre o texto e a seta */
+    transition: transform 0.2s ease;
+}
+
+.btn-ver-todos:hover {
+    transform: translateY(-2px); /* Pequeno efeito ao passar o mouse */
+}
+
+.arrow-img {
+    width: 20px; /* Ajuste o tamanho da seta */
+    height: auto;
+}
+
+.botoes_ver {
+    text-align: center;
+    margin-top: 100px;
+}
 .checkbox-item {
   display: inline-block;
   position: relative; /* necessário para posicionar o input por cima do chip */

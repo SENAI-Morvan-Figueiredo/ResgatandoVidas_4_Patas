@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import dashboard_admin_adocoes, excluir_gato_ajax, dashboard_admin_lar_temporario, dashboard_admin_adotados, excluir_adotado_ajax, adicionar_gato, registrar_adocao , registrar_lar_temporario
+from .views import dashboard_admin_adocoes, excluir_gato_ajax, dashboard_admin_lar_temporario, dashboard_admin_adotados, excluir_adotado_ajax, adicionar_gato, registrar_adocao , registrar_lar_temporario , editar_gato
+
 app_name = 'gatos'
 
 urlpatterns = [
@@ -11,5 +12,5 @@ urlpatterns = [
     path('adicionar_gato/', adicionar_gato, name='adicionar_gato'), # Função de Registrar gato
     path("registrar_lar_temporario/", registrar_lar_temporario, name="registrar_lar_temporario"),
     path("registrar_adocao/", registrar_adocao, name="registrar_adocao"),
-
+    path('editar/<int:gato_id>/', editar_gato, name='editar_gato'), # Função de Editar gato
 ]

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.functional import cached_property
+from datetime import date
 
 class Temperamento(models.Model):
     docil = models.BooleanField(default=False, verbose_name="Dócil")
@@ -31,7 +32,7 @@ class Temperamento(models.Model):
             caracteristicas.append("Independente")
         if self.carente:
             caracteristicas.append("Carente")
-        return ", ".join(caracteristicas) if caracteristicas else f"Temperamento {self.id}"
+        return ", ".join(caracteristicas)
 
 class Sociavel(models.Model):
     gatos = models.BooleanField(default=False, verbose_name="gatos")
@@ -57,7 +58,7 @@ class Sociavel(models.Model):
             caracteristicas.append("Crianças")
         if self.nao_sociavel:
             caracteristicas.append("Não sociável")
-        return f"{', '.join(caracteristicas)}" if caracteristicas else f"Socialização {self.id}"
+        return ", ".join(caracteristicas)
 
 class Cuidado(models.Model):
     castrado = models.BooleanField(default=False, verbose_name='Castrado')
@@ -92,7 +93,7 @@ class Cuidado(models.Model):
             status.append("FeLV-")
         if self.felv_positivo:
             status.append("FeLV+")
-        return ", ".join(status) if status else f"Cuidado {self.id}"
+        return ", ".join(status)
     
 class Moradia(models.Model):
     casa_com_quintal = models.BooleanField(default=False, verbose_name="Casa com quintal")
@@ -109,7 +110,7 @@ class Moradia(models.Model):
             tipos.append("Casa com quintal")
         if self.apartamento:
             tipos.append("Apartamento")
-        return ", ".join(tipos) if tipos else f"Moradia {self.id}"
+        return ", ".join(tipos)
 
 class Gato(models.Model):
     SEXO_CHOICES = [
@@ -119,7 +120,7 @@ class Gato(models.Model):
     
     nome = models.CharField(max_length=100, verbose_name="Nome do gato")
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name="Sexo", blank=False, null=False)
-    idade = models.CharField(max_length=10, verbose_name="Idade")
+    data_nascimento = models.DateField(verbose_name="Data de nascimento")
     descricao = models.TextField(max_length=10000, verbose_name="Sobre o gato")
     imagem = models.ImageField(upload_to="gatos/", verbose_name="Foto do gato")
     lar_temporario = models.BooleanField(default=False, verbose_name="Precisa de lar temporário")
@@ -151,3 +152,28 @@ class Gato(models.Model):
         from django.apps import apps
         LarTemporarioAtual = apps.get_model('lares_temporarios', 'LarTemporarioAtual')
         return LarTemporarioAtual.objects.filter(gato=self).exists()
+    
+    # Método para calcular a idade do gato - formato meses/anos/anos e meses
+    @property
+    def idade(self):
+        """Retorna a idade formatada: meses / anos / anos e meses."""
+        if not self.data_nascimento:
+            return "Data de nascimento não informada"
+        hoje = date.today()
+        anos = hoje.year - self.data_nascimento.year
+        meses = hoje.month - self.data_nascimento.month
+        dias = hoje.day - self.data_nascimento.day
+        if dias < 0:
+            meses -= 1
+        if meses < 0:
+            anos -= 1
+            meses += 12
+
+        total_meses = anos * 12 + meses
+        if total_meses < 1:
+            return "Menos de 1 mês"
+        if total_meses < 12:
+            return f"{total_meses} mês{'es' if total_meses != 1 else ''}"
+        if meses == 0:
+            return f"{anos} ano{'s' if anos != 1 else ''}"
+        return f"{anos} ano{'s' if anos != 1 else ''} e {meses} mês{'es' if meses != 1 else ''}"

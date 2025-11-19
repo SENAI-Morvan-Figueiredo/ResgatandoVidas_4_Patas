@@ -47,7 +47,7 @@ header.home-header {
   position: relative;
   z-index: 10;
   flex-wrap: wrap;
-  gap: 15px;
+  margin-left: -2.8%;
 }
 
 .logo-wrap {
@@ -74,7 +74,7 @@ header.home-header {
 .menu-centralizado ul {
   display: flex;
   list-style: none;
-  gap: 30px;
+  gap: 40px;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -90,11 +90,11 @@ header.home-header {
   text-decoration: none;
   white-space: nowrap;
   transition: all 0.3s ease;
+  display: inline-block;
 }
 
 .menu-centralizado ul li a:hover {
-  transform: scale(1.05);
-  text-decoration: underline;
+  transform: scale(1.06);
 }
 
 /* Hero centralizado */
@@ -188,7 +188,7 @@ header h1 em {
   }
 
   .top-bar {
-    padding: 12px 20px;
+    padding: 12px 80px;
   }
 
   .logo-wrap img.logo {
@@ -219,9 +219,17 @@ header h1 em {
   }
 
   .top-bar {
-    flex-direction: column;
-    padding: 10px 15px;
+    /* flex-direction: column; */
+    padding: 10px 90px;
     gap: 8px;
+  }
+
+  .logo-wrap {
+    margin-right: -10%;
+  }
+
+  .logo-wrap img.logo {
+    width: 60%;
   }
 
   .menu-centralizado{
@@ -282,6 +290,7 @@ header h1 em {
 
   .hero-content {
     padding: 15px 12px 40px 12px;
+    margin-top: 10%;
   }
 
   header h1 {
@@ -575,7 +584,7 @@ header h1 em {
 
 @media (max-width: 991px){
   .doe-section {
-    height: 50vh;
+    height: 70vh;
     margin-left: -22%;
   }
 
@@ -606,7 +615,7 @@ header h1 em {
 
 @media (max-width: 768px) {
   .doe-section {
-    height: 50vh;
+    height: 73vh;
     margin-left: -5%;
   }
 
@@ -628,7 +637,7 @@ header h1 em {
   .doe-section {
     min-height: auto;
     padding: 30px 15px;
-    height: 70vh;
+    height: 80vh;
   }
 
   .doe-image img {
@@ -700,6 +709,7 @@ header h1 em {
 @media (max-width: 1400px){
 .onda-section {
   margin-left: -10%;
+  margin-top: 10%;
 }
 }
 
@@ -718,13 +728,14 @@ header h1 em {
 @media (max-width: 768px) {
   .onda-section {
     margin-left: -5%;
-    margin-top: 5%;
+    margin-top: 10%;
   }
 }
 
 @media (max-width: 480px) {
   .onda-section {
     margin-left: -3%;
+    margin-top: 8%;
   }
 }
 
@@ -900,7 +911,8 @@ header h1 em {
 @media (max-width: 1400px){
   .lar {
     margin-left: -10%;
-    margin-top: -76%;
+    margin-top: -75%;
+    height: 125vh;
 }
 }
 
@@ -908,6 +920,7 @@ header h1 em {
   .lar {
     margin-left: -5%;
     margin-top: -70%;
+    height: 140vh;
 }
 }
 
@@ -922,7 +935,7 @@ header h1 em {
   .lar {
     margin-left: -5%;
     margin-top: -75%;
-    height: 117vh;
+    height: 200vh;
   }
 
   .cards {
@@ -975,6 +988,7 @@ header h1 em {
     min-height: auto;
     padding: 40px 15px;
     margin-top: -79%;
+    height: 120vh;
   }
 
   .lar .container-lg {
@@ -1034,6 +1048,17 @@ header h1 em {
 @media (max-width: 300px) {
   .lar {
     margin-top: -96%;
+  }
+
+  .btn-ghost {
+    padding: 14px 20px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 270px) {
+  .lar {
+    margin-top: -100%;
   }
 }
 

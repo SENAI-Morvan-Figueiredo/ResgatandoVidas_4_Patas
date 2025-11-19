@@ -9,20 +9,26 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   {% load static %}
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  {% block extra_css %}{% endblock %}
 
   {% block extra_head %}{% endblock %}
 </head>
 <body>
-  {% block header %}
-    {% include "ong/header.html" %}
-  {% endblock %}
+{% block header %}
+  {% if user.is_authenticated %}
+    {% include "ong/partials/header_admin.html" %}
+  {% else %}
+    {% include "ong/partials/header.html" %}
+  {% endif %}
+{% endblock %}
+
 
 
   <div class="container my-4">
     {% block content %}{% endblock %}
   </div>
 
-  {% include "ong/footer.html" %}
+  {% include "ong/partials/footer.html" %}
 
   <!-- <div class="text-center my-3">
     <a href="{% url 'doacoes' %}" class="btn btn-primary">Doações</a>
@@ -30,5 +36,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   {% block extra_js %}{% endblock %}
-</body>
-</html>
+  {% block extra_scripts %}{% endblock %}
+ </body>
+ </html>

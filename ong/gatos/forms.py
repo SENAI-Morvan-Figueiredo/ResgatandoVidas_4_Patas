@@ -34,7 +34,7 @@ class GatoForm(forms.ModelForm):
         widgets = {
             'lar_temporario': forms.RadioSelect(choices=SIM_NAO_CHOICES),
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
-            'idade': forms.TextInput(attrs={'class': 'form-control'}),
+            'data_nascimento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'imagem': forms.FileInput(attrs={'class': 'form-control-file', 'accept': 'image/*'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }

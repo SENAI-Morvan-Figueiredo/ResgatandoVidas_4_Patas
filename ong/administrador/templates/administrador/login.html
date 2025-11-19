@@ -5,29 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADM - Login</title>
-    
     <link rel="stylesheet" href="{% static 'css/login.css' %}?v={% now 'U' %}">
-
 </head>
 <body>
 
-    <a href="/" class="back-link">&larr; Voltar</a>
+    <a href="{% url 'home' %}" class="back-link">&larr; Voltar</a>
 
-    <!-- Contêiner principal que alinha tudo e serve de referência -->
     <div class="login-wrapper">
-        <!-- A caixa de trás (azul escura) -->
         <div class="login-background-frame"></div>
 
-        <!-- A caixa da frente (branca, com o formulário) -->
         <div class="login-container">
-            <h2>LOGIN  
-ADMINISTRADOR</h2>
+            <h2>LOGIN ADMINISTRADOR</h2>
             
             <form method="POST">
                 {% csrf_token %}
                 
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" required autocomplete="off">
+                <label for="email">E-mail ou Usuário:</label>
+                <input type="text" name="email" id="email" required autocomplete="off">
 
                 <label for="senha">Senha:</label>
                 <input type="password" name="senha" id="senha" required autocomplete="off">

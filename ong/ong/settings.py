@@ -65,6 +65,11 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'administrador.authentication_backend.EmailOrUsernameBackend',
+]
+
 WSGI_APPLICATION = 'ong.wsgi.application'
 
 
