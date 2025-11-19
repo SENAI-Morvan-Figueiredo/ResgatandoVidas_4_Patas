@@ -21,7 +21,7 @@ Página do dashboard de mostra os gatos que estão adotados -->
                 <h2 class="fw-bold text-primary">Gerenciar Gato Adotados</h2>
                 <p class="subtitle-custom mb-0">Adicione, edite ou remova  gatos Adotados</p>
             </div>
-            <a href="" class="btn btn-danger fw-bold shadow-sm rounded-3"> + Registrar adoção </a>
+            <a href="{% url 'gatos:registrar_adocao' %}" class="btn btn-danger fw-bold shadow-sm rounded-3"> + Registrar adoção </a>
         </div> 
 
         <!-- Barra de pesquisa e filtros -->
@@ -66,7 +66,7 @@ Página do dashboard de mostra os gatos que estão adotados -->
                                 <span class="text-primary fw-bold">{{ adotado.gato.nome }}</span>
                             </h5>
                             <div class="d-flex gap-1"> 
-                                <a href="" class="btn btn-light p-1" title="Editar"> 
+                                <a href="{% url 'gatos:editar_gato' adotado.gato.id %}" class="btn btn-light p-1" title="Editar"> 
                                     <img src="{% static 'img/Icone_Editar.svg' %}" alt="Editar" style="width: 35px; height: 35px;"> 
                                 </a> 
                                 <a href="javascript:void(0);" class="btn btn-light p-1 excluir-adotado" data-id="{{ adotado.id }}" data-nome="{{ adotado.gato.nome }}" title="Excluir">

@@ -126,10 +126,10 @@ class Gato(models.Model):
     lar_temporario = models.BooleanField(default=False, verbose_name="Precisa de lar temporário")
     
     # Relacionamentos
-    cuidado = models.ForeignKey(Cuidado, on_delete=models.CASCADE, verbose_name="Cuidados")
-    temperamento = models.ForeignKey(Temperamento, on_delete=models.CASCADE, verbose_name="Temperamento")
-    sociavel = models.ForeignKey(Sociavel, on_delete=models.CASCADE, verbose_name="Socialização")
-    moradia = models.ForeignKey(Moradia, on_delete=models.CASCADE, verbose_name="Moradia adequada")
+    cuidado = models.ForeignKey(Cuidado, on_delete=models.CASCADE, verbose_name="Cuidados", blank=False, null=False)
+    temperamento = models.ForeignKey(Temperamento, on_delete=models.CASCADE, verbose_name="Temperamento", blank=False, null=False)
+    sociavel = models.ForeignKey(Sociavel, on_delete=models.CASCADE, verbose_name="Socialização", blank=False, null=False)
+    moradia = models.ForeignKey(Moradia, on_delete=models.CASCADE, verbose_name="Moradia adequada", blank=False, null=False)
     
     #Status de adocao
     adotado = models.BooleanField(default=False, verbose_name="Adotado")
