@@ -280,7 +280,6 @@ def registrar_lar_temporario(request):
         gato.lar_temporario = True
         gato.save()
 
-        # Cria histórico
         HistoricoLarTemporario.objects.create(
             gato=gato,
             lar_temporario=lar,
@@ -291,13 +290,9 @@ def registrar_lar_temporario(request):
         return redirect("gatos:dashboard_admin_lar_temporario")
 
     # --------------------------
-    # GET → Exibir formulário
-    # --------------------------
 
-    # IDs dos gatos adotados
     adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
 
-    # IDs dos gatos que já têm lar temporário atual
     em_lar_ids = LarTemporarioAtual.objects.values_list("gato_id", flat=True)
 
     # Filtrando gatos disponíveis
@@ -320,14 +315,14 @@ def registrar_lar_temporario(request):
 def registrar_adocao(request):
     if request.method == "POST":
         gato_id = request.POST.get("gato")
-        adotante_id = request.POST.get("adotante")  # nome do select no HTML
+        adotante_id = request.POST.get("adotante") 
         data_inicio = request.POST.get("data_inicio")
         foto = request.FILES.get("foto")
 
         gato = get_object_or_404(Gato, id=gato_id)
         adotante = get_object_or_404(Adocao, id=adotante_id)
 
-        # --- impedir adoção duplicada ---
+        
         if Adotados.objects.filter(gato=gato).exists():
             messages.warning(request, f"O gato {gato.nome} já foi adotado!")
             return redirect("gatos:dashboard_admin_adocoes")
@@ -359,7 +354,7 @@ def registrar_adocao(request):
 
     context = {
         "gatos": gatos_disponiveis,
-        "adotantes": Adocao.objects.all(),  # tabela adotante
+        "adotantes": Adocao.objects.all(),  
     }
 
     return render(request, "gatos/registrar_adocao.html", context)
