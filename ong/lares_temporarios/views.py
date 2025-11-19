@@ -72,6 +72,7 @@ class GatoDetailView(DetailView):
         # Outros gatos para exibir — exclui o atual
         ctx['other_gatos'] = Gato.objects.filter(adotados__isnull=True).exclude(pk=self.object.pk)[:4]
         return ctx
+        
 
 
 
