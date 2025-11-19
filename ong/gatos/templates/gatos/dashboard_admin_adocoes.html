@@ -16,7 +16,7 @@ Página do dashboard de mostra os gatos para adoção -->
     <div class="p-4 bg-white shadow-sm rounded-4">
         
         <!-- Título e botão -->
-        <div class="topo-adocoes mb-3 border-bottom pb-2">
+        <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
             <div>
                 <h2 class="fw-bold text-primary">Gerenciar Adoções</h2>
                 <p class="subtitle-custom mb-0">Adicione, edite ou remova gatos para Adoção</p>
@@ -64,10 +64,10 @@ Página do dashboard de mostra os gatos para adoção -->
                     {%endif%}
                     <div class="card-body d-flex flex-column">
                         <!-- Nome e ícones de ação - "Parte de baixo" do card -->
-                        <div class="d-flex justify-content-between align-items-center mb-2 card-header-row">
-                            <h5 class="card-title mb-0" id="nominho">{{ gato.nome }}</h5>
-                            <div class="d-flex gap-1" id="caixinhas"> 
-                                <a href="" class="btn btn-light p-1" title="Editar"> 
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title mb-0">{{ gato.nome }}</h5>
+                            <div class="d-flex gap-1"> 
+                                <a href="{% url 'gatos:editar_gato' gato.id %}" class="btn btn-light p-1" title="Editar"> 
                                     <img src="{% static 'img/Icone_Editar.svg' %}" alt="Editar" style="width: 35px; height: 35px;"> 
                                 </a> 
                                 <a href="javascript:void(0);" class="btn btn-light p-1 excluir-gato" data-id="{{ gato.id }}" data-nome="{{ gato.nome }}" title="Excluir">
