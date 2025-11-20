@@ -2,9 +2,15 @@ import logging
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.timezone import now
-
+from django.contrib import messages
+from django.conf import settings
+from django.core.mail import send_mail
 from .models import Adocao, Adotados, Gato
 from .forms import AdocaoForm
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import format_html
+from django.utils.html import strip_tags
+
 
 logger = logging.getLogger(__name__)
 
@@ -73,39 +79,201 @@ class GatoDetailView(DetailView):
 def adocao_sucess(request):
     return render(request, 'adocoes/adocao_sucess.html')
 
+# -------------------------------------------------------------------------------------Formulário de Adoção
 
+# ---------------------------------------------------------
+# Função auxiliar para converter boolean → "Sim"/"Não"
+# ---------------------------------------------------------
+def bool_para_texto(valor):
+    if valor is True:
+        return "Sim"
+    if valor is False:
+        return "Não"
+    return "—"
+
+
+# ---------------------------------------------------------
+# VIEW principal do formulário de adoção
+# ---------------------------------------------------------
 def formulario_adocao(request):
-    gato_id = request.GET.get('gato')
-    gato = None
-    if gato_id:
-        gato = get_object_or_404(Gato, id=gato_id)
+    print("DEBUG: Entrou na view formulario_adocao")  # início da view
+    gato_id = request.GET.get("gato")
+    print("DEBUG: gato_id recebido =", gato_id)
 
-    if request.method == 'POST':
+    gato = Gato.objects.filter(id=gato_id).first()
+    print("DEBUG: gato encontrado =", gato)
+
+    if not gato:
+        messages.error(request, "Gato não encontrado.")
+        print("DEBUG: Gato não encontrado, redirecionando")
+        return redirect("adocoes:lista")
+
+    if request.method == "POST":
         form = AdocaoForm(request.POST)
+        
+        # forçar o form a aceitar o gato específico
+        form.fields['gato'].queryset = Gato.objects.filter(id=gato.id)
+
+        if 'created_at' in form.fields:
+            del form.fields['created_at']
+
         if form.is_valid():
-            gato = adocao.gato
             adocao = form.save(commit=False)
-
-            if gato:
-                adocao.gato = gato
-
+            adocao.gato = gato  # já atribuído
             adocao.save()
-            gato.adotado = True
-            gato.save()
-            Adotados.objects.create(
-                imagem=gato.imagem,
-                gato=gato,
-                adocao=adocao,
-                data_inicio=now().date(),
+
+            # ---------------------------------------------
+            #       CONSTRUÇÃO DO E-MAIL EM HTML
+            # ---------------------------------------------
+            email_html = f"""
+            <h2>🐾 Novo Pedido de Adoção Recebido</h2>
+            <p>Você recebeu uma nova solicitação de adoção pelo site.</p>
+
+            <h3>🐱 Informações do Gato</h3>
+            <p><strong>Gato:</strong> {adocao.gato.nome}</p>
+
+            <hr>
+
+            <h3>👤 Informações do Adotante</h3>
+            <p><strong>Nome:</strong> {adocao.nome}</p>
+            <p><strong>CPF:</strong> {adocao.cpf}</p>
+            <p><strong>Idade:</strong> {adocao.idade} anos</p>
+            <p><strong>Profissão:</strong> {adocao.ocupacao_profissional}</p>
+            <p><strong>E-mail:</strong> {adocao.email}</p>
+            <p><strong>Condições financeiras adequadas?</strong> {bool_para_texto(adocao.codicoes_financeiras)}</p>
+
+            <hr>
+
+            <h3>📍 Endereço</h3>
+            <p><strong>Rua:</strong> {adocao.rua}</p>
+            <p><strong>Número:</strong> {adocao.numero}</p>
+            <p><strong>Bairro:</strong> {adocao.bairro}</p>
+            <p><strong>Cidade:</strong> {adocao.cidade}</p>
+            <p><strong>CEP:</strong> {adocao.cep}</p>
+
+            <hr>
+
+            <h3>📱 Contato</h3>
+            <p><strong>Instagram:</strong> {adocao.instagram or "—"}</p>
+            <p><strong>Telefone:</strong> {adocao.numero_contato}</p>
+
+            <hr>
+
+            <h3>🐾 Informações sobre Outros Animais</h3>
+            <p><strong>Possui outros animais?</strong> {bool_para_texto(adocao.animal_externo)}</p>
+            """
+
+            # -------- CAMPO CONDICIONAL: TEM OUTROS ANIMAIS ----------
+            if adocao.animal_externo:
+                email_html += f"""
+                <p><strong>Animais fazem voltinhas?</strong> {bool_para_texto(adocao.animal_externo_voltinhas)}</p>
+                <p><strong>Espécie e idade:</strong> {adocao.animal_externo_especie_idade or "—"}</p>
+                <p><strong>Algum não castrado?</strong> {bool_para_texto(adocao.animal_externo_nao_castrado)}</p>
+                <p><strong>Vacinas em dia?</strong> {bool_para_texto(adocao.animal_externo_vacinacao)}</p>
+                <p><strong>Testados para FIV/FELV?</strong> {bool_para_texto(adocao.animal_externo_testado)}</p>
+                <p><strong>Ração oferecida:</strong> {adocao.animal_externo_racao or "—"}</p>
+                """
+
+            email_html += f"""
+            <hr>
+
+            <h3>🔄 Período de Adaptação</h3>
+            <p><strong>Entende sobre período de adaptação?</strong> {bool_para_texto(adocao.periodo_adaptacao)}</p>
+
+            <hr>
+
+            <h3>🏠 Moradia</h3>
+            <p><strong>Mora sozinho?</strong> {bool_para_texto(adocao.mora_sozinho)}</p>
+            <p><strong>Moram crianças?</strong> {bool_para_texto(adocao.mora_crianca)}</p>
+            <p><strong>Alguém não concorda?</strong> {bool_para_texto(adocao.alguem_nao_concorda)}</p>
+            <p><strong>Alguém alérgico?</strong> {bool_para_texto(adocao.alguem_alergico)}</p>
+            <p><strong>Imóvel próprio?</strong> {bool_para_texto(adocao.imovel_proprio)}</p>
+            
+            <hr>
+            
+            <p><strong>Reside em casa ou apartamento?</strong> {"Casa" if adocao.mora_casa else "Apartamento"}</p>
+            """
+
+            # ----------- CAMPOS CONDICIONAIS CASA / APARTAMENTO ---------------
+            if adocao.mora_casa:
+                email_html += f"""
+                <p><strong>Muros baixos?</strong> {bool_para_texto(adocao.casa_muros_laterais_baixos)}</p>
+                <p><strong>Possui quintal?</strong> {bool_para_texto(adocao.casa_quintal)}</p>
+                <p><strong>Outras casas no quintal?</strong> {bool_para_texto(adocao.casa_quintal_mais_casa)}</p>
+                <p><strong>Acesso à garagem?</strong> {bool_para_texto(adocao.casa_garagem)}</p>
+                """
+            else:
+                email_html += f"""
+                <p><strong>Apartamento telado?</strong> {bool_para_texto(adocao.apartamento_telada)}</p>
+                <p><strong>Limitador no banheiro?</strong> {bool_para_texto(adocao.apartamento_limitador)}</p>
+                """
+
+            email_html += f"""
+            <hr>
+
+            <h3>📦 Mudanças e Estabilidade</h3>
+            <p><strong>Mudança trabalho?</strong> {bool_para_texto(adocao.mudanca_trabalho)}</p>
+            <p><strong>Mudança imóvel?</strong> {bool_para_texto(adocao.mudanca_imovel)}</p>
+            <p><strong>Novo imóvel telado?</strong> {bool_para_texto(adocao.mudanca_imovel_seguranca)}</p>
+            <p><strong>Compromete-se a comunicar o doador?</strong> {bool_para_texto(adocao.mudanca_imovel_comunicar)}</p>
+
+            <hr>
+
+            <h3>📘 Responsabilidades</h3>
+            <p><strong>Não repassar animal?</strong> {bool_para_texto(adocao.repassar_animal)}</p>
+            <p><strong>Ciente em desistência?</strong> {bool_para_texto(adocao.dessistencia)}</p>
+            <p><strong>Responsável nas viagens:</strong> {adocao.viagens}</p>
+            <p><strong>Animal ficará restrito?</strong> {bool_para_texto(adocao.restrito)}</p>
+            <p><strong>Já devolveu animal?</strong> {bool_para_texto(adocao.devolver_doar)}</p>
+            """
+
+            # ----------- EXPLICAÇÃO APARECE APENAS SE DEVOLVEU/DOOU ------------
+            if adocao.devolver_doar:
+                email_html += f"""
+                <p><strong>Explicação:</strong> {adocao.devolver_doar_explique or "—"}</p>
+                """
+
+            email_html += f"""
+            <p><strong>Aceita responder o doador?</strong> {bool_para_texto(adocao.responder_doador)}</p>
+
+            <hr>
+
+            <h3>📅 Registro</h3>
+            <p><strong>Criado em:</strong> {adocao.created_at}</p>
+            """
+
+            # ---------------------------------------------
+            #              ENVIO DO E-MAIL
+            # ---------------------------------------------
+            assunto = f"Nova solicitação de adoção: {adocao.nome}"
+            destinatarios = ["raicarvalho343@gmail.COM"]  # Trocar pelo e-mail da ONG
+
+            email = EmailMultiAlternatives(
+                assunto,
+                strip_tags(email_html),
+                "nao-responda@seusite.com",
+                destinatarios
             )
-            return redirect('adocoes:adocao_sucess')
+            email.attach_alternative(email_html, "text/html")
+            email.send()
+
+            messages.success(request, "Sua solicitação foi enviada com sucesso! ❤️🐾")
+            return redirect("adocoes:adocao_sucess")
         else:
-             messages.error(request, "Alguns campos estão incorretos ou faltando. Por favor, confira as informações.")
+            print("DEBUG: Form inválido")
+            print("DEBUG: Erros do form:", form.errors)
+
     else:
+        print("DEBUG: Método GET detectado")
         form = AdocaoForm()
+        # remove campos não-editáveis
+        if 'created_at' in form.fields:
+            del form.fields['created_at']
+            print("DEBUG: Campo created_at removido do form (GET)")
 
-    return render(request, 'adocoes/adocao_form.html', {'form': form, 'gato': gato})
+    return render(request, "adocoes/adocao_form.html", {"form": form, "gato": gato})
 
+# --------------------------------------------------------------------------------------------------
 
 class AdotadosListView(ListView):
     model = Adotados
