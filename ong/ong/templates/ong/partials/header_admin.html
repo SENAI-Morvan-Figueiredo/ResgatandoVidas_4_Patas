@@ -35,7 +35,7 @@
           <li><a href="{% url 'home' %}">Home</a></li>
           <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
           <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
-          <li><a href="adotados.html">Adotados</a></li>
+          <li><a href="{% url 'adocoes:adotados_list' %}">Adotados</a></li>
           <li><a href="{% url 'doacoes' %}">Doações</a></li>
         </ul>
       </nav>
@@ -46,7 +46,7 @@
           <li><a href="#nossa-historia">Home</a></li>
           <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
           <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
-          <li><a href="adotados.html">Adotados</a></li>
+          <li><a href="{% url 'adocoes:adotados_list' %}">Adotados</a></li>
           <li><a href="{% url 'doacoes' %}">Doações</a></li>
         </ul>
       </nav>
