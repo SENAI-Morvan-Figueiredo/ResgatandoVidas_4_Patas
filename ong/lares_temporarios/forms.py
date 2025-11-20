@@ -1,5 +1,7 @@
 from django import forms
-from .models import LarTemporario
+from .models import LarTemporario , LarTemporarioAtual
+from gatos.models import Gato
+from adocoes.models import Adotados
 
 SIM_NAO_CHOICES = [
     (True, "Sim"),
@@ -82,3 +84,24 @@ class LarTemporarioForm(forms.ModelForm):
         if len(only_digits) < 10:
             raise forms.ValidationError("Número de contato inválido. Informe DDD + número.")
         return only_digits
+    
+
+class LarTemporarioAtualForm(forms.ModelForm):
+    class Meta:
+        model = LarTemporarioAtual
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Gatos já adotados
+        adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
+
+        # Gatos já em lar temporário atual
+        em_lar_ids = LarTemporarioAtual.objects.values_list("gato_id", flat=True)
+
+        # Filtra o select
+        self.fields["gato"].queryset = (
+            Gato.objects.exclude(id__in=adotados_ids)
+                        .exclude(id__in=em_lar_ids)
+        )

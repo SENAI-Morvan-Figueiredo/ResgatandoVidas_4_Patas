@@ -115,7 +115,7 @@ h2 {
 /* Placeholder menor - Filtro_Nome */
 .search-input::placeholder {
     font-size: 0.85rem;
-    color: #888;
+    color: #4F76BB;
     /*  Diz respeito a cor da letra */
 }
 
@@ -194,7 +194,50 @@ h2 {
     font-size: 2rem;
 }
 
-/* Título das seções (“História de...”, “Mais detalhes...”) */
+.card-body > .d-flex.justify-content-between {
+    display: flex;
+    flex-wrap: wrap;        
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.card-title,
+#nominho {
+    flex: 1 1 auto;         
+    min-width: 0;           
+    white-space: normal;    
+    overflow-wrap: anywhere;
+    word-break: break-word; 
+    margin-right: 0.5rem;
+}
+
+
+#caixinhas {
+    display: flex;
+    flex: 0 0 auto;        
+    gap: 0.35rem;
+    align-items: center;
+}
+
+
+.card .btn-light img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+@media (max-width: 420px) {
+    .card-body > .d-flex.justify-content-between {
+        align-items: flex-start;
+    }
+    #caixinhas {
+        width: 100%;
+        justify-content: flex-end; 
+        margin-top: 0.25rem;
+    }
+}
+
+
 #modalDetalhes h6 {
     color: #F58285;
     font-weight: 700;
@@ -202,26 +245,51 @@ h2 {
     margin-top: 1rem;
 }
 
-/* Coloração do texto de sexo e idade */
 #modalInfo {
     color: #96B3E5 !important;
 }
 
-/* Coloração da história/descrição do gato */
+
 #modalHistoria {
     color: #4F76BB !important;
 }
 
-/* Faz o X flutuar no canto superior direito */
 .btn-fechar-modal {
     position: absolute;
-    top: 30px;    /* distância do topo */
-    right: 30px;  /* distância da direita */
-    z-index: 10;  /* garante que fique acima de tudo */
+    top: 30px;    
+    right: 30px;  
+    z-index: 10; 
 }
 
 .modal-header {
     position: relative;
     padding: 0 !important;
     margin: 0 !important;
+}
+
+/* ===== Botão "Adicionar Gato" Responsivo ===== */
+.topo-adocoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .topo-adocoes a.btn-danger {
+        width: 100%;
+        text-align: center;
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .topo-adocoes h2 {
+        font-size: 1.3rem;
+    }
+    .topo-adocoes .subtitle-custom {
+        font-size: 0.8rem;
+    }
 }

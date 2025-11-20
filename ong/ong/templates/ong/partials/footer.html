@@ -1,0 +1,39 @@
+{% load static %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<div class="footer-container position-relative">
+  <img src="{% static 'img/footer.png' %}" alt="Patinhas Decorativas" class="footer-image img-fluid w-100">
+  <div class="footer-text container text-center">
+    <p id="titulo">RESGATANDO VIDAS<br>4 PATAS</p>
+
+    <div class="footer-links mt-3">
+      <p class="fw-bold">LINKS ÚTEIS</p>
+      <div class="footer-nav d-flex flex-wrap justify-content-center gap-3">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'adocoes:lista' %}">Adoção</a>
+        <a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a>
+        <a href="#">Adotados</a>
+        <a href="{% url 'doacoes' %}">Doações</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- barra inferior fixa: admin (esquerda) e ícones (direita) -->
+  <div class="footer-bottom">
+    <div class="footer-bottom-left">
+      <!-- troque a URL se seu nome de rota for diferente -->
+      <a href="{% url 'login' %}" class="admin-link">Área administrador</a>
+    </div>
+
+    <div class="footer-bottom-right">
+      <a href="https://www.instagram.com/resgatandovidas4patas/?hl=pt-br" target="_blank" class="social-link" aria-label="Instagram">
+        <img src="{% static 'img/instagram.png' %}" alt="Instagram" class="social-icon">
+      </a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=resgatandovidas4patas@gmail.com" 
+        target="_blank" 
+        class="social-link" 
+        aria-label="E-mail">
+        <img src="{% static 'img/email.png' %}" alt="E-mail" class="social-icon">
+      </a>
+    </div>
+  </div>
+</div>

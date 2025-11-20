@@ -67,7 +67,7 @@ Página do dashboard de mostra os gatos para adoção -->
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h5 class="card-title mb-0">{{ gato.nome }}</h5>
                             <div class="d-flex gap-1"> 
-                                <a href="" class="btn btn-light p-1" title="Editar"> 
+                                <a href="{% url 'gatos:editar_gato' gato.id %}" class="btn btn-light p-1" title="Editar"> 
                                     <img src="{% static 'img/Icone_Editar.svg' %}" alt="Editar" style="width: 35px; height: 35px;"> 
                                 </a> 
                                 <a href="javascript:void(0);" class="btn btn-light p-1 excluir-gato" data-id="{{ gato.id }}" data-nome="{{ gato.nome }}" title="Excluir">

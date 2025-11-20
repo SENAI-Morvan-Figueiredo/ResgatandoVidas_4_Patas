@@ -12,8 +12,7 @@ urlpatterns = [
     path('doacoes/', views.doacoes, name = "doacoes"),
     path('lares_temporarios/', include('lares_temporarios.urls', namespace='lares_temporarios')),
     path('gatos/', include('gatos.urls')),
-    path('home/', views.home, name='home'),
-    path('home_adm/', views.home_adm, name='home_adm'),
+    path('', views.home, name='home'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

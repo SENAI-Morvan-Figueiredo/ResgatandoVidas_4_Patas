@@ -93,6 +93,20 @@
   transform: translateX(4px);
 }
 
+/* --- Header Styles Atualizados --- */
+.header-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.header-container img {
+    display: block;
+    width: 100%;
+    height: 170px;
+    max-height: 100vh; /* Garante que não ultrapasse a tela em altura */
+}
+
 /* ===========================
    TOP BAR (logo, menu, ícones)
 =========================== */
@@ -122,6 +136,7 @@
   height: 44px;
   align-items: center;
   justify-content: center;
+  /* z-index: 1100; */
 }
 .hamburger-box { display:inline-block; position:relative; width:28px; height:18px; }
 .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
@@ -211,10 +226,10 @@
   position: fixed;
   inset: 0;
   /* background: rgba(0,0,0,0.28); */
-  z-index: 60;
+  z-index: 1000; /* atrás do mobile-nav */
   opacity: 0;
   transition: opacity .18s ease;
-  pointer-events: none;
+  pointer-events: none; /* só ativa quando visível */
 }
 .mobile-backdrop.visible {
   opacity: 1;
@@ -233,14 +248,6 @@
 @media (min-width: 901px) {
   .mobile-nav { display: none; }
   .hamburger { display: none; }
-}
-
-@media (max-width: 420px) {
-  .mobile-nav {
-    height: 48vh;
-    width: 98%;
-    padding: 18px;
-  }
 }
 
 @media (max-width: 1400px) {
@@ -265,7 +272,8 @@
 }
 
 .user-dropdown {
-  right: 7rem;
+  right: 2rem;
+  top: 5.7rem;
 }
 
 .user-card {
@@ -274,36 +282,39 @@
 }
 
 @media (max-width: 768px) {
-  .user-dropdown {
-  right: 4rem;
+  .nav-right .user-circle {
+margin-top: -30%;
+  margin-left: 120%;
+}
+
+.user-dropdown {
+  right: 1rem;
 }
 }
 
 @media (max-width: 480px) {
-  .nav-right .user-circle {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background-color: #fff;
-  border: 2px solid var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding: 3rem;
-  cursor: pointer;
-  transition: transform .18s ease, box-shadow .18s ease;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+.hamburger {
+  top: 60%;
+  left: 15%;
 }
 
-.nav-right .user-circle img {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-  display: block;
+.nav-right .user-circle {
+  margin-top: -3%;
+  margin-left: 150%;
 }
 
-  .user-dropdown {
+.user-dropdown {
   right: -1rem;
 }
+
+.mobile-nav {
+  top: 550px;
+  height: 44vh; 
+  padding: 20px 22px;
+}
+}
+
+.mobile-backdrop[aria-hidden="true"] {
+    opacity: 0;
+    pointer-events: none; 
 }
