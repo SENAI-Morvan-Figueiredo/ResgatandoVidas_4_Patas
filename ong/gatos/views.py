@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from .forms import GatoForm, CuidadoForm, TemperamentoForm, SociavelForm, MoradiaForm
+from lares_temporarios.forms import LarTemporarioAtualForm, HistoricoLarTemporarioForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 from django.utils import timezone
@@ -502,3 +503,54 @@ def registrar_adocao(request):
     }
 
     return render(request, "gatos/registrar_adocao.html", context)
+
+
+def registrar_lar_temporario(request):
+    if request.method == "POST":
+        form = LarTemporarioAtualForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Registro salvo com sucesso!")
+            return redirect("gatos:dashboard_admin_lar_temporario")
+        else:
+            messages.error(request, "Erro ao salvar. Verifique os campos.")
+    else:
+        form = LarTemporarioAtualForm()
+
+    context = {
+        "form": form,
+        "gatos": Gato.objects.all(),
+        "lares": LarTemporario.objects.all(),
+        "tipo": "atual",
+        "lar_temporario": None,  # <-- importante
+    }
+    return render(request, "gatos/registrar_lar_temporario.html", context)
+
+
+def editar_lar_temporario(request, tipo, pk):
+    if tipo == "atual":
+        obj = get_object_or_404(LarTemporarioAtual, pk=pk)
+        form_class = LarTemporarioAtualForm
+    else:
+        obj = get_object_or_404(HistoricoLarTemporario, pk=pk)
+        form_class = HistoricoLarTemporarioForm
+
+    if request.method == "POST":
+        form = form_class(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Alterações salvas!")
+            return redirect("gatos:dashboard_admin_lar_temporario")
+    else:
+        form = form_class(instance=obj)
+
+    context = {
+        "form": form,
+        "lar_temporario": obj,
+        "tipo": tipo,
+        "gatos": Gato.objects.all(),
+        "lares": LarTemporario.objects.all(),
+        "gato_selecionado": obj.gato if tipo=="atual" else None,
+        "lar_selecionado": obj.lar_temporario if tipo=="atual" else None,
+    }
+    return render(request, "gatos/registrar_lar_temporario.html", context)

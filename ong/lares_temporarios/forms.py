@@ -1,5 +1,5 @@
 from django import forms
-from .models import LarTemporario , LarTemporarioAtual
+from .models import LarTemporario , LarTemporarioAtual, HistoricoLarTemporario
 from gatos.models import Gato
 from adocoes.models import Adotados
 
@@ -91,17 +91,33 @@ class LarTemporarioAtualForm(forms.ModelForm):
         model = LarTemporarioAtual
         fields = "__all__"
 
+def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+
+    adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
+    em_lar_ids = LarTemporarioAtual.objects.values_list("gato_id", flat=True)
+
+    # Se estamos editando, permitimos o gato atual
+    if self.instance and self.instance.pk:
+        em_lar_ids = em_lar_ids.exclude(id=self.instance.gato_id)
+
+    # Filtra o select
+    self.fields["gato"].queryset = (
+        Gato.objects.exclude(id__in=adotados_ids)
+                    .exclude(id__in=em_lar_ids)
+    )
+        
+class HistoricoLarTemporarioForm(forms.ModelForm):
+    class Meta:
+        model = HistoricoLarTemporario
+        fields = "__all__"  # inclui todos os campos, inclusive data_fim
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Gatos já adotados
         adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
 
-        # Gatos já em lar temporário atual
-        em_lar_ids = LarTemporarioAtual.objects.values_list("gato_id", flat=True)
-
-        # Filtra o select
-        self.fields["gato"].queryset = (
-            Gato.objects.exclude(id__in=adotados_ids)
-                        .exclude(id__in=em_lar_ids)
-        )
+        # Para histórico, você **não precisa filtrar pelos gatos em lar temporário atual**,
+        # porque pode registrar histórico mesmo que o gato já esteja em outro lar
+        self.fields["gato"].queryset = Gato.objects.exclude(id__in=adotados_ids)

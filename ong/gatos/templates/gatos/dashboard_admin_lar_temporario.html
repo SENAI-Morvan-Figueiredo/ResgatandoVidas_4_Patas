@@ -370,6 +370,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         `;
+                // 🔥 Adiciona o listener para o botão editar LAR ATUAL
+        const btnEditarLarAtual = modalLarAtual.querySelector(".btn-editar");
+        if (btnEditarLarAtual) {
+            btnEditarLarAtual.addEventListener("click", () => {
+                const larId = card.dataset.larAtualId;
+                window.location.href = `/gatos/editar/atual/${larId}/`;
+            });
+        }
 
         // 🔥 AGORA que os botões existem, pegamos o "Finalizar"
         const btnFinalizar = modalLarAtual.querySelector(".btn-finalizar");
@@ -411,6 +419,13 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
 
             modalHistorico.appendChild(div);
+        });
+                // 🔥 Adiciona listeners para os botões editar do HISTÓRICO
+        modalHistorico.querySelectorAll(".btn-editar").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const id = btn.dataset.id;
+                window.location.href = `/gatos/editar/historico/${id}/`;
+            });
         });
 
     } else {
