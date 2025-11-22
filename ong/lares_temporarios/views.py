@@ -152,20 +152,6 @@ def formulario_lar_temporario(request):
                 lar.gato = gato
             lar.save()
 
-            historico = HistoricoLarTemporario(
-                gato=lar.gato,
-                lar_temporario=lar,
-                data_inicio=lar.disponibilidade_inicio
-            )
-            historico.save()
-
-            lar_atual = LarTemporarioAtual(
-                gato=lar.gato,
-                lar_temporario=lar,
-                data_inicio=lar.disponibilidade_inicio
-            )
-            lar_atual.save()
-
             # ----------------- CONSTRUÇÃO DO E-MAIL HTML -----------------
             email_html = f"""
             <h2>🐾 Novo Pedido de Lar Temporário Recebido</h2>

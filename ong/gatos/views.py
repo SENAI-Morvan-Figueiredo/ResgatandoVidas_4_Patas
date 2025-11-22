@@ -57,8 +57,8 @@ def excluir_gato_ajax(request, gato_id):
     
 # ---------------------------------------------------------------------------------------- Da tela dashboard_admin_lar_temporario
 
-# View que vai mandar as informações para os cards e tambem para o filtro
-@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
+# View que vai mandar as informações para os cards e também para o filtro
+@login_required(login_url='login')  # Garante que só usuários logados possam acessar essa view
 def dashboard_admin_lar_temporario(request):
 
     # Filtra apenas os gatos que precisam de lar temporário
@@ -80,9 +80,38 @@ def dashboard_admin_lar_temporario(request):
     # Pega os IDs dos gatos que estão em Lar Temporário atualmente
     gatos_em_lar_ids = LarTemporarioAtual.objects.values_list("gato_id", flat=True)
 
-    # Marca cada gato se ele está ou não em lar temporário
+    # ================================
+    # ADIÇÃO: pegar lar atual e histórico
+    # ================================
     for gato in gatos:
+        # Marca se o gato está ou não em lar
         gato.em_lar = gato.id in gatos_em_lar_ids
+
+        # Puxa o lar atual desse gato (se existir)
+        gato.lar_atual = (
+            LarTemporarioAtual.objects
+            .select_related("lar_temporario")
+            .filter(gato=gato)
+            .first()
+        )
+        if gato.lar_atual:
+            lar = gato.lar_atual.lar_temporario
+            # 🔥 CRIAR O ENDEREÇO COMPLETO AQUI!
+            lar.endereco = f"{lar.rua}, {lar.numero}, {lar.bairro}, {lar.cidade} - CEP {lar.cep}"
+
+
+        # Puxa todo o histórico deste gato
+        gato.historico_lares = (
+            HistoricoLarTemporario.objects
+            .select_related("lar_temporario")
+            .filter(gato=gato)
+            .order_by("-data_inicio")
+        )
+        # 🔥 Criar endereço completo também para cada item do histórico
+        for h in gato.historico_lares:
+            l = h.lar_temporario
+            h.endereco = f"{l.rua}, {l.numero}, {l.bairro}, {l.cidade} - CEP {l.cep}"
+
 
     context = {
         "gatos": gatos,
@@ -90,9 +119,69 @@ def dashboard_admin_lar_temporario(request):
 
     return render(request, "gatos/dashboard_admin_lar_temporario.html", context)
 
+def finalizar_lar_temporario(request, gato_id):
+    lar_atual = get_object_or_404(LarTemporarioAtual, gato_id=gato_id)
 
-logger = logging.getLogger(__name__)
+    # Criar o registro no histórico
+    HistoricoLarTemporario.objects.create(
+        gato=lar_atual.gato,
+        lar_temporario=lar_atual.lar_temporario,
+        data_inicio=lar_atual.data_inicio,
+        data_fim=timezone.localdate()
+    )
 
+    # Apagar registro atual
+    lar_atual.delete()
+
+    messages.success(request, "Lar temporário finalizado e movido para o histórico.")
+
+    return redirect("gatos:dashboard_admin_lar_temporario")
+
+def excluir_historico_lar_temporario_ajax(request, adotado_id):
+    if request.method == "POST":
+        try:
+            registro = HistoricoLarTemporario.objects.get(id=adotado_id)
+            registro.delete()
+
+            return JsonResponse({
+                "status": "ok",
+                "mensagem": "Registro excluído com sucesso!",
+                "atualizado": True
+            })
+
+        except HistoricoLarTemporario.DoesNotExist:
+            return JsonResponse({
+                "status": "erro",
+                "mensagem": "Registro não encontrado."
+            })
+
+    return JsonResponse({
+        "status": "erro",
+        "mensagem": "Requisição inválida."
+    })
+
+def excluir_lar_temporario_atual_ajax(request, gato_id):
+    if request.method == "POST":
+        try:
+            lar = LarTemporario.objects.get(id=gato_id)
+            gato = lar.gato
+
+            lar.delete()
+
+            # Atualiza o gato
+            gato.em_lar = False
+            gato.lar_atual = None
+            gato.save()
+
+            return JsonResponse({
+                "status": "ok",
+                "mensagem": "Lar temporário atual removido!"
+            })
+
+        except LarTemporario.DoesNotExist:
+            return JsonResponse({"status": "erro", "mensagem": "Lar atual não encontrado."})
+
+# ----------------------------------------------------------------------------------------------------------------
 
 class GatoCreateView(CreateView):
     model = Gato
@@ -340,11 +429,6 @@ def registrar_lar_temporario(request):
         gato.lar_temporario = True
         gato.save()
 
-        HistoricoLarTemporario.objects.create(
-            gato=gato,
-            lar_temporario=lar,
-            data_inicio=data_inicio
-        )
 
         messages.success(request, "Lar temporário registrado com sucesso!")
         return redirect("gatos:dashboard_admin_lar_temporario")

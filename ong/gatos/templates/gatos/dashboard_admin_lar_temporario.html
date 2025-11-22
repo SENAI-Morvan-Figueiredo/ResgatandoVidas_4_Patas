@@ -46,7 +46,42 @@ Página do dashboard que mostra os gatos para Lar Temporário -->
         <div class="row g-4">
             {% for gato in gatos %}
             <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card border-0 h-100 rounded-4 overflow-hidden">
+
+                <!-- Div que vai puxar todas as informações do gato, para que seja usado no pop-up - usando Javascript -->
+                <div class="card abrir-modal-gato border-0 h-100 rounded-4 overflow-hidden" style="position: relative;"
+                    data-id="{{ gato.id }}"
+                    data-nome="{{ gato.nome }}"
+                    data-idade="{{ gato.idade }}"
+                    data-sexo="{{ gato.get_sexo_display }}"
+                    data-historia="{{ gato.descricao }}"
+                    data-detalhes="{{ gato.temperamento }}, {{ gato.cuidado }}, {{ gato.sociavel }}, {{ gato.moradia }}"
+                    data-imagem="{{ gato.imagem.url }}"
+                    data-lar-atual-id="{% if gato.lar_atual %}{{ gato.lar_atual.id }}{% endif %}"
+                    data-adotar="#"
+                    data-lar-atual="{% if gato.lar_atual %}
+                        {{ gato.lar_atual.lar_temporario.nome }},
+                        {{ gato.lar_atual.lar_temporario.email }},
+                        {{ gato.lar_atual.lar_temporario.numero_contato }},
+                        {{ gato.lar_atual.lar_temporario.rua }} - 
+                        {{ gato.lar_atual.lar_temporario.numero }} | 
+                        {{ gato.lar_atual.lar_temporario.bairro }} | 
+                        {{ gato.lar_atual.lar_temporario.cidade }},
+                        {{ gato.lar_atual.data_inicio }}
+                    {% endif %}"
+                    data-historico='[
+                        {% for h in gato.historico_lares %}
+                            {
+                                "id": "{{ h.id }}",
+                                "nome": "{{ h.lar_temporario.nome }}",
+                                "email": "{{ h.lar_temporario.email }}",
+                                "numero_contato": "{{ h.lar_temporario.numero_contato }}",
+                                "endereco": "{{ h.lar_temporario.rua }} - {{ h.lar_temporario.numero }} | {{ h.lar_temporario.bairro }} | {{ h.lar_temporario.cidade }}",
+                                "data_inicio": "{{ h.data_inicio }}",
+                                "data_fim": "{{ h.data_fim }}"
+                            }{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ]'
+                    >
 
                     <!-- Status - Se está ou não em um Lar Temporário -->
                     {% if gato.em_lar %}
@@ -59,12 +94,20 @@ Página do dashboard que mostra os gatos para Lar Temporário -->
                         </div>
                     {% endif %}
 
+                    <!-- Icone de Finalizar Lar Temporario -->
+                    {% if gato.em_lar %}
+                        <a href="{% url 'gatos:finalizar_lar_temporario' gato.id %}" class="icone-finalizar">
+                            <img src="{% static 'img/finalizar-check.png' %}" alt="Finalizar">
+                        </a>
+                    {% endif %}
+
                     <!-- Imagem -->
                     {% if gato.imagem %}
                         <img src="{{ gato.imagem.url }}" class="card-img-top" alt="{{ gato.nome }}" style="object-fit: cover; height: 200px;">
                     {% else %}
                         <img src="https://placehold.co/300x200?text=Sem+Foto" class="card-img-top" alt="Sem imagem">
                     {% endif %}
+
 
                     <!-- Corpo do Card - "Parte de baixo" do card -->
                     <div class="card-body d-flex flex-column">
@@ -95,6 +138,73 @@ Página do dashboard que mostra os gatos para Lar Temporário -->
         </div>
     </div>
 </div>
+
+
+<!-- Pop-up/Modal de Detalhes do Gato -->
+<div id="modalGato" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg rounded-4" style="border: 2px solid #d7caff;">
+
+      <!-- Botão de fechar o model -->
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close btn-fechar-modal" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <div class="modal-body p-4">
+        <div class="row align-items-center g-4">
+
+          <!-- Imagem do gato -->
+          <div class="col-md-5 d-flex justify-content-center">
+            <img id="modalImagem" src="" alt="Gato" class="rounded-3 shadow-sm">
+          </div>
+
+          <!-- Conteúdo -->
+          <div class="col-md-7">
+
+            <!-- Nome do Gato -->
+            <h2 id="modalNome" class="fw-bold mb-1"></h2>
+
+            <!-- Sexo e idade do Gato -->
+            <p id="modalInfo" class="text-muted mb-4" style="font-size: 15px; color:#96B3E5;"></p>
+
+            <!-- Título "História de ..." -->
+            <h6 class="fw-bold mb-1" style="color:#F58285;">
+              História de <span id="modalNomeHistoria"></span>
+            </h6>
+
+            <!-- Descrição do gato - História -->
+            <p id="modalHistoria" class="text-secondary mb-4 small" style="color:#4F76BB;"></p>
+
+            <!-- Título "Mais detalhes sobre ..." -->
+            <h6 class="fw-bold mb-2" style="color:#F58285;">
+              Mais detalhes sobre <span id="modalNomeDetalhes"></span>
+            </h6>
+
+            <!-- Detalhes -->
+            <div id="modalDetalhes" class="d-flex flex-wrap gap-2"></div>
+
+          </div> <!-- fim col-md-7 -->
+
+            <!-- LAR ATUAL -->
+            <div class="mt-4">
+              <h5 class="fw-bold">Lar Temporário Atual</h5>
+              <div id="modalLarAtual"></div>
+            </div>
+
+            <!-- HISTÓRICO -->
+            <div class="mt-4">
+              <h5 class="fw-bold">Histórico de Lares Temporários</h5>
+              <div id="modalHistorico"></div>
+            </div>
+
+        </div> <!-- row -->
+      </div> <!-- modal-body -->
+
+    </div>
+  </div>
+</div>
+
+
 
 <!-- JavaScript -->
 
@@ -150,6 +260,226 @@ Página do dashboard que mostra os gatos para Lar Temporário -->
             });
         });
     });
+
+
+// Parte em Javascript do Model - Pop-up de informações do gato
+document.addEventListener('DOMContentLoaded', function() {
+  const modalElement = document.getElementById('modalGato');
+  const modal = new bootstrap.Modal(modalElement);
+
+  // Campos do modal
+  const modalNome = document.getElementById('modalNome');
+  const modalInfo = document.getElementById('modalInfo');
+  const modalNomeHistoria = document.getElementById('modalNomeHistoria');
+  const modalNomeDetalhes = document.getElementById('modalNomeDetalhes');
+  const modalHistoria = document.getElementById('modalHistoria');
+  const modalDetalhes = document.getElementById('modalDetalhes');
+  const modalImagem = document.getElementById('modalImagem');
+  const modalLarAtual = document.getElementById('modalLarAtual');
+  const modalHistorico = document.getElementById('modalHistorico');
+
+  // Seleciona todos os cards clicáveis
+  document.querySelectorAll('.abrir-modal-gato').forEach(card => {
+    card.addEventListener('click', e => {
+
+      // Impede clique em botões dentro do card
+        if (e.target.closest('.btn-editar') || 
+            e.target.closest('.btn-excluir') ||
+            e.target.closest('.btn-finalizar') || 
+            e.target.closest('.icone-finalizar')) 
+        {
+            e.stopPropagation();
+            return;
+        }
+
+
+      // Garantir que apenas o modal carrega imagens dele mesmo
+      modalElement.querySelectorAll('img').forEach(img => {
+        if (img.id !== 'modalImagem') {
+          img.removeAttribute('src');
+        }
+      });
+
+      // ================================
+      // PEGAR DADOS DO CARD
+      // ================================
+      const nome = card.dataset.nome;
+      const idade = card.dataset.idade;
+      const sexo = card.dataset.sexo;
+      const historia = card.dataset.historia;
+      const detalhes = card.dataset.detalhes;
+      const imagem = card.dataset.imagem;
+
+      // LAR TEMPORÁRIO ATUAL (string)
+      const larAtualStr = card.dataset.larAtual?.trim();
+
+      // HISTÓRICO (JSON vindo do template)
+      let historico = [];
+      try {
+        historico = JSON.parse(card.dataset.historico || "[]");
+      } catch (err) {
+        console.error("Erro ao ler histórico:", err);
+      }
+
+      // ================================
+      // PREENCHER MODAL - CAMPOS SIMPLES
+      // ================================
+      modalNome.textContent = nome || "Sem nome";
+      modalInfo.textContent = `${idade} | ${sexo}`;
+      modalNomeHistoria.textContent = nome;
+      modalNomeDetalhes.textContent = nome;
+      modalHistoria.textContent = historia || "Sem descrição cadastrada.";
+      modalImagem.src = imagem || "https://placehold.co/300x200?text=Sem+Imagem";
+
+      // ================================
+      // DETALHES (Temperamento, Cuidado...)
+      // ================================
+      modalDetalhes.innerHTML = "";
+      if (detalhes) {
+        detalhes.split(',').forEach(item => {
+          const texto = item.trim();
+          if (texto) {
+            const span = document.createElement('span');
+            span.className = 'tag';
+            span.textContent = texto;
+            modalDetalhes.appendChild(span);
+          }
+        });
+      }
+
+    // ================================
+    // LAR TEMPORÁRIO ATUAL
+    // ================================
+    modalLarAtual.innerHTML = "";
+
+    if (larAtualStr && larAtualStr.length > 5) {
+
+        const partes = larAtualStr.split(',').map(p => p.trim());
+
+        modalLarAtual.innerHTML = `
+            <div class="caixa-lar">
+                <p>${partes[0] || "-"}</p>
+                <p>${partes[1] || "-"}</p>
+                <p>${partes[2] || "-"}</p>
+                <p>${partes[3] || "-"}, </p>
+                <p><strong>Início:</strong> ${partes[4] || "-"}, ${partes[5] || "-"}</p>
+                <div class="botoes-lar mt-3">
+                    <button class="btn-editar">Editar</button>
+                    <button class="btn-excluir" data-id="${card.dataset.larAtualId}">Excluir</button>
+                    <a class="btn-finalizar">Finalizar</a>
+                </div>
+            </div>
+        `;
+
+        // 🔥 AGORA que os botões existem, pegamos o "Finalizar"
+        const btnFinalizar = modalLarAtual.querySelector(".btn-finalizar");
+        if (btnFinalizar) {
+            btnFinalizar.href = `/gatos/finalizar/${card.dataset.id}/`;
+        }
+
+    } else {
+        modalLarAtual.innerHTML = `
+            <p class="text-muted">Sem lar temporário no momento.</p>
+        `;
+    }
+
+
+    // ================================
+    // HISTÓRICO
+    // ================================
+    modalHistorico.innerHTML = `
+    `;
+
+    if (historico.length > 0) {
+
+        historico.forEach(entry => {
+            const div = document.createElement("div");
+            div.className = "caixa-lar";
+
+            div.innerHTML = `
+                <p>${entry.nome}</p>
+                <p>${entry.email}</p>
+                <p>${entry.numero_contato}</p>
+                <p>${entry.endereco}</p>
+                <p><strong>Início:</strong> ${entry.data_inicio}</p>
+                <p><strong>Fim:</strong> ${entry.data_fim || "—"}</p>
+
+                <div class="botoes-lar">
+                    <button class="btn-editar" data-id="${entry.id}">Editar</button>
+                    <button class="btn-excluir" data-id="${entry.id}">Excluir</button>
+                </div>
+            `;
+
+            modalHistorico.appendChild(div);
+        });
+
+    } else {
+        modalHistorico.innerHTML += `
+            <p class="text-muted">Sem histórico disponível.</p>
+        `;
+    }
+
+    modalElement.dataset.gatoId = card.dataset.id;
+        localStorage.setItem("modalGatoId", card.dataset.id);
+
+
+      // ================================
+      // MOSTRAR O MODAL
+      // ================================
+      modal.show();
+    });
+  });
+});
+
+// EVENTO PARA EXCLUIR LAR ATUAL OU HISTÓRICO — DENTRO DO MODAL
+document.addEventListener("click", function(e) {
+
+    if (e.target.classList.contains("btn-excluir")) {
+
+        const id = e.target.dataset.id;
+        const bloco = e.target.closest(".caixa-lar");
+
+        // 🔍 Detectar se é LAR ATUAL ou HISTÓRICO
+        const ehLarAtual = bloco.parentElement.id === "modalLarAtual";
+
+        const confirmDelete = confirm(
+            ehLarAtual 
+            ? "Deseja remover o LAR TEMPORÁRIO ATUAL deste gato?" 
+            : "Deseja excluir este registro do HISTÓRICO?"
+        );
+
+        if (!confirmDelete) return;
+
+        const url = ehLarAtual
+            ? `/gatos/excluir_lar_temporario_atual_ajax/${id}/`
+            : `/gatos/excluir_historico_lar_temporario_ajax/${id}/`;
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Accept": "application/json"
+            }
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.status === "ok") {
+
+                bloco.remove(); // remove a caixinha visual
+
+                alert(data.mensagem);
+
+                // Se o lar atual foi removido → recarregar cards
+                if (ehLarAtual) location.reload();
+
+            } else {
+                alert(data.mensagem);
+            }
+        })
+        .catch(() => alert("Erro ao processar exclusão."));
+    }
+
+});
 
 </script>
 
