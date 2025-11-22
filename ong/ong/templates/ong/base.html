@@ -15,7 +15,7 @@
 </head>
 <body>
   {% block header %}
-    {% include "ong/header.html" %}
+    {% include "ong/partials/header.html" %}
   {% endblock %}
 
 
@@ -23,7 +23,7 @@
     {% block content %}{% endblock %}
   </div>
 
-  {% include "ong/footer.html" %}
+  {% include "ong/partials/footer.html" %}
 
   <!-- <div class="text-center my-3">
     <a href="{% url 'doacoes' %}" class="btn btn-primary">Doações</a>

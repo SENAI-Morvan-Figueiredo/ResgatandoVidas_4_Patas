@@ -166,7 +166,7 @@ def formulario_adocao(request):
             # -------- CAMPO CONDICIONAL: TEM OUTROS ANIMAIS ----------
             if adocao.animal_externo:
                 email_html += f"""
-                <p><strong>Animais fazem voltinhas?</strong> {bool_para_texto(adocao.animal_externo_voltinhas)}</p>
+                <p><strong>Animais costumam dar voltinhas na rua ou casas vizinhas?</strong> {bool_para_texto(adocao.animal_externo_voltinhas)}</p>
                 <p><strong>Espécie e idade:</strong> {adocao.animal_externo_especie_idade or "—"}</p>
                 <p><strong>Algum não castrado?</strong> {bool_para_texto(adocao.animal_externo_nao_castrado)}</p>
                 <p><strong>Vacinas em dia?</strong> {bool_para_texto(adocao.animal_externo_vacinacao)}</p>
@@ -220,11 +220,11 @@ def formulario_adocao(request):
             <hr>
 
             <h3>📘 Responsabilidades</h3>
-            <p><strong>Não repassar animal?</strong> {bool_para_texto(adocao.repassar_animal)}</p>
-            <p><strong>Ciente em desistência?</strong> {bool_para_texto(adocao.dessistencia)}</p>
+            <p><strong>Está ciente que não pode repassar esse animal para outra pessoa:</strong> {bool_para_texto(adocao.repassar_animal)}</p>
+            <p><strong>Em caso de desistência, está ciente que será obrigado a comunicar o doador para que o mesmo encontre um novo lar para o animal?</strong> {bool_para_texto(adocao.dessistencia)}</p>
             <p><strong>Responsável nas viagens:</strong> {adocao.viagens}</p>
             <p><strong>Animal ficará restrito?</strong> {bool_para_texto(adocao.restrito)}</p>
-            <p><strong>Já devolveu animal?</strong> {bool_para_texto(adocao.devolver_doar)}</p>
+            <p><strong>Já precisou doar, devolver ou entregar na Zoonoses ou Ongs algum animal?</strong> {bool_para_texto(adocao.devolver_doar)}</p>
             """
 
             # ----------- EXPLICAÇÃO APARECE APENAS SE DEVOLVEU/DOOU ------------
@@ -234,7 +234,7 @@ def formulario_adocao(request):
                 """
 
             email_html += f"""
-            <p><strong>Aceita responder o doador?</strong> {bool_para_texto(adocao.responder_doador)}</p>
+            <p><strong>Aceita responder o doador sobre a adaptação e condições de vida e saúde do animal adotado sempre que esse achar necessário?</strong> {bool_para_texto(adocao.responder_doador)}</p>
 
             <hr>
 
@@ -246,7 +246,7 @@ def formulario_adocao(request):
             #              ENVIO DO E-MAIL
             # ---------------------------------------------
             assunto = f"Nova solicitação de adoção: {adocao.nome}"
-            destinatarios = ["raicarvalho343@gmail.COM"]  # Trocar pelo e-mail da ONG
+            destinatarios = ["rafaelaolbo@gmail.com"]  # Trocar pelo e-mail da ONG
 
             email = EmailMultiAlternatives(
                 assunto,

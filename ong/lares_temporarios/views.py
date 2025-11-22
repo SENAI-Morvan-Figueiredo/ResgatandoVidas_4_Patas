@@ -159,7 +159,7 @@ def formulario_lar_temporario(request):
 
             <h3>🐱 Informações do Gato</h3>
             <p><strong>Gato:</strong> {lar.gato.nome if lar.gato else "—"}</p>
-            <p><strong>Data de início disponível:</strong> {lar.disponibilidade_inicio}</p>
+            <p><strong>Data em que se inicia a sua disponibilidade para ser lar temporário:</strong> {lar.disponibilidade_inicio}</p>
 
             <hr>
 
@@ -210,7 +210,7 @@ def formulario_lar_temporario(request):
 
             # ----------------- ENVIO DO E-MAIL -----------------
             assunto = f"Novo pedido de lar temporário: {lar.nome}"
-            destinatarios = ["raicarvalho343@gmail.com"]  # e-mail da ONG
+            destinatarios = ["rafaelaolbo@gmail.com"]  # e-mail da ONG
 
             email = EmailMultiAlternatives(
                 assunto,

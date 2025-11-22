@@ -2,7 +2,7 @@
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'css/home_adm.css' %}">
+<link rel="stylesheet" href="{% static 'css/header_adm.css' %}">
 {% endblock %}
 
 {% block extra_scripts %}
@@ -21,13 +21,27 @@
           <span class="hamburger-box"><span class="hamburger-inner"></span></span>
         </button>
 
+        <!-- Ícone usuário (direita) - Lógica Condicional para Admin -->
+        {% if user.is_authenticated and user.is_superuser %}
+        <div class="nav-right">
+            <button id="userToggle" class="user-circle" aria-expanded="false" aria-controls="userDropdown" aria-haspopup="true" aria-label="Abrir menu do usuário" type="button">
+                <img src="{% static 'img/icone_usuario.svg' %}" alt="Usuário" class="user-icon">
+            </button>
+
+            <div id="userDropdown" class="user-dropdown user-card" role="menu" aria-hidden="true">
+                <a href="{% url 'gatos:dashboard_admin_adocoes' %}" class="user-card-link"><img src="{% static 'img/adm_painel.svg' %}" alt=""> Admin Painel</a>
+                <a href="{% url 'logout' %}" class="user-card-link"><img src="{% static 'img/sair.svg' %}" alt=""> Sair</a>
+            </div>
+        </div>
+        {% endif %}
+
           <!-- Menu de navegação -->
         <nav id="primaryNav" class="menu-centralizado" aria-hidden="false" role="navigation">
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
                 <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
-                <li><a href="adotados.html">Adotados</a></li>
+                <li><a href="{% url 'adocoes:adotados_list' %}">Adotados</a></li>
                 <li><a href="{% url 'doacoes' %}">Doações</a></li>
             </ul>
         </nav>
@@ -40,7 +54,7 @@
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'adocoes:lista' %}">Adoção</a></li>
     <li><a href="{% url 'lares_temporarios:lista' %}">Lar Temporário</a></li>
-    <li><a href="">Adotados</a></li>
+    <li><a href="{% url 'adocoes:adotados_list' %}">Adotados</a></li>
     <li><a href="{% url 'doacoes' %}">Doações</a></li>
   </ul>
 </nav>
