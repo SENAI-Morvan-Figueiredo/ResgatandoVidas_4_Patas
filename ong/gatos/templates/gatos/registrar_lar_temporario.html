@@ -8,33 +8,68 @@
 <a href="{% url 'gatos:dashboard_admin_lar_temporario' %}" class="back-link">&larr; Voltar</a>
 
 <div class="form-container">
-    <h1 class="form-title">REGISTRAR LAR TEMPORARIO</h1>
+    <h1 class="form-title">
+        {% if lar_temporario %}
+            Editar Lar Temporário
+        {% else %}
+            Registrar Lar Temporário
+        {% endif %}
+    </h1>
+
+    {% if messages %}
+        <div class="form-messages">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    <span class="alert-icon">{% if message.tags == "error" %}⚠️{% else %}✅{% endif %}</span>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
     <form method="post">
         {% csrf_token %}
 
+        <!-- Campo Gato -->
         <label>Gato</label>
-        <select name="gato" required>
+        <select name="gato" class="form-control" required>
             <option value="">Selecione o gato</option>
             {% for gato in gatos %}
-                <option value="{{ gato.id }}">{{ gato.nome }}</option>
+            <option value="{{ gato.id }}" {% if gato_selecionado and gato_selecionado.id == gato.id %}selected{% endif %}>
+                {{ gato.nome }}
+            </option>
             {% endfor %}
         </select>
 
+        <!-- Campo Lar Temporário -->
         <label>Voluntário</label>
-        <select name="lar" required>
+        <select name="lar_temporario" class="form-control" required>
             <option value="">Selecione o voluntário</option>
             {% for lar in lares %}
-                <option value="{{ lar.id }}">{{ lar.nome }}</option>
+            <option value="{{ lar.id }}" {% if lar_selecionado and lar_selecionado.id == lar.id %}selected{% endif %}>
+                {{ lar.nome }}
+            </option>
             {% endfor %}
         </select>
 
+        <!-- Datas -->
         <label>Início</label>
-        <input type="date" name="data_inicio" required>
+        <input type="date" name="data_inicio" class="form-control" required
+               value="{{ form.instance.data_inicio|date:'Y-m-d' }}">
 
-        <button type="submit">Registrar</button>
+        {% if tipo == "historico" %}
+            <label>Fim</label>
+            <input type="date" name="data_fim" class="form-control"
+                   value="{{ form.instance.data_fim|date:'Y-m-d' }}">
+        {% endif %}
+
+        <button type="submit" class="btn-submit">
+            {% if lar_temporario %}
+                Salvar Alterações
+            {% else %}
+                Registrar
+            {% endif %}
+        </button>
     </form>
-
 </div>
-
 {% endblock %}

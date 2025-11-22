@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import dashboard_admin_adocoes, excluir_gato_ajax, dashboard_admin_lar_temporario, dashboard_admin_adotados, excluir_adotado_ajax, adicionar_gato, registrar_adocao , registrar_lar_temporario , editar_gato
+from .views import dashboard_admin_adocoes, excluir_gato_ajax, dashboard_admin_lar_temporario, dashboard_admin_adotados, excluir_adotado_ajax, adicionar_gato, registrar_adocao , registrar_lar_temporario , editar_gato, finalizar_lar_temporario, excluir_historico_lar_temporario_ajax, excluir_lar_temporario_atual_ajax, editar_lar_temporario
 
 app_name = 'gatos'
 
@@ -13,4 +13,8 @@ urlpatterns = [
     path("registrar_lar_temporario/", registrar_lar_temporario, name="registrar_lar_temporario"),
     path("registrar_adocao/", registrar_adocao, name="registrar_adocao"),
     path('editar/<int:gato_id>/', editar_gato, name='editar_gato'), # Função de Editar gato
+    path("finalizar/<int:gato_id>/", finalizar_lar_temporario, name="finalizar_lar_temporario"), # Função de Finalizar Lar Temporário
+    path("excluir_historico_lar_temporario_ajax/<int:adotado_id>/", excluir_historico_lar_temporario_ajax, name="excluir_historico_lar_temporario_ajax"), # Pop-up de confirmar exclusão do resgistro do histórico de lar temporário
+    path("excluir_lar_temporario_atual_ajax/<int:gato_id>/", excluir_lar_temporario_atual_ajax, name="excluir_lar_temporario_atual_ajax"), # Pop-up de confirmar exclusão do lar temporário atual
+    path("editar/<str:tipo>/<int:pk>/", editar_lar_temporario, name="editar_lar_temporario"), # Função de Editar Lar Temporário [tipo: 'atual' ou 'historico'
 ]

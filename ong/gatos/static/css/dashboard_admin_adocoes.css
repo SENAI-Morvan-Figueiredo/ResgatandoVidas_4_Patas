@@ -163,6 +163,22 @@ h2 {
     border-radius: 10px;
 }
 
+.icone-finalizar {
+    position: absolute;
+    bottom: 46px;
+    right: 10px;
+    z-index: 10;
+    background: white;
+    padding: 6px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.icone-finalizar img {
+    width: 28px;
+    height: 28px;
+}
+
 /* Caixas com informações das tabelas auxiliares */
 #modalDetalhes .tag {
     display: inline-block;
@@ -291,5 +307,229 @@ h2 {
     }
     .topo-adocoes .subtitle-custom {
         font-size: 0.8rem;
+    }
+}
+
+
+/* ============================
+   BLOCO AZUL DE CADA LINHA
+   ============================ */
+
+.mt-4 h5 {
+    display: flex;
+    justify-content: center;
+    color: #F58285;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.caixa-lar p {
+    background: rgb(232, 235, 255);
+    color: #4F76BB;
+    padding: 8px 8px;
+    width: 80%;                 /* TODOS IGUAIS */
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
+    margin: 4px 0;
+}
+
+/* CONTAINER DA CAIXA */
+.caixa-lar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;         /* CENTRALIZA TUDO */
+    margin-bottom: 0;
+}
+
+
+/* Quando não tiver lar/histórico */
+#modalLarAtual .text-muted,
+#modalHistorico .text-muted {
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+/* Container para alinhar os botões */
+.botoes-lar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;           /* espaço entre os botões */
+}
+
+/* Botão azul (Editar) */
+.btn-editar {
+    background-color: #076ec2c0;
+    color: white;
+    border: none;
+    padding: 8px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+    transition: 0.2s ease;
+    margin: 10px;
+    margin-bottom: 15px;
+}
+
+/* Hover azul */
+.btn-editar:hover {
+    background-color: #076ec2;
+}
+
+/* Botão vermelho (Excluir) */
+.btn-excluir {
+    background-color: #a30000b0;
+    color: white;
+    border: none;
+    padding: 8px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+    transition: 0.2s ease;
+    margin: 10px;
+    margin-bottom: 15px;
+}
+
+/* Hover vermelho */
+.btn-excluir:hover {
+    background-color: #a30000;
+}
+
+/* Botão verde (Finalizar) */
+.btn-finalizar {
+    background-color: #227b0cd0;
+    color: white;
+    border: none;
+    padding: 8px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+    transition: 0.2s ease;
+    margin: 10px;
+    margin-bottom: 15px;
+}
+
+/* Hover verde */
+.btn-finalizar:hover {
+    background-color: #227b0c;
+}
+
+/* ===================== Ajustes de responsividade do modal ===================== */
+
+/* Limita a altura da área rolável do modal para caber na tela */
+.modal-dialog-scrollable .modal-body {
+    max-height: calc(100vh - 220px); /* deixa espaço para header/footer e margem */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* rolagem mais suave em mobile */
+    padding-right: 1rem; /* evita que o scroll "coma" texto */
+}
+
+/* Força quebra adequada de palavras e preserva quebras de texto longas */
+#modalHistoria,
+#modalHistoria p,
+#modalHistoria span {
+    white-space: pre-wrap;      /* preserva quebras e permite quebra automática */
+    overflow-wrap: break-word;  /* quebra palavras longas */
+    word-break: break-word;     /* fallback para navegadores */
+}
+
+/* Garante que tags/details quebrem linha corretamente e não extrapolem */
+#modalDetalhes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+#modalDetalhes .tag {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Imagem do modal responsiva */
+#modalGato #modalImagem {
+    width: 100%;
+    max-width: 280px;   /* mantém o tamanho para desktop */
+    height: auto;       /* ajusta proporcionalmente */
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Layout das colunas: em telas pequenas empilha verticalmente */
+@media (max-width: 768px) {
+    .modal-dialog.modal-lg {
+        max-width: 92%;
+        margin: 1.5rem;
+    }
+    /* Força a imagem ficar menor para caber em uma coluna empilhada */
+    #modalGato #modalImagem {
+        max-width: 220px;
+        margin-bottom: 0.75rem;
+    }
+    /* Ajuste de fontes para caber melhor */
+    #modalNome { font-size: 1.5rem; }
+    #modalHistoria { font-size: 0.95rem; }
+}
+
+/* Telas muito pequenas: garante que nada "vaze" da tela */
+@media (max-width: 420px) {
+    .modal-dialog.modal-lg {
+        max-width: 98%;
+        margin: 0.5rem;
+    }
+    #modalGato #modalImagem {
+        max-width: 160px;
+    }
+    #modalNome { font-size: 1.25rem; }
+    #modalHistoria { font-size: 0.9rem; }
+    .btn-fechar-modal { top: 16px; right: 16px; } /* botão fechar não fica fora */
+}
+
+/* Remove padding extra que pode somar com o overflow e esconder conteúdo */
+.modal-content {
+    box-sizing: border-box;
+}
+
+/* Pequeno ajuste para evitar que títulos e infos quebrem de forma estranha */
+#modalInfo {
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: anywhere;
+}
+
+/* ===== BOTÃO ADICIONAR RESPONSIVO ===== */
+
+.btn-danger {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .btn-danger {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-danger {
+        width: 100%;               /* ocupa a linha toda */
+        text-align: center;
+        margin-top: 10px;
+        font-size: 1rem;
+        border-radius: 12px;
+    }
+
+    /* Título + botão não fica apertado */
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 10px;
     }
 }
