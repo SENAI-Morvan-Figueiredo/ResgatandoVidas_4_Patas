@@ -163,6 +163,22 @@ h2 {
     border-radius: 10px;
 }
 
+.icone-finalizar {
+    position: absolute;
+    bottom: 46px;
+    right: 10px;
+    z-index: 10;
+    background: white;
+    padding: 6px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.icone-finalizar img {
+    width: 28px;
+    height: 28px;
+}
+
 /* Caixas com informações das tabelas auxiliares */
 #modalDetalhes .tag {
     display: inline-block;
@@ -292,4 +308,115 @@ h2 {
     .topo-adocoes .subtitle-custom {
         font-size: 0.8rem;
     }
+}
+
+
+/* ============================
+   BLOCO AZUL DE CADA LINHA
+   ============================ */
+
+.mt-4 h5 {
+    display: flex;
+    justify-content: center;
+    color: #F58285;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.caixa-lar p {
+    background: rgb(232, 235, 255);
+    color: #4F76BB;
+    padding: 8px 8px;
+    width: 80%;                 /* TODOS IGUAIS */
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
+    margin: 4px 0;
+}
+
+/* CONTAINER DA CAIXA */
+.caixa-lar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;         /* CENTRALIZA TUDO */
+    margin-bottom: 0;
+}
+
+
+/* Quando não tiver lar/histórico */
+#modalLarAtual .text-muted,
+#modalHistorico .text-muted {
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+/* Container para alinhar os botões */
+.botoes-lar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;           /* espaço entre os botões */
+}
+
+/* Botão azul (Editar) */
+.btn-editar {
+    background-color: #076ec2c0;
+    color: white;
+    border: none;
+    padding: 8px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+    transition: 0.2s ease;
+    margin: 10px;
+    margin-bottom: 15px;
+}
+
+/* Hover azul */
+.btn-editar:hover {
+    background-color: #076ec2;
+}
+
+/* Botão vermelho (Excluir) */
+.btn-excluir {
+    background-color: #a30000b0;
+    color: white;
+    border: none;
+    padding: 8px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+    transition: 0.2s ease;
+    margin: 10px;
+    margin-bottom: 15px;
+}
+
+/* Hover vermelho */
+.btn-excluir:hover {
+    background-color: #a30000;
+}
+
+/* Botão verde (Finalizar) */
+.btn-finalizar {
+    background-color: #227b0cd0;
+    color: white;
+    border: none;
+    padding: 8px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+    transition: 0.2s ease;
+    margin: 10px;
+    margin-bottom: 15px;
+}
+
+/* Hover verde */
+.btn-finalizar:hover {
+    background-color: #227b0c;
 }
