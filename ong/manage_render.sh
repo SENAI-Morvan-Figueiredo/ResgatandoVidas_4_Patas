@@ -12,8 +12,8 @@ python manage.py collectstatic --noinput
 # 3️⃣ Criar superusuário caso não exista
 # Substitua USERNAME, EMAIL e PASSWORD pelos valores do seu superusuário
 DJANGO_SUPERUSER_USERNAME="ÉosD"
-DJANGO_SUPERUSER_EMAIL="EMAIL_HOST_USER"
-DJANGO_SUPERUSER_PASSWORD="SENHA_HOST_USER"
+DJANGO_SUPERUSER_EMAIL=os.environ.get("EMAIL_HOST_USER")
+DJANGO_SUPERUSER_PASSWORD=os.environ.get("SENHA_HOST_PASSWORD")
 
 echo "👤 Verificando se superusuário existe..."
 python manage.py shell << END
