@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.functional import cached_property
 from datetime import date
+from cloudinary.models import CloudinaryField
 
 class Temperamento(models.Model):
     docil = models.BooleanField(default=False, verbose_name="Dócil")
@@ -122,7 +123,7 @@ class Gato(models.Model):
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name="Sexo", blank=False, null=False)
     data_nascimento = models.DateField(verbose_name="Data de nascimento")
     descricao = models.TextField(max_length=10000, verbose_name="Sobre o gato")
-    imagem = models.ImageField(upload_to="gatos/", verbose_name="Foto do gato")
+    imagem = CloudinaryField("imagem", folder="gatos")
     lar_temporario = models.BooleanField(default=False, verbose_name="Precisa de lar temporário")
     
     # Relacionamentos
