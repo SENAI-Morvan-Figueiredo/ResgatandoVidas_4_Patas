@@ -13,7 +13,7 @@ python3 manage.py migrate --noinput
 echo "📦 Coletando arquivos estáticos..."
 python3 manage.py collectstatic --noinput
 
+echo "from django.contrib.auth.models import User; User.objects.create_superuser('ÉosD', 'raicarvalho343@gmail.com', 'G@tinho')" | python manage.py shell
+
 echo "🔥 Iniciando Gunicorn..."
 gunicorn ong.wsgi:application --bind 0.0.0.0:10000
-
-echo "from django.contrib.auth.models import User; User.objects.create_superuser('ÉosD', 'raicarvalho343@gmail.com', 'G@tinho')" | python manage.py shell
