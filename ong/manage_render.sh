@@ -9,31 +9,29 @@ python manage.py migrate --noinput
 echo "📦 Coletando arquivos estáticos..."
 python manage.py collectstatic --noinput
 
-# 3️⃣ Criar superusuário caso não exista usando variáveis de ambiente
-DJANGO_SUPERUSER_USERNAME="ÉosD"
-DJANGO_SUPERUSER_EMAIL="$EMAIL_HOST_USER"
-DJANGO_SUPERUSER_PASSWORD="$SENHA_HOST_PASSWORD"
+# 3️⃣ Criar superusuário usando variáveis de ambiente
+# No painel do Render, configure estas variáveis:
+# DJANGO_SUPERUSER_USERNAME, DJANGO_SUPERUSER_EMAIL, DJANGO_SUPERUSER_PASSWORD
 
 echo "👤 Verificando se superusuário existe..."
 python manage.py shell << END
-from django.contrib.auth import get_user_model
 import os
+from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-username = "$DJANGO_SUPERUSER_USERNAME"
-email = "$DJANGO_SUPERUSER_EMAIL"
-password = "$DJANGO_SUPERUSER_PASSWORD"
+username = os.environ.get("DJANGO_SUPERUSER_USERNAME")
+email = os.environ.get("DJANGO_SUPERUSER_EMAIL")
+password = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
 
-if not User.objects.filter(username=username).exists():
-    User.objects.create_superuser(
-        username=username,
-        email=email,
-        password=password
-    )
-    print("✅ Superusuário criado com sucesso!")
+if username and email and password:
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_superuser(username=username, email=email, password=password)
+        print("✅ Superusuário criado com sucesso!")
+    else:
+        print("ℹ️ Superusuário já existe, nada feito.")
 else:
-    print("ℹ️ Superusuário já existe, nada feito.")
+    print("⚠️ Variáveis de ambiente do superusuário não estão definidas!")
 END
 
 # 4️⃣ Iniciar o Gunicorn para manter o serviço ativo
