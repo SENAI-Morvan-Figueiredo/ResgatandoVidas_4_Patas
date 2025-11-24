@@ -1,19 +1,33 @@
 #!/bin/bash
-# Script para executar migrações e iniciar o servidor no Render
-
 echo "🚀 Iniciando script de deploy Render..."
 
-# Garantir que o script pare se ocorrer qualquer erro
-set -e
-
+# 1️⃣ Aplicar migrações
 echo "📌 Aplicando migrações..."
-python3 manage.py makemigrations --noinput || true
-python3 manage.py migrate --noinput
+python manage.py migrate --noinput
 
+# 2️⃣ Coletar arquivos estáticos
 echo "📦 Coletando arquivos estáticos..."
-python3 manage.py collectstatic --noinput
+python manage.py collectstatic --noinput
 
-echo "from django.contrib.auth.models import User; User.objects.create_superuser('ÉosD', 'raicarvalho343@gmail.com', 'G@tinho')" | python manage.py shell
+# 3️⃣ Criar superusuário caso não exista
+# Substitua USERNAME, EMAIL e PASSWORD pelos valores do seu superusuário
+DJANGO_SUPERUSER_USERNAME="ÉosD"
+DJANGO_SUPERUSER_EMAIL="seu_email@exemplo.com"
+DJANGO_SUPERUSER_PASSWORD="sua_senha_segura"
 
-echo "🔥 Iniciando Gunicorn..."
-gunicorn ong.wsgi:application --bind 0.0.0.0:10000
+echo "👤 Verificando se superusuário existe..."
+python manage.py shell << END
+from django.contrib.auth import get_user_model
+User = get_user_model()
+if not User.objects.filter(username="$DJANGO_SUPERUSER_USERNAME").exists():
+    User.objects.create_superuser(
+        username="$DJANGO_SUPERUSER_USERNAME",
+        email="$DJANGO_SUPERUSER_EMAIL",
+        password="$DJANGO_SUPERUSER_PASSWORD"
+    )
+    print("✅ Superusuário criado com sucesso!")
+else:
+    print("ℹ️ Superusuário já existe, nada feito.")
+END
+
+echo "🎉 Deploy concluído com sucesso!"
