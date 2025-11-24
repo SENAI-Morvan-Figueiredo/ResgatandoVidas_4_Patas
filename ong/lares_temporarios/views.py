@@ -11,6 +11,7 @@ from django.utils.timezone import now
 from django.utils import timezone
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
+from django.core.mail import EmailMessage
 
 
 logger = logging.getLogger(__name__)
@@ -212,13 +213,13 @@ def formulario_lar_temporario(request):
             assunto = f"Novo pedido de lar temporário: {lar.nome}"
             destinatarios = ["raicarvalho343@gmail.com"]  # e-mail da ONG
 
-            email = EmailMultiAlternatives(
-                assunto,
-                strip_tags(email_html),
-                "raicarvalho343@gmail.com",
-                destinatarios
+            email = EmailMessage(
+                subject=assunto,
+                body=email_html,
+                from_email="raicarvalho343@gmail.com",
+                to=destinatarios,
             )
-            email.attach_alternative(email_html, "text/html")
+            email.content_subtype = "html"
             email.send()
             # ---------------------------------------------------
 
