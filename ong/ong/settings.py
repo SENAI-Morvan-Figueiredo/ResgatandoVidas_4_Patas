@@ -154,12 +154,16 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Email settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST = "smtp.sendgrid.net"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")   # email que enviará
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")   # senha de app do Google
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_USER = "apikey"  # literal: não mude isso
+EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY")
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+
+DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_FROM", "no-reply@resgatandovidas.com")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
