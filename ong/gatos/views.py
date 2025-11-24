@@ -120,6 +120,7 @@ def dashboard_admin_lar_temporario(request):
 
     return render(request, "gatos/dashboard_admin_lar_temporario.html", context)
 
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
 def finalizar_lar_temporario(request, gato_id):
     lar_atual = get_object_or_404(LarTemporarioAtual, gato_id=gato_id)
 
@@ -138,6 +139,7 @@ def finalizar_lar_temporario(request, gato_id):
 
     return redirect("gatos:dashboard_admin_lar_temporario")
 
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
 def excluir_historico_lar_temporario_ajax(request, adotado_id):
     if request.method == "POST":
         try:
@@ -161,6 +163,7 @@ def excluir_historico_lar_temporario_ajax(request, adotado_id):
         "mensagem": "Requisição inválida."
     })
 
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
 def excluir_lar_temporario_atual_ajax(request, gato_id):
     if request.method == "POST":
         try:
@@ -184,6 +187,7 @@ def excluir_lar_temporario_atual_ajax(request, gato_id):
 
 # ----------------------------------------------------------------------------------------------------------------
 
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
 class GatoCreateView(CreateView):
     model = Gato
     form_class = GatoForm
@@ -405,6 +409,7 @@ def excluir_adotado_ajax(request, adotado_id):
 
 # ---------------------------------------------------------------------------------------- Da tela formulario_lar_temporario
 
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
 def registrar_lar_temporario(request):
     if request.method == "POST":
         gato_id = request.POST.get("gato")
@@ -457,6 +462,7 @@ def registrar_lar_temporario(request):
 
 # ----------------------------------------------
 
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
 def registrar_adocao(request):
     if request.method == "POST":
         gato_id = request.POST.get("gato")
@@ -504,7 +510,7 @@ def registrar_adocao(request):
 
     return render(request, "gatos/registrar_adocao.html", context)
 
-
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
 def registrar_lar_temporario(request):
     if request.method == "POST":
         form = LarTemporarioAtualForm(request.POST)
@@ -526,7 +532,7 @@ def registrar_lar_temporario(request):
     }
     return render(request, "gatos/registrar_lar_temporario.html", context)
 
-
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
 def editar_lar_temporario(request, tipo, pk):
     if tipo == "atual":
         obj = get_object_or_404(LarTemporarioAtual, pk=pk)
