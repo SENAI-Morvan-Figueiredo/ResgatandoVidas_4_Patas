@@ -210,12 +210,12 @@ def formulario_lar_temporario(request):
 
             # ----------------- ENVIO DO E-MAIL -----------------
             assunto = f"Novo pedido de lar temporário: {lar.nome}"
-            destinatarios = ["rafaelaolbo@gmail.com"]  # e-mail da ONG
+            destinatarios = ["raicarvalho343@gmail.com"]  # e-mail da ONG
 
             email = EmailMultiAlternatives(
                 assunto,
                 strip_tags(email_html),
-                "nao-responda@seusite.com",
+                "raicarvalho343@gmail.com",
                 destinatarios
             )
             email.attach_alternative(email_html, "text/html")

@@ -162,8 +162,7 @@ EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY")
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
-
-DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_FROM", "no-reply@resgatandovidas.com")
+DEFAULT_FROM_EMAIL = "raicarvalho343@gmail.com"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
