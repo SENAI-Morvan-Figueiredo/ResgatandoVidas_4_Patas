@@ -30,4 +30,9 @@ else:
     print("ℹ️ Superusuário já existe, nada feito.")
 END
 
+# 4️⃣ Iniciar o Gunicorn para manter o serviço ativo
+echo "🟢 Iniciando Gunicorn..."
+exec gunicorn ong.wsgi:application --bind 0.0.0.0:$PORT
+
 echo "🎉 Deploy concluído com sucesso!"
+
