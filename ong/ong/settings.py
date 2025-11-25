@@ -159,8 +159,10 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Use o backend SMTP padrão do Django
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
-
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+DEFAULT_FROM_EMAIL = "Resgatando Vidas 4 Patas <raicarvalho343@gmail.com>"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

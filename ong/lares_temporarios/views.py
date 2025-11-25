@@ -216,11 +216,11 @@ def formulario_lar_temporario(request):
             email = EmailMessage(
                 subject=assunto,
                 body=email_html,
-                from_email="raicarvalho343@gmail.com",
+                from_email=settings.DEFAULT_FROM_EMAIL,
                 to=destinatarios,
             )
             email.content_subtype = "html"
-            email.send()  # Agora vai pelo SendGrid API
+            email.send()
             
             #-----------------------------------
 
