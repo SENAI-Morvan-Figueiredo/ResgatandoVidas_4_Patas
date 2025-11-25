@@ -670,7 +670,7 @@ header h1 em {
   .doe-section {
     min-height: auto;
     padding: 30px 15px;
-    height: 80vh;
+    height: 90vh;
   }
 
   .doe-image img {
@@ -702,6 +702,16 @@ header h1 em {
   .btn-doe {
     padding: 10px 25px;
     font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .doe-section {
+    height: 90vh;
+  }
+
+  .doe-wrapper {
+    gap: 1px;
   }
 }
 
@@ -767,12 +777,12 @@ header h1 em {
 
 @media (max-width: 480px) {
   .onda-section {
-    margin-left: -3%;
+    margin-left: -5%;
     margin-top: 8%;
   }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 360px) {
   .onda-section {
     margin-left: -5%;
   }
@@ -1026,6 +1036,7 @@ header h1 em {
 
   .lar .container-lg {
     padding: 0 10px;
+    margin-top: 20%;
   }
 
   .lar .section-title {
@@ -1072,9 +1083,25 @@ header h1 em {
   }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 360px) {
   .lar {
-    margin-top: -89%;
+    margin-top: -88%;
+    height: 140vh;
+  }
+
+   .lar .container-lg {
+    margin-top: 25%;
+  }
+}
+
+@media (max-width: 301px) {
+  .lar {
+    margin-top: -95%;
+    height: 150vh;
+  }
+
+   .lar .container-lg {
+    margin-top: -5%;
   }
 }
 
@@ -1153,11 +1180,11 @@ header h1 em {
 
 @media (max-width: 480px) {
   .gato-adulto-section {
-    margin-left: -3%;
+    margin-left: -5%;
   }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 360px) {
   .gato-adulto-section {
     margin-left: -5%;
   }
@@ -1263,6 +1290,12 @@ header h1 em {
   .btn-adotar {
     font-size: 13px;
   }
+}
+
+@media (max-width: 360px){
+  .btn-adotar {
+    margin-top: 0%;
+}
 }
 
 /* =======================
