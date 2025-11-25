@@ -160,7 +160,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = 'SUA_API_KEY_AQUI'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'sua@ong.com'
+DEFAULT_FROM_EMAIL = "raicarvalho343@gmail.com"
 
 
 # Default primary key field type
