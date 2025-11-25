@@ -7,9 +7,9 @@ from django.conf import settings
 from django.core.mail import send_mail
 from .models import Adocao, Adotados, Gato
 from .forms import AdocaoForm
-from django.core.mail import EmailMultiAlternatives
 from django.utils.html import format_html
 from django.utils.html import strip_tags
+from django.core.mail import EmailMessage
 
 
 logger = logging.getLogger(__name__)
@@ -248,14 +248,15 @@ def formulario_adocao(request):
             assunto = f"Nova solicitação de adoção: {adocao.nome}"
             destinatarios = ["raicarvalho343@gmail.com"]  # Trocar pelo e-mail da ONG
 
-            email = EmailMultiAlternatives(
-                assunto,
-                strip_tags(email_html),
-                "nao-responda@seusite.com",
-                destinatarios
+            email = EmailMessage(
+                subject=assunto,
+                body=email_html,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=destinatarios,
             )
-            email.attach_alternative(email_html, "text/html")
+            email.content_subtype = "html"
             email.send()
+            
 
             messages.success(request, "Sua solicitação foi enviada com sucesso! ❤️🐾")
             return redirect("adocoes:adocao_sucess")
