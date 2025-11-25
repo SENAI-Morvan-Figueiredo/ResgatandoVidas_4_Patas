@@ -161,7 +161,7 @@ EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
-DEFAULT_FROM_EMAIL = "Resgatando Vidas 4 Patas <raicarvalho343@gmail.com>"
+DEFAULT_FROM_EMAIL = "raicarvalho343@gmail.com"
 
 
 # Default primary key field type
