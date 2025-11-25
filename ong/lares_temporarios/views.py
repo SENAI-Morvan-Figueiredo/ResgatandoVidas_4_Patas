@@ -220,8 +220,9 @@ def formulario_lar_temporario(request):
                 to=destinatarios,
             )
             email.content_subtype = "html"
-            email.send()
-            # ---------------------------------------------------
+            email.send()  # Agora vai pelo SendGrid API
+            
+            #-----------------------------------
 
             messages.success(request, "Solicitação de lar temporário enviada com sucesso! ❤️🐾")
             return redirect('lares_temporarios:lar_temporario_sucess')
