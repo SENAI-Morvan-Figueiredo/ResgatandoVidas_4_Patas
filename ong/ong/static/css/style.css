@@ -90,8 +90,6 @@ html, body {
 }
 
 @media (max-width: 768px) {
-    
-
     .nav-left .logo {
         height: 70px;
         margin-bottom: 10px;
@@ -197,7 +195,6 @@ html, body {
     font-size: 0.95rem;
   }
 }
-
 
 /* --- Estilos do Dropdown de Usuário (Movidos de home_adm.css para aplicação global) --- */
 
@@ -408,7 +405,7 @@ html, body {
 }
 }
 
-@media (max-width: 300px) {
+@media (max-width: 360px) {
 
 #titulo {
   font-size: 0.5rem;
@@ -422,4 +419,21 @@ html, body {
 .footer-bottom {
   bottom: 1px;
 }
+
+#userDropdown{
+  margin-right: 10%;
+  width: 110px;
+}
+}
+
+footer, .footer-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+
+    /* Isso evita que a imagem estoure para fora */
+ 
+    overflow: hidden;
 }

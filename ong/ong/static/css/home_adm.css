@@ -2,7 +2,7 @@
    VARIÁVEIS E ESTILOS GERAIS
 =========================== */
 :root {
-  --primary: #4f76bb;
+  --primary: #50be1d;
   --secondary: #ffd166;
   --text-dark: #333;
   --text-light: #fff;
@@ -293,7 +293,7 @@ margin-top: -30%;
 
 @media (max-width: 480px) {
 .hamburger {
-  top: 60%;
+  top: 10%;
   left: 15%;
 }
 
@@ -307,7 +307,7 @@ margin-top: -30%;
 }
 
 .mobile-nav {
-  top: 550px;
+  top: 50px;
   height: 44vh; 
   padding: 20px 22px;
 }
