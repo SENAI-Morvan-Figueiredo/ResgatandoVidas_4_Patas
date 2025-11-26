@@ -255,7 +255,7 @@ header h1 em {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   header.home-header {
     min-height: 400px;
   }
@@ -434,7 +434,7 @@ header h1 em {
 }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .intro {
     flex-direction: column-reverse;
     text-align: center;
@@ -646,10 +646,10 @@ header h1 em {
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 820px) {
   .doe-section {
     height: 73vh;
-    margin-left: -5%;
+    margin-left: -8%;
   }
 
   .doe-image img {
@@ -663,6 +663,12 @@ header h1 em {
 
   .doe-content p {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .doe-section {
+    margin-left: -5%;
   }
 }
 
@@ -764,10 +770,16 @@ header h1 em {
 }
 }
 
+@media (max-width: 820px) {
+  .onda-section {
+    margin-left: -8%;
+    margin-top: 10%;
+  }
+}
+
 @media (max-width: 768px) {
   .onda-section {
     margin-left: -5%;
-    margin-top: 10%;
   }
 }
 
@@ -976,11 +988,10 @@ header h1 em {
 }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .lar {
-    margin-left: -5%;
-    margin-top: -75%;
-    height: 200vh;
+    margin-left: -8%;
+    margin-top: -77%;
   }
 
   .cards {
@@ -1007,6 +1018,15 @@ header h1 em {
   .card .icon img {
     width: 28px;
     height: 28px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .lar {
+    margin-left: -5%;
+    margin-top: -75%;
+    height: 200vh;
   }
 
   .lar .section-title {
@@ -1162,6 +1182,12 @@ header h1 em {
   .gato-adulto-section {
   margin-left: -22%;
 }
+}
+
+@media (max-width: 820px) {
+  .gato-adulto-section {
+    margin-left: -8%;
+  }
 }
 
 @media (max-width: 768px) {

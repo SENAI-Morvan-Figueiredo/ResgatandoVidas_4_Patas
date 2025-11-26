@@ -157,6 +157,12 @@ html, body {
   padding-top: 5%;
 }
 
+@media (max-width: 900px) {
+    .side-image-container-right {
+     margin-left: 20%;
+    }
+}
+
 /* --- Media queries para telas menores --- */
 @media (max-width: 768px) {
   .center-content {
@@ -173,6 +179,7 @@ html, body {
   .side-image-container-right {
     flex: 1 1 100%;
     padding: 8px;
+    margin-left: 0%;
   }
 
   .side-image-right {

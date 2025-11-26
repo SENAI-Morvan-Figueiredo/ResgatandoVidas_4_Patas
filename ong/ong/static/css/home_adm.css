@@ -280,9 +280,9 @@
 }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 820px) {
   .nav-right .user-circle {
-margin-top: -30%;
+  margin-top: -30%;
   margin-left: 120%;
 }
 
