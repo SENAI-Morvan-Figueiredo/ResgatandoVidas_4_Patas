@@ -313,7 +313,7 @@ margin-top: -30%;
 }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 400px) {
 .user-dropdown {
   right: 1rem;
   width: 110px;
