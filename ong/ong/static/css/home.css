@@ -715,6 +715,10 @@ header h1 em {
   .doe-wrapper {
     gap: 0px;
   }
+
+  .doe-section {
+    margin-left: -3.5%;
+  }
 }
 
 /* =======================
@@ -792,7 +796,7 @@ header h1 em {
 
 @media (max-width: 450px) {
   .onda-section {
-    margin-left: -5%;
+    margin-left: -3.5%;
   }
 }
 
@@ -1108,6 +1112,7 @@ header h1 em {
   .lar {
     margin-top: -84%;
     height: 130vh;
+    margin-left: -3.5%;
   }
 }
 
@@ -1210,7 +1215,7 @@ header h1 em {
 
 @media (max-width: 450px) {
   .gato-adulto-section {
-    margin-left: -5%;
+    margin-left: -3.5%;
   }
 }
 
