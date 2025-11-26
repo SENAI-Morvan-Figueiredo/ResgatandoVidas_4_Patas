@@ -10,27 +10,13 @@
   --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* --- Header Styles Atualizados --- */
-.header-container {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-}
-
-.header-container img {
-    display: block;
-    width: 100%;
-    height: 170px;
-    max-height: 100vh; /* Garante que não ultrapasse a tela em altura */
-}
-
 /* ===========================
    NAV RIGHT (ícone usuário)
 =========================== */
 .nav-right {
   position: absolute;
-  top: 2rem;
-  right: 6rem;
+  top: 2.5rem;
+  right: 5rem;
   z-index: 2000;
 }
 
@@ -68,7 +54,6 @@
 /* Dropdown do usuário */
 .user-dropdown {
   position: fixed;
-  right: 5rem;
   top: 5.8rem;
   pointer-events: none;
   opacity: 0;
@@ -88,6 +73,7 @@
   box-shadow: 8px 10px 12px rgba(37,59,127,0.12);
   border: 1px solid rgba(79,118,187,0.06);
   width: 12vw;
+  margin-right: -6%;
 }
 
 .user-card-link {
@@ -100,6 +86,8 @@
   font-weight: 500;
   background: rgba(79,118,187,0.03);
   transition: background .12s ease, transform .08s ease;
+
+ 
 }
 .user-card-link:hover {
   background: rgba(79,118,187,0.07);
@@ -242,11 +230,14 @@
   .menu-centralizado { display: none !important; }
   .hamburger { display: flex; }
   .logo-wrap img.logo { width: 100px; }
+
+  .nav-right {
+    right: 8.5rem;
 }
 
-@media (min-width: 901px) {
-  .mobile-nav { display: none; }
-  .hamburger { display: none; }
+.user-card {
+  margin-right: 1%;
+}
 }
 
 @media (max-width: 1400px) {
@@ -282,12 +273,12 @@
 
 @media (max-width: 768px) {
   .nav-right .user-circle {
-margin-top: -30%;
-  margin-left: 120%;
+    margin-top: -30%;
+    margin-left: 120%;
 }
 
 .user-dropdown {
-  right: 1rem;
+  right: 2rem;
 }
 }
 
@@ -298,12 +289,12 @@ margin-top: -30%;
 }
 
 .nav-right .user-circle {
-  margin-top: -3%;
+  margin-top: -20%;
   margin-left: 150%;
 }
 
 .user-dropdown {
-  right: -1rem;
+  right: 2rem;
 }
 
 .mobile-nav {
@@ -313,16 +304,14 @@ margin-top: -30%;
 }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 400px) {
+.nav-right .user-circle {
+  margin-left: 200%;
+}
+
 .user-dropdown {
   right: 1rem;
   width: 110px;
-}
-
-.mobile-nav {
-  top: 550px;
-  height: 44vh; 
-  padding: 20px 22px;
 }
 }
 

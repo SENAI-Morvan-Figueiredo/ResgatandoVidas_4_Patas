@@ -304,7 +304,7 @@
 }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 400px) {
 .nav-right .user-circle {
   margin-left: 200%;
 }
@@ -313,9 +313,9 @@
   right: 1rem;
   width: 110px;
 }
+}
 
 .mobile-backdrop[aria-hidden="true"] {
     opacity: 0;
     pointer-events: none; 
-}
 }
