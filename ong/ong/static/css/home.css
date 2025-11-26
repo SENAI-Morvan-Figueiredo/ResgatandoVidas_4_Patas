@@ -711,7 +711,7 @@ header h1 em {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   .doe-wrapper {
     gap: 0px;
   }
@@ -790,7 +790,7 @@ header h1 em {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   .onda-section {
     margin-left: -5%;
   }
@@ -1104,10 +1104,16 @@ header h1 em {
   }
 }
 
+@media (max-width: 450px) {
+  .lar {
+    margin-top: -84%;
+    height: 130vh;
+  }
+}
+
 @media (max-width: 400px) {
   .lar {
     margin-top: -86%;
-    height: 130vh;
   }
 }
 
@@ -1202,7 +1208,7 @@ header h1 em {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   .gato-adulto-section {
     margin-left: -5%;
   }
@@ -1310,7 +1316,7 @@ header h1 em {
   }
 }
 
-@media (max-width: 400px){
+@media (max-width: 450px){
   .btn-adotar {
     margin-top: 0%;
 }
