@@ -135,35 +135,3 @@ body {
     gap: 5px;
     z-index: 20; /* Garante que o link "Voltar" fique acima de tudo */
 }
-
-/* ===== AJUSTE DA CAIXA DE LOGIN ===== */
-.login-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-/* Mantém a borda fina original */
-.login-container {
-    width: 100%;
-
-    /* Ativa quebra de texto */
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-}
-
-/* Inputs 100% e responsivos */
-.login-container input {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* Ajusta título em telas pequenas */
-@media (max-width: 480px) {
-    .login-container h2 {
-        font-size: 1.2rem;
-        text-align: center;
-    }
-}
