@@ -705,6 +705,12 @@ header h1 em {
   }
 }
 
+@media (max-width: 390px) {
+  .doe-wrapper {
+    gap: 0px;
+  }
+}
+
 /* =======================
   ONDA SEPARADORA 
 ======================= */
@@ -769,6 +775,12 @@ header h1 em {
   .onda-section {
     margin-left: -3%;
     margin-top: 8%;
+  }
+}
+
+@media (max-width: 390px) {
+  .onda-section {
+    margin-left: -5%;
   }
 }
 
@@ -1072,6 +1084,13 @@ header h1 em {
   }
 }
 
+@media (max-width: 390px) {
+  .lar {
+    margin-top: -86%;
+    height: 130vh;
+  }
+}
+
 @media (max-width: 350px) {
   .lar {
     margin-top: -89%;
@@ -1157,7 +1176,7 @@ header h1 em {
   }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 390px) {
   .gato-adulto-section {
     margin-left: -5%;
   }
@@ -1263,6 +1282,12 @@ header h1 em {
   .btn-adotar {
     font-size: 13px;
   }
+}
+
+@media (max-width: 390px){
+  .btn-adotar {
+    margin-top: 0%;
+}
 }
 
 /* =======================

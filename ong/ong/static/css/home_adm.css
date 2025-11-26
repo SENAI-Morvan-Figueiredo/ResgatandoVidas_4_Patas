@@ -313,6 +313,19 @@ margin-top: -30%;
 }
 }
 
+@media (max-width: 390px) {
+.user-dropdown {
+  right: 1rem;
+  width: 110px;
+}
+
+.mobile-nav {
+  top: 550px;
+  height: 44vh; 
+  padding: 20px 22px;
+}
+}
+
 .mobile-backdrop[aria-hidden="true"] {
     opacity: 0;
     pointer-events: none; 

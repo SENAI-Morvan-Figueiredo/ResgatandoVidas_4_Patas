@@ -1,6 +1,5 @@
 /* Css da página dashboard_admin_adocoes - dashboard_admin_adotados - dashboard_admin_lar_temporario
-Página do dashboard de mostra os gatos para adoção */
-
+   Página do dashboard de mostra os gatos para adoção */
 
 /* Fundo da página */
 body {
@@ -8,14 +7,12 @@ body {
     font-family: "Inter", sans-serif;
 }
 
-
 /* Caixa branca que engloba tudo */
 .bg-white {
     background: #fff;
     border-radius: 20px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
-
 
 /* ====== Título ====== */
 h2 {
@@ -27,14 +24,12 @@ h2 {
     color: #4F76BB !important;
 }
 
-
 /* ====== Cards ====== */
 .card {
     border-radius: 16px;
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     border: 1px solid #e6e9f2;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    /* sombra suave */
 }
 
 .card:hover {
@@ -54,7 +49,6 @@ h2 {
     color: #4F76BB;
 }
 
-
 /* ====== Botão adicionar ====== */
 .btn-danger {
     background-color: #F58285 !important;
@@ -69,7 +63,6 @@ h2 {
     transform: scale(1.05);
 }
 
-
 /* ====== Campos de pesquisa ====== */
 .form-control,
 .form-select {
@@ -83,7 +76,6 @@ h2 {
     border-color: #4F76BB;
     box-shadow: 0 0 0 0.2rem rgba(79, 118, 187, 0.25);
 }
-
 
 /* ====== Botões de ação nos cards (editar/excluir) ====== */
 .card .btn-light {
@@ -100,7 +92,6 @@ h2 {
     font-size: 0.9rem;
 }
 
-
 /* Campos de pesquisa menores */
 .search-input {
     font-size: 0.9rem;
@@ -111,14 +102,11 @@ h2 {
     box-shadow: none;
 }
 
-
 /* Placeholder menor - Filtro_Nome */
 .search-input::placeholder {
     font-size: 0.85rem;
     color: #4F76BB;
-    /*  Diz respeito a cor da letra */
 }
-
 
 /* Cards dos gatos – sombra suave e elegante */
 .row.g-4>.col-lg-3>.card,
@@ -128,7 +116,6 @@ h2 {
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     border: 1px solid #e6e9f2;
     box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.08);
-    /* sombra suave, leve e elegante */
 }
 
 .row.g-4>.col-lg-3>.card:hover,
@@ -136,14 +123,11 @@ h2 {
 .row.g-4>.col-sm-6>.card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    /* leve aumento no hover */
 }
 
 .container.py-4 {
     padding-bottom: 0 !important;
-    /* remove o padding interno extra */
     margin-bottom: 0 !important;
-    /* remove a margem externa */
 }
 
 /* -------- Model dos detalhes do gato */
@@ -153,6 +137,7 @@ h2 {
     border-radius: 5px !important;
     overflow: hidden;
     padding-top: 0;
+    box-sizing: border-box;
 }
 
 /* Imagem do Model */
@@ -163,6 +148,7 @@ h2 {
     border-radius: 10px;
 }
 
+/* Ícone finalizar (no card) */
 .icone-finalizar {
     position: absolute;
     bottom: 46px;
@@ -192,7 +178,6 @@ h2 {
     transition: all 0.2s ease;
 }
 
-/* Caixas com informações das tabelas auxiliares com houver*/
 #modalDetalhes .tag:hover {
     background-color: #F58285;
     color: #fff;
@@ -210,6 +195,7 @@ h2 {
     font-size: 2rem;
 }
 
+/* Ajustes para título e nomes longos dentro do card */
 .card-body > .d-flex.justify-content-between {
     display: flex;
     flex-wrap: wrap;        
@@ -227,14 +213,12 @@ h2 {
     margin-right: 0.5rem;
 }
 
-
 #caixinhas {
     display: flex;
     flex: 0 0 auto;        
     gap: 0.35rem;
     align-items: center;
 }
-
 
 .card .btn-light img {
     width: 30px;
@@ -253,7 +237,6 @@ h2 {
     }
 }
 
-
 #modalDetalhes h6 {
     color: #F58285;
     font-weight: 700;
@@ -264,7 +247,6 @@ h2 {
 #modalInfo {
     color: #96B3E5 !important;
 }
-
 
 #modalHistoria {
     color: #4F76BB !important;
@@ -310,10 +292,9 @@ h2 {
     }
 }
 
-
-/* ============================
+/* =========================
    BLOCO AZUL DE CADA LINHA
-   ============================ */
+   ========================= */
 
 .mt-4 h5 {
     display: flex;
@@ -327,7 +308,7 @@ h2 {
     background: rgb(232, 235, 255);
     color: #4F76BB;
     padding: 8px 8px;
-    width: 80%;                 /* TODOS IGUAIS */
+    width: 80%;
     font-weight: 600;
     font-size: 1rem;
     box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
@@ -338,10 +319,9 @@ h2 {
 .caixa-lar {
     display: flex;
     flex-direction: column;
-    align-items: center;         /* CENTRALIZA TUDO */
+    align-items: center;
     margin-bottom: 0;
 }
-
 
 /* Quando não tiver lar/histórico */
 #modalLarAtual .text-muted,
@@ -350,97 +330,131 @@ h2 {
     margin-top: 10px;
 }
 
+/* -------------------------
+   BOTOES LAR - RESPONSIVOS
+   ------------------------- */
 
 /* Container para alinhar os botões */
 .botoes-lar {
     display: flex;
     justify-content: center;
-    gap: 20px;           /* espaço entre os botões */
+    gap: 12px;               /* espaço entre botões */
+    flex-wrap: wrap;         /* permite quebra de linha */
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 6px;
 }
 
-/* Botão azul (Editar) */
-.btn-editar {
+/* Estilo base unificado para todos os botões da lista */
+.botoes-lar .btn-editar,
+.botoes-lar .btn-excluir,
+.botoes-lar .btn-finalizar,
+.botoes-lar a.btn-finalizar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;        /* largura mínima agradável em desktop */
+    max-width: 100%;
+    padding: 8px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    text-decoration: none;   /* para <a> */
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* cores separados (mantive as suas) */
+.botoes-lar .btn-editar {
     background-color: #076ec2c0;
-    color: white;
-    border: none;
-    padding: 8px 30px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
-    transition: 0.2s ease;
-    margin: 10px;
-    margin-bottom: 15px;
+    color: #fff;
 }
+.botoes-lar .btn-editar:hover { background-color: #076ec2; }
 
-/* Hover azul */
-.btn-editar:hover {
-    background-color: #076ec2;
-}
-
-/* Botão vermelho (Excluir) */
-.btn-excluir {
+.botoes-lar .btn-excluir {
     background-color: #a30000b0;
-    color: white;
-    border: none;
-    padding: 8px 30px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
-    transition: 0.2s ease;
-    margin: 10px;
-    margin-bottom: 15px;
+    color: #fff;
 }
+.botoes-lar .btn-excluir:hover { background-color: #a30000; }
 
-/* Hover vermelho */
-.btn-excluir:hover {
-    background-color: #a30000;
-}
-
-/* Botão verde (Finalizar) */
-.btn-finalizar {
+.botoes-lar .btn-finalizar,
+.botoes-lar a.btn-finalizar {
     background-color: #227b0cd0;
-    color: white;
-    border: none;
-    padding: 8px 30px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
-    transition: 0.2s ease;
-    margin: 10px;
-    margin-bottom: 15px;
+    color: #fff;
+}
+.botoes-lar .btn-finalizar:hover,
+.botoes-lar a.btn-finalizar:hover { background-color: #227b0c; }
+
+/* pequenos ajustes visuais para quando o botão tiver ícone */
+.botoes-lar .btn-editar img,
+.botoes-lar .btn-excluir img,
+.botoes-lar .btn-finalizar img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    margin-right: 8px;
 }
 
-/* Hover verde */
-.btn-finalizar:hover {
-    background-color: #227b0c;
+/* ===== RESPONSIVIDADE ===== */
+
+/* telas médias: reduzir padding e min-width */
+@media (max-width: 768px) {
+    .botoes-lar .btn-editar,
+    .botoes-lar .btn-excluir,
+    .botoes-lar .btn-finalizar,
+    .botoes-lar a.btn-finalizar {
+        min-width: 100px;
+        padding: 8px 14px;
+        font-size: 0.95rem;
+    }
 }
 
-/* ===================== Ajustes de responsividade do modal ===================== */
-
-/* Limita a altura da área rolável do modal para caber na tela */
-.modal-dialog-scrollable .modal-body {
-    max-height: calc(100vh - 220px); /* deixa espaço para header/footer e margem */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* rolagem mais suave em mobile */
-    padding-right: 1rem; /* evita que o scroll "coma" texto */
+/* telas pequenas (mobile): empilhar verticalmente e botões full-width */
+@media (max-width: 480px) {
+    .botoes-lar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    .botoes-lar .btn-editar,
+    .botoes-lar .btn-excluir,
+    .botoes-lar .btn-finalizar,
+    .botoes-lar a.btn-finalizar {
+        width: 100%;
+        min-width: 0;
+        padding: 12px 14px;
+        font-size: 1rem;
+    }
 }
 
-/* Força quebra adequada de palavras e preserva quebras de texto longas */
-#modalHistoria,
-#modalHistoria p,
-#modalHistoria span {
-    white-space: pre-wrap;      /* preserva quebras e permite quebra automática */
-    overflow-wrap: break-word;  /* quebra palavras longas */
-    word-break: break-word;     /* fallback para navegadores */
+/* quando quiser que o grupo fique mais estreito em modais muito pequenos */
+@media (max-width: 360px) {
+    .botoes-lar .btn-editar,
+    .botoes-lar .btn-excluir,
+    .botoes-lar .btn-finalizar,
+    .botoes-lar a.btn-finalizar {
+        font-size: 0.95rem;
+        padding: 10px 12px;
+    }
 }
 
-/* Garante que tags/details quebrem linha corretamente e não extrapolem */
+/* foco acessível */
+.botoes-lar .btn-editar:focus,
+.botoes-lar .btn-excluir:focus,
+.botoes-lar .btn-finalizar:focus,
+.botoes-lar a.btn-finalizar:focus {
+    outline: 3px solid rgba(34,123,12,0.18);
+    outline-offset: 2px;
+}
+
+/* -------------------------
+   FIM BOTOES LAR
+   ------------------------- */
+
 #modalDetalhes {
     display: flex;
     flex-wrap: wrap;
@@ -467,12 +481,10 @@ h2 {
         max-width: 92%;
         margin: 1.5rem;
     }
-    /* Força a imagem ficar menor para caber em uma coluna empilhada */
     #modalGato #modalImagem {
         max-width: 220px;
         margin-bottom: 0.75rem;
     }
-    /* Ajuste de fontes para caber melhor */
     #modalNome { font-size: 1.5rem; }
     #modalHistoria { font-size: 0.95rem; }
 }
@@ -488,12 +500,24 @@ h2 {
     }
     #modalNome { font-size: 1.25rem; }
     #modalHistoria { font-size: 0.9rem; }
-    .btn-fechar-modal { top: 16px; right: 16px; } /* botão fechar não fica fora */
+    .btn-fechar-modal { top: 16px; right: 16px; }
 }
 
-/* Remove padding extra que pode somar com o overflow e esconder conteúdo */
-.modal-content {
-    box-sizing: border-box;
+/* Limita a altura da área rolável do modal para caber na tela */
+.modal-dialog-scrollable .modal-body {
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 1rem;
+}
+
+/* Força quebra adequada de palavras e preserva quebras de texto longas */
+#modalHistoria,
+#modalHistoria p,
+#modalHistoria span {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 /* Pequeno ajuste para evitar que títulos e infos quebrem de forma estranha */
@@ -519,14 +543,13 @@ h2 {
 
 @media (max-width: 576px) {
     .btn-danger {
-        width: 100%;               /* ocupa a linha toda */
+        width: 100%;
         text-align: center;
         margin-top: 10px;
         font-size: 1rem;
         border-radius: 12px;
     }
 
-    /* Título + botão não fica apertado */
     .d-flex.justify-content-between {
         flex-direction: column;
         align-items: flex-start !important;

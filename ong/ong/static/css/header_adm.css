@@ -304,24 +304,18 @@
 }
 }
 
-@media (max-width: 300px) {
+@media (max-width: 390px) {
 .nav-right .user-circle {
   margin-left: 200%;
 }
 
 .user-dropdown {
-  right: 2rem;
-  width: 170px;
-}
-
-.mobile-nav {
-  top: 550px;
-  height: 44vh; 
-  padding: 20px 22px;
-}
+  right: 1rem;
+  width: 110px;
 }
 
 .mobile-backdrop[aria-hidden="true"] {
     opacity: 0;
     pointer-events: none; 
+}
 }
