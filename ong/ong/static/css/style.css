@@ -1,7 +1,19 @@
 html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+main.flex-fill {
+    flex: 1;
+}
+
 
 /* --- Header Styles Atualizados --- */
 .header-container {
@@ -431,12 +443,3 @@ html, body {
 }
 }
 
-footer, .footer-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999;
- 
-    overflow: hidden;
-}
