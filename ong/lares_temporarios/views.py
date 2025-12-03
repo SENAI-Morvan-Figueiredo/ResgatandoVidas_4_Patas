@@ -372,7 +372,7 @@ def editar_lar_temporario(request, tipo, pk):
         "gato_selecionado": obj.gato if tipo=="atual" else None,
         "lar_selecionado": obj.lar_temporario if tipo=="atual" else None,
     }
-    return render(request, "gatos/registrar_lar_temporario.html", context)
+    return render(request, "lares/temporarios/registrar_lar_temporario.html", context)
 
 
 # ---------------------------------------------------------------------------------------- Da tela formulario_lar_temporario
@@ -429,4 +429,4 @@ def registrar_lar_temporario(request):
         "lares": LarTemporario.objects.all(),
     }
 
-    return render(request, "gatos/registrar_lar_temporario.html", context)
+    return render(request, "lares/temporarios/registrar_lar_temporario.html", context)

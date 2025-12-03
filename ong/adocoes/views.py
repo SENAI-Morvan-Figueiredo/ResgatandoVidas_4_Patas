@@ -378,7 +378,7 @@ def registrar_adocao(request):
         "adotantes": Adocao.objects.all(),  
     }
 
-    return render(request, "gatos/registrar_adocao.html", context)
+    return render(request, "adocoes/registrar_adocao.html", context)
 
 
 
