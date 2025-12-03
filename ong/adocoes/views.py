@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from datetime import datetime
-from gatos.models import LarTemporarioAtual
+from lares_temporarios.models import LarTemporarioAtual
 
 logger = logging.getLogger(__name__)
 
@@ -346,7 +346,7 @@ def registrar_adocao(request):
         
         if Adotados.objects.filter(gato=gato).exists():
             messages.warning(request, f"O gato {gato.nome} já foi adotado!")
-            return redirect("gatos:dashboard_admin_adocoes")
+            return redirect("dashboard_admin_adocoes")
 
         # --- registro da adoção ---
         Adotados.objects.create(
@@ -364,7 +364,7 @@ def registrar_adocao(request):
         LarTemporarioAtual.objects.filter(gato=gato).delete()
 
         messages.success(request, "Adoção registrada com sucesso!")
-        return redirect("gatos:dashboard_admin_adocoes")
+        return redirect("dashboard_admin_adocoes")
 
     # ---------------- GET ----------------
 
