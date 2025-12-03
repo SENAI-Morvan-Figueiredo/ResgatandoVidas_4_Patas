@@ -21,7 +21,7 @@ Página do dashboard que mostra os gatos para Lar Temporário -->
                 <h2 class="fw-bold text-primary">Gerenciar Gatos para Lar Temporário</h2>
                 <p class="subtitle-custom mb-0">Adicione, edite ou remova gatos para Lar Temporário</p>
             </div>
-            <a href="{% url 'gatos:registrar_lar_temporario' %}" class="btn btn-danger fw-bold shadow-sm rounded-3"> + Registrar Lar Temporário </a>
+            <a href="{% url 'lares_temporarios:registrar_lar_temporario' %}" class="btn btn-danger fw-bold shadow-sm rounded-3"> + Registrar Lar Temporário </a>
         </div> 
 
         <!-- Barra de pesquisa e filtros -->
@@ -96,7 +96,7 @@ Página do dashboard que mostra os gatos para Lar Temporário -->
 
                     <!-- Icone de Finalizar Lar Temporario -->
                     {% if gato.em_lar %}
-                        <a href="{% url 'gatos:finalizar_lar_temporario' gato.id %}" class="icone-finalizar">
+                        <a href="{% url 'lares_temporarios:finalizar_lar_temporario' gato.id %}" class="icone-finalizar">
                             <img src="{% static 'img/finalizar-check.png' %}" alt="Finalizar">
                         </a>
                     {% endif %}
@@ -375,14 +375,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (btnEditarLarAtual) {
             btnEditarLarAtual.addEventListener("click", () => {
                 const larId = card.dataset.larAtualId;
-                window.location.href = `/gatos/editar/atual/${larId}/`;
+                window.location.href = `/lares_temporarios/editar/atual/${larId}/`;
             });
         }
 
         // 🔥 AGORA que os botões existem, pegamos o "Finalizar"
         const btnFinalizar = modalLarAtual.querySelector(".btn-finalizar");
         if (btnFinalizar) {
-            btnFinalizar.href = `/gatos/finalizar/${card.dataset.id}/`;
+            btnFinalizar.href = `/lares_temporarios/finalizar/${card.dataset.id}/`;
         }
 
     } else {
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modalHistorico.querySelectorAll(".btn-editar").forEach(btn => {
             btn.addEventListener("click", () => {
                 const id = btn.dataset.id;
-                window.location.href = `/gatos/editar/historico/${id}/`;
+                window.location.href = `/lares_temporarios/editar/historico/${id}/`;
             });
         });
 
@@ -466,8 +466,8 @@ document.addEventListener("click", function(e) {
         if (!confirmDelete) return;
 
         const url = ehLarAtual
-            ? `/gatos/excluir_lar_temporario_atual_ajax/${id}/`
-            : `/gatos/excluir_historico_lar_temporario_ajax/${id}/`;
+            ? `/lares_temporarios/excluir_lar_temporario_atual_ajax/${id}/`
+            : `/lares_temporarios/excluir_historico_lar_temporario_ajax/${id}/`;
 
         fetch(url, {
             method: "POST",

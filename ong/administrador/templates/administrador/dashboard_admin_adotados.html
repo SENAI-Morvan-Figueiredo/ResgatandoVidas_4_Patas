@@ -21,7 +21,7 @@ Página do dashboard de mostra os gatos que estão adotados -->
                 <h2 class="fw-bold text-primary">Gerenciar Gato Adotados</h2>
                 <p class="subtitle-custom mb-0">Adicione, edite ou remova  gatos Adotados</p>
             </div>
-            <a href="{% url 'gatos:registrar_adocao' %}" class="btn btn-danger fw-bold shadow-sm rounded-3"> + Registrar adoção </a>
+            <a href="{% url 'adocoes:registrar_adocao' %}" class="btn btn-danger fw-bold shadow-sm rounded-3"> + Registrar adoção </a>
         </div> 
 
         <!-- Barra de pesquisa e filtros -->
@@ -191,7 +191,7 @@ Página do dashboard de mostra os gatos que estão adotados -->
                 const gatoNome = this.dataset.nome;
 
                 if (confirm(`Tem certeza que deseja excluir o registro de adoção do gato ${gatoNome}?`)) {
-                    fetch(`/gatos/excluir_adotado_ajax/${adotadoId}/`, {
+                    fetch(`/adocoes/excluir_adotado_ajax/${adotadoId}/`, {
                         method: "POST",
                         headers: {
                             "X-CSRFToken": "{{ csrf_token }}",
