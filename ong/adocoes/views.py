@@ -381,11 +381,10 @@ def registrar_adocao(request):
     return render(request, "adocoes/registrar_adocao.html", context)
 
 
-
 @login_required(login_url='login')
-def editar_adocao(request, adotado_id):
+def editar_adocao(request, pk):
 
-    adotado = get_object_or_404(Adotados, id=adotado_id)
+    adotado = get_object_or_404(Adotados, id=pk)
 
     if request.method == "POST":
         gato_id = request.POST.get("gato")
@@ -396,18 +395,15 @@ def editar_adocao(request, adotado_id):
         novo_gato = get_object_or_404(Gato, id=gato_id)
         novo_adotante = get_object_or_404(Adocao, id=adotante_id)
 
-        # Se o gato foi trocado, garantir que o novo não seja adotado
         if novo_gato != adotado.gato:
             if Adotados.objects.filter(gato=novo_gato).exists():
                 messages.warning(request, f"O gato {novo_gato.nome} já foi adotado!")
                 return redirect("administrador:dashboard_admin_adocoes")
 
-            # liberar o gato antigo
             antigo_gato = adotado.gato
             antigo_gato.adotado = False
             antigo_gato.save()
 
-            # marcar o novo como adotado
             novo_gato.adotado = True
             novo_gato.save()
 
@@ -423,11 +419,8 @@ def editar_adocao(request, adotado_id):
         messages.success(request, "Adoção atualizada com sucesso!")
         return redirect("administrador:dashboard_admin_adocoes")
 
-    # --- GET ---
-
     gatos_adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
 
-    # Gatos disponíveis + o gato atual
     gatos_disponiveis = Gato.objects.exclude(id__in=gatos_adotados_ids).union(
         Gato.objects.filter(id=adotado.gato.id)
     )
@@ -435,7 +428,7 @@ def editar_adocao(request, adotado_id):
     context = {
         "gatos": gatos_disponiveis,
         "adotantes": Adocao.objects.all(),
-        "adotado": adotado  # ← indica ao template que é edição
+        "adotado": adotado
     }
 
     return render(request, "adocoes/registrar_adocao.html", context)
