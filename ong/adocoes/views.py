@@ -382,6 +382,64 @@ def registrar_adocao(request):
 
 
 
+@login_required(login_url='login')
+def editar_adocao(request, adotado_id):
+
+    adotado = get_object_or_404(Adotados, id=adotado_id)
+
+    if request.method == "POST":
+        gato_id = request.POST.get("gato")
+        adotante_id = request.POST.get("adotante")
+        data_inicio = request.POST.get("data_inicio")
+        foto = request.FILES.get("foto")
+
+        novo_gato = get_object_or_404(Gato, id=gato_id)
+        novo_adotante = get_object_or_404(Adocao, id=adotante_id)
+
+        # Se o gato foi trocado, garantir que o novo não seja adotado
+        if novo_gato != adotado.gato:
+            if Adotados.objects.filter(gato=novo_gato).exists():
+                messages.warning(request, f"O gato {novo_gato.nome} já foi adotado!")
+                return redirect("administrador:dashboard_admin_adocoes")
+
+            # liberar o gato antigo
+            antigo_gato = adotado.gato
+            antigo_gato.adotado = False
+            antigo_gato.save()
+
+            # marcar o novo como adotado
+            novo_gato.adotado = True
+            novo_gato.save()
+
+        adotado.gato = novo_gato
+        adotado.adocao = novo_adotante
+        adotado.data_inicio = data_inicio
+
+        if foto:
+            adotado.imagem = foto
+
+        adotado.save()
+
+        messages.success(request, "Adoção atualizada com sucesso!")
+        return redirect("administrador:dashboard_admin_adocoes")
+
+    # --- GET ---
+
+    gatos_adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
+
+    # Gatos disponíveis + o gato atual
+    gatos_disponiveis = Gato.objects.exclude(id__in=gatos_adotados_ids).union(
+        Gato.objects.filter(id=adotado.gato.id)
+    )
+
+    context = {
+        "gatos": gatos_disponiveis,
+        "adotantes": Adocao.objects.all(),
+        "adotado": adotado  # ← indica ao template que é edição
+    }
+
+    return render(request, "adocoes/registrar_adocao.html", context)
+
 # -------------------------------------------------------------------------------------------------- Da tela dashboard_admin_adotados
 
 # -----------------------------------------------------------------------------

@@ -8,7 +8,9 @@
 <a href="{% url 'administrador:dashboard_admin_adotados' %}" class="back-link">&larr; Voltar</a>
 
 <div class="form-container">
-    <h1 class="form-title">REGISTRAR UMA ADOÇÃO</h1>
+    <h1 class="form-title">
+    {% if adotado %}EDITAR ADOÇÃO{% else %}REGISTRAR UMA ADOÇÃO{% endif %}
+    </h1>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -17,7 +19,8 @@
         <select name="gato" required>
             <option value="">Selecione o gato</option>
             {% for gato in gatos %}
-                <option value="{{ gato.id }}">
+                <option value="{{ gato.id }}"
+                    {% if adotado and adotado.gato.id == gato.id %}selected{% endif %}>
                     {{ gato.nome }}
                     {% if gato.lar_temporario %}(Em Lar Temporário){% endif %}
                 </option>
@@ -28,14 +31,18 @@
         <select name="adotante" required>
             <option value="">Selecione o adotante</option>
             {% for adotante in adotantes %}
-                <option value="{{ adotante.id }}">
+                <option value="{{ adotante.id }}"
+                    {% if adotado and adotado.adocao.id == adotante.id %}selected{% endif %}>
                     {{ adotante.nome }} — {{ adotante.email }}
                 </option>
             {% endfor %}
         </select>
 
         <label>Início</label>
-        <input type="date" name="data_inicio" required>
+        <input type="date" name="data_inicio"
+            value="{% if adotado %}{{ adotado.data_inicio|date:'Y-m-d' }}{% endif %}"
+            required>
+
 
         <label>Foto do gato</label>
         <input type="file" name="foto">
