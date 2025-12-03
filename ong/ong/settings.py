@@ -73,7 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                "gatos.context_processors.dashboard_totals", # content processor - Para a funcionalidade de Quantidade do DashBoard
+                "administrador.context_processors.dashboard_totals", # content processor - Para a funcionalidade de Quantidade do DashBoard
             ],
         },
     },
