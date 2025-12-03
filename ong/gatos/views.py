@@ -47,7 +47,7 @@ def adicionar_gato(request):
             gato.moradia = moradia
             gato.save() # Após todos as informações inseridas, salva no bd
 
-            return redirect('dashboard_admin_adocoes') # Se tudo der certinho, vai te redirecionar para a tela de dashboard_admin_adocoes
+            return redirect('administrador:dashboard_admin_adocoes') # Se tudo der certinho, vai te redirecionar para a tela de dashboard_admin_adocoes
 
     # Caso não seja o método POST - Cria todos os formulários vazios, prontos para preenchimento.
     else:
@@ -104,7 +104,7 @@ def editar_gato(request, gato_id):
             temperamento_form.save()
             sociavel_form.save()
             moradia_form.save()
-            return redirect('dashboard_admin_adocoes')
+            return redirect('administrador:dashboard_admin_adocoes')
 
     # Caso não seja o método POST - Cria todos os formulários preenchidos com os dados existentes.
     else:

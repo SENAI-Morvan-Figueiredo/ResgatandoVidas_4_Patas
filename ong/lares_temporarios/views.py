@@ -10,6 +10,7 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from .forms import LarTemporarioAtualForm, HistoricoLarTemporarioForm
 
 logger = logging.getLogger(__name__)
 
@@ -285,7 +286,7 @@ def finalizar_lar_temporario(request, gato_id):
 
     messages.success(request, "Lar temporário finalizado e movido para o histórico.")
 
-    return redirect("dashboard_admin_lar_temporario")
+    return redirect("administrador:dashboard_admin_lar_temporario")
 
 # ---------------------------------------------------------------------------------------------
 # Função para apagar o registro de lar_temporario_atual de um gato - caso coloque sem querer
@@ -359,7 +360,7 @@ def editar_lar_temporario(request, tipo, pk):
         if form.is_valid():
             form.save()
             messages.success(request, "Alterações salvas!")
-            return redirect("dashboard_admin_lar_temporario")
+            return redirect("administrador:dashboard_admin_lar_temporario")
     else:
         form = form_class(instance=obj)
 
@@ -394,7 +395,7 @@ def registrar_lar_temporario(request):
         # Verifica se já está em lar atual
         if LarTemporarioAtual.objects.filter(gato=gato).exists():
             messages.warning(request, f"O gato {gato.nome} já está em um lar temporário ativo.")
-            return redirect("dashboard_admin_lar_temporario")
+            return redirect("administrador:dashboard_admin_lar_temporario")
 
         # Cria lar atual
         lar_atual = LarTemporarioAtual.objects.create(
@@ -409,7 +410,7 @@ def registrar_lar_temporario(request):
 
 
         messages.success(request, "Lar temporário registrado com sucesso!")
-        return redirect("dashboard_admin_lar_temporario")
+        return redirect("administrador:dashboard_admin_lar_temporario")
 
     # --------------------------
 

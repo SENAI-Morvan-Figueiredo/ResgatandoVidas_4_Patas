@@ -346,7 +346,7 @@ def registrar_adocao(request):
         
         if Adotados.objects.filter(gato=gato).exists():
             messages.warning(request, f"O gato {gato.nome} já foi adotado!")
-            return redirect("dashboard_admin_adocoes")
+            return redirect("administrador:dashboard_admin_adocoes")
 
         # --- registro da adoção ---
         Adotados.objects.create(
@@ -364,7 +364,7 @@ def registrar_adocao(request):
         LarTemporarioAtual.objects.filter(gato=gato).delete()
 
         messages.success(request, "Adoção registrada com sucesso!")
-        return redirect("dashboard_admin_adocoes")
+        return redirect("administrador:dashboard_admin_adocoes")
 
     # ---------------- GET ----------------
 
