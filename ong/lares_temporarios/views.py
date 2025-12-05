@@ -294,31 +294,27 @@ def finalizar_lar_temporario(request, gato_id):
 # ---------------------------------------------------------------------------------------------
 
 @login_required(login_url='login')
-def excluir_lar_temporario_atual_ajax(request, lar_atual_id): # <-- MUDANÇA AQUI
+def excluir_lar_temporario_atual_ajax(request, lar_atual_id):
     if request.method == "POST":
         try:
-            # 1. Tenta obter o registro do Lar Temporário Atual usando o ID do registro
-            lar_atual = LarTemporarioAtual.objects.get(id=lar_atual_id) # <-- MUDANÇA AQUI
-            gato = lar_atual.gato
+            # 1. Tenta obter o registro do Lar Temporário Atual
+            lar_atual = LarTemporarioAtual.objects.get(id=lar_atual_id)
+            # gato = lar_atual.gato  # Não precisamos mais do gato se não vamos atualizá-lo
 
             # 2. Executa a exclusão
             lar_atual.delete()
 
-            # 3. Atualiza o status do Gato
-            gato.lar_temporario = False
-            gato.save()
-
-            # 4. Retorna sucesso
+            # 3. Retorna sucesso
             return JsonResponse({
                 "status": "ok",
-                "mensagem": f"Lar temporário atual do gato {gato.nome} removido!",
+                "mensagem": "Registro de Lar Temporário Atual excluído com sucesso (Status do Gato mantido)!",
                 "atualizado": True
             })
 
         except LarTemporarioAtual.DoesNotExist:
             return JsonResponse({
                 "status": "erro", 
-                "mensagem": "Lar atual não encontrado. (ID: LarTemporarioAtual)", # Mensagem mais clara
+                "mensagem": "Lar atual não encontrado.", 
                 "atualizado": False
             })
         except Exception as e:
