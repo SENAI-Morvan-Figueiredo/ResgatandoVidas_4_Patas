@@ -295,25 +295,49 @@ def finalizar_lar_temporario(request, gato_id):
 
 @login_required(login_url='login')
 def excluir_lar_temporario_atual_ajax(request, gato_id):
+    # A view deve aceitar apenas o método POST (requisição AJAX)
     if request.method == "POST":
         try:
+            # 1. Tenta obter o registro do Lar Temporário Atual
+            # Nota: O ID na URL é o ID do GATO (gato_id), não do objeto LarTemporarioAtual.
             lar_atual = LarTemporarioAtual.objects.get(gato_id=gato_id)
             gato = lar_atual.gato
 
+            # 2. Executa a exclusão
             lar_atual.delete()
 
-            # Atualiza o gato
+            # 3. Atualiza o status do Gato
+            # O gato não está mais em um lar temporário ATUAL.
             gato.lar_temporario = False
             gato.save()
 
+            # 4. Retorna sucesso
             return JsonResponse({
                 "status": "ok",
-                "mensagem": "Lar temporário atual removido!"
+                "mensagem": f"Lar temporário atual do gato {gato.nome} removido com sucesso!",
+                "atualizado": True # Flag útil para o frontend
             })
 
         except LarTemporarioAtual.DoesNotExist:
-            return JsonResponse({"status": "erro", "mensagem": "Lar atual não encontrado."})
+            # Retorna erro se o registro não for encontrado
+            return JsonResponse({
+                "status": "erro",
+                "mensagem": "Lar temporário atual não encontrado.",
+                "atualizado": False
+            })
+        except Exception as e:
+            # Captura outros erros de servidor (ex: erro de banco)
+            return JsonResponse({
+                "status": "erro",
+                "mensagem": f"Erro interno ao excluir: {e}",
+                "atualizado": False
+            })
 
+    # 5. Retorna erro se o método não for POST
+    return JsonResponse({
+        "status": "erro",
+        "mensagem": "Requisição inválida. Use o método POST."
+    }, status=400) # status=400 (Bad Request) ou 405 (Method Not Allowed)
 
 # ---------------------------------------------------------
 # Função para apagar um registro no histórico de um gato
