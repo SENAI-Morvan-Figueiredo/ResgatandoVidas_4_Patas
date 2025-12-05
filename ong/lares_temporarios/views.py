@@ -431,3 +431,12 @@ def registrar_lar_temporario(request):
     }
 
     return render(request, "lares/temporarios/registrar_lar_temporario.html", context)
+
+
+# ---------------------------------------------------------
+# Função para procurar os formularios preenchidos para aquele gato
+# ---------------------------------------------------------
+
+def buscar_lares(request, gato_id):
+    lares = LarTemporario.objects.filter(gato_id=gato_id).values('id', 'nome')
+    return JsonResponse(list(lares), safe=False)

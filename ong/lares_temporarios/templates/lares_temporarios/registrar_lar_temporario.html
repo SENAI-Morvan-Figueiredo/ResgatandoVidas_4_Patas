@@ -32,7 +32,7 @@
 
         <!-- Campo Gato -->
         <label>Gato</label>
-        <select name="gato" class="form-control" required>
+        <select name="gato" id="select-gato" class="form-control" required>
             <option value="">Selecione o gato</option>
             {% for gato in gatos %}
             <option value="{{ gato.id }}" {% if gato_selecionado and gato_selecionado.id == gato.id %}selected{% endif %}>
@@ -43,7 +43,7 @@
 
         <!-- Campo Lar Temporário -->
         <label>Voluntário</label>
-        <select name="lar_temporario" class="form-control" required>
+        <select name="lar_temporario" id="select-lar" class="form-control" required>
             <option value="">Selecione o voluntário</option>
             {% for lar in lares %}
             <option value="{{ lar.id }}" {% if lar_selecionado and lar_selecionado.id == lar.id %}selected{% endif %}>
@@ -72,4 +72,39 @@
         </button>
     </form>
 </div>
+
+<!-- Javascript -->
+
+<!-- ---------------------------------------------------------
+Ajax para carregar os lares temporários disponíveis para o gato selecionado
+--------------------------------------------------------- -->
+
+<script>
+document.getElementById("select-gato").addEventListener("change", function () {
+    let gatoId = this.value;
+    let selectLar = document.getElementById("select-lar");
+
+    // Mostra carregando
+    selectLar.innerHTML = "<option value=''>Carregando...</option>";
+
+    if (!gatoId) {
+        selectLar.innerHTML = "<option value=''>Selecione o voluntário</option>";
+        return;
+    }
+
+    fetch(`/administrador/buscar_lares/${gatoId}/`)
+        .then(response => response.json())
+        .then(data => {
+            selectLar.innerHTML = "<option value=''>Selecione o voluntário</option>";
+
+            data.forEach(l => {
+                let opt = document.createElement("option");
+                opt.value = l.id;
+                opt.textContent = l.nome;
+                selectLar.appendChild(opt);
+            });
+        });
+});
+</script>
+
 {% endblock %}
