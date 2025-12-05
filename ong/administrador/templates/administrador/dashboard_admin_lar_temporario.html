@@ -456,6 +456,10 @@ document.addEventListener("click", function(e) {
 
         // 🔍 Detectar se é LAR ATUAL ou HISTÓRICO
         const ehLarAtual = bloco.parentElement.id === "modalLarAtual";
+        
+        // Adiciona uma referência ao modal para poder escondê-lo
+        const modalElement = document.getElementById('modalGato');
+        const modal = bootstrap.Modal.getInstance(modalElement); 
 
         const confirmDelete = confirm(
             ehLarAtual 
@@ -480,12 +484,21 @@ document.addEventListener("click", function(e) {
         .then(data => {
             if (data.status === "ok") {
 
-                bloco.remove(); // remove a caixinha visual
+                bloco.remove(); // ✅ Remove a caixinha visual
 
                 alert(data.mensagem);
 
                 // Se o lar atual foi removido → recarregar cards
-                if (ehLarAtual) location.reload();
+                if (ehLarAtual) {
+                    location.reload();
+                } else {
+                    // ⭐️ NOVO: Se o histórico foi removido, feche o modal.
+                    if (modal) {
+                         modal.hide();
+                    }
+                    // E recarregue a página após fechar o modal.
+                    location.reload(); 
+                }
 
             } else {
                 alert(data.mensagem);
