@@ -294,51 +294,46 @@ def finalizar_lar_temporario(request, gato_id):
 # ---------------------------------------------------------------------------------------------
 
 @login_required(login_url='login')
-def excluir_lar_temporario_atual_ajax(request, gato_id):
-    # A view deve aceitar apenas o método POST (requisição AJAX)
+def excluir_lar_temporario_atual_ajax(request, lar_atual_id): # <-- MUDANÇA AQUI
     if request.method == "POST":
         try:
-            # 1. Tenta obter o registro do Lar Temporário Atual
-            # Nota: O ID na URL é o ID do GATO (gato_id), não do objeto LarTemporarioAtual.
-            lar_atual = LarTemporarioAtual.objects.get(gato_id=gato_id)
+            # 1. Tenta obter o registro do Lar Temporário Atual usando o ID do registro
+            lar_atual = LarTemporarioAtual.objects.get(id=lar_atual_id) # <-- MUDANÇA AQUI
             gato = lar_atual.gato
 
             # 2. Executa a exclusão
             lar_atual.delete()
 
             # 3. Atualiza o status do Gato
-            # O gato não está mais em um lar temporário ATUAL.
             gato.lar_temporario = False
             gato.save()
 
             # 4. Retorna sucesso
             return JsonResponse({
                 "status": "ok",
-                "mensagem": f"Lar temporário atual do gato {gato.nome} removido com sucesso!",
-                "atualizado": True # Flag útil para o frontend
+                "mensagem": f"Lar temporário atual do gato {gato.nome} removido!",
+                "atualizado": True
             })
 
         except LarTemporarioAtual.DoesNotExist:
-            # Retorna erro se o registro não for encontrado
             return JsonResponse({
-                "status": "erro",
-                "mensagem": "Lar temporário atual não encontrado.",
+                "status": "erro", 
+                "mensagem": "Lar atual não encontrado. (ID: LarTemporarioAtual)", # Mensagem mais clara
                 "atualizado": False
             })
         except Exception as e:
-            # Captura outros erros de servidor (ex: erro de banco)
             return JsonResponse({
                 "status": "erro",
                 "mensagem": f"Erro interno ao excluir: {e}",
                 "atualizado": False
             })
 
-    # 5. Retorna erro se o método não for POST
     return JsonResponse({
         "status": "erro",
         "mensagem": "Requisição inválida. Use o método POST."
-    }, status=400) # status=400 (Bad Request) ou 405 (Method Not Allowed)
-
+    }, status=400)
+    
+    
 # ---------------------------------------------------------
 # Função para apagar um registro no histórico de um gato
 # ---------------------------------------------------------
