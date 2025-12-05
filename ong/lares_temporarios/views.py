@@ -431,7 +431,7 @@ def registrar_lar_temporario(request):
         "lares": LarTemporario.objects.all(),
     }
 
-    return render(request, "lares/temporarios/registrar_lar_temporario.html", context)
+    return render(request, "lares_temporarios/registrar_lar_temporario.html", context)
 
 
 # ---------------------------------------------------------
