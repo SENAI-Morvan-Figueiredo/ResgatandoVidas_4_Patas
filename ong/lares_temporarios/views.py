@@ -293,18 +293,17 @@ def finalizar_lar_temporario(request, gato_id):
 # Função para apagar o registro de lar_temporario_atual de um gato - caso coloque sem querer
 # ---------------------------------------------------------------------------------------------
 
-@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
+@login_required(login_url='login')
 def excluir_lar_temporario_atual_ajax(request, gato_id):
     if request.method == "POST":
         try:
-            lar = LarTemporario.objects.get(id=gato_id)
-            gato = lar.gato
+            lar_atual = LarTemporarioAtual.objects.get(gato_id=gato_id)
+            gato = lar_atual.gato
 
-            lar.delete()
+            lar_atual.delete()
 
             # Atualiza o gato
-            gato.em_lar = False
-            gato.lar_atual = None
+            gato.lar_temporario = False
             gato.save()
 
             return JsonResponse({
@@ -312,8 +311,9 @@ def excluir_lar_temporario_atual_ajax(request, gato_id):
                 "mensagem": "Lar temporário atual removido!"
             })
 
-        except LarTemporario.DoesNotExist:
+        except LarTemporarioAtual.DoesNotExist:
             return JsonResponse({"status": "erro", "mensagem": "Lar atual não encontrado."})
+
 
 # ---------------------------------------------------------
 # Função para apagar um registro no histórico de um gato
@@ -347,7 +347,7 @@ def excluir_historico_lar_temporario_ajax(request, adotado_id):
 # Função para editar um registro no histórico de um gato
 # ---------------------------------------------------------
         
-@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
+@login_required(login_url='login')
 def editar_lar_temporario(request, tipo, pk):
     if tipo == "atual":
         obj = get_object_or_404(LarTemporarioAtual, pk=pk)
@@ -371,9 +371,8 @@ def editar_lar_temporario(request, tipo, pk):
         "tipo": tipo,
         "gatos": Gato.objects.all(),
         "lares": LarTemporario.objects.all(),
-        "gato_selecionado": obj.gato if tipo=="atual" else None,
-        "lar_selecionado": obj.lar_temporario if tipo=="atual" else None,
     }
+
     return render(request, "lares_temporarios/registrar_lar_temporario.html", context)
 
 
