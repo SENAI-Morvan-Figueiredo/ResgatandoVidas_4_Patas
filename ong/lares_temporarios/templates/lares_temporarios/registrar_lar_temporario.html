@@ -27,7 +27,7 @@
         </div>
     {% endif %}
 
-    <form method="post">
+    <form method="post" action="{% url 'lares_temporarios:registrar_lar_temporario' %}">
         {% csrf_token %}
 
         <!-- Campo Gato -->
