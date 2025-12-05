@@ -8,7 +8,7 @@ from administrador.views import login_view, logout_view
 urlpatterns = [
     path("admin/", admin.site.urls),
     
-    path("administrador/", include("administrador.urls")), 
+    path("", include("administrador.urls")), 
     path('adocoes/', include('adocoes.urls', namespace='adocoes')),
     path('doacoes/', views.doacoes, name = "doacoes"),
     path('lares_temporarios/', include('lares_temporarios.urls', namespace='lares_temporarios')),
