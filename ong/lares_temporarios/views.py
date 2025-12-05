@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404 , render , redirect
 from django.contrib import messages
 from .models import LarTemporario , HistoricoLarTemporario , LarTemporarioAtual
 from gatos.models import Gato
+from adocoes.models import Adotados
 from .forms import LarTemporarioForm
 from django.utils import timezone
 from django.core.mail import EmailMessage
