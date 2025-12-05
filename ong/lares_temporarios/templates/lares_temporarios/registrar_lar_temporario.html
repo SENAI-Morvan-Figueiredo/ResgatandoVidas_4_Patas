@@ -16,52 +16,47 @@
         {% endif %}
     </h1>
 
-    {% if messages %}
-        <div class="form-messages">
-            {% for message in messages %}
-                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                    <span class="alert-icon">{% if message.tags == "error" %}⚠️{% else %}✅{% endif %}</span>
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    <form method="post" action="{% url 'lares_temporarios:registrar_lar_temporario' %}">
+    <form method="post" action="
+        {% if lar_temporario %}
+            {% url 'lares_temporarios:editar_lar_temporario' tipo=tipo pk=lar_temporario.pk %}
+        {% else %}
+            {% url 'lares_temporarios:registrar_lar_temporario' %}
+        {% endif %}
+    ">
         {% csrf_token %}
 
-        <!-- Campo Gato -->
         <label>Gato</label>
-        <select name="gato" id="select-gato" class="form-control" required>
+        <select name="{{ form.gato.name }}" id="{{ form.gato.id_for_label }}" class="form-control" required>
             <option value="">Selecione o gato</option>
             {% for gato in gatos %}
-            <option value="{{ gato.id }}" {% if gato_selecionado and gato_selecionado.id == gato.id %}selected{% endif %}>
+            <option value="{{ gato.id }}" 
+                    {% if lar_temporario and lar_temporario.gato.pk == gato.pk %}selected{% endif %}>
                 {{ gato.nome }}
             </option>
             {% endfor %}
         </select>
 
-        <!-- Campo Lar Temporário -->
         <label>Voluntário</label>
-        <select name="lar_temporario" id="select-lar" class="form-control" required>
+        <select name="{{ form.lar_temporario.name }}" id="{{ form.lar_temporario.id_for_label }}" class="form-control" required>
             <option value="">Selecione o voluntário</option>
             {% for lar in lares %}
-            <option value="{{ lar.id }}" {% if lar_selecionado and lar_selecionado.id == lar.id %}selected{% endif %}>
+            <option value="{{ lar.id }}" 
+                    {% if lar_temporario and lar_temporario.lar_temporario.pk == lar.pk %}selected{% endif %}>
                 {{ lar.nome }}
             </option>
             {% endfor %}
         </select>
 
-        <!-- Datas -->
         <label>Início</label>
         <input type="date" name="data_inicio" class="form-control" required
-               value="{{ form.instance.data_inicio|date:'Y-m-d' }}">
-
+               value="{% if lar_temporario.data_inicio %}{{ lar_temporario.data_inicio|date:'Y-m-d' }}{% endif %}">
+        
         {% if tipo == "historico" %}
             <label>Fim</label>
             <input type="date" name="data_fim" class="form-control"
-                   value="{{ form.instance.data_fim|date:'Y-m-d' }}">
+                   value="{% if lar_temporario.data_fim %}{{ lar_temporario.data_fim|date:'Y-m-d' }}{% endif %}">
         {% endif %}
+        
 
         <button type="submit" class="btn-submit">
             {% if lar_temporario %}
