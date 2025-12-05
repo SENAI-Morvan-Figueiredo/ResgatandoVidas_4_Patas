@@ -92,7 +92,7 @@ document.getElementById("select-gato").addEventListener("change", function () {
         return;
     }
 
-    fetch(`/administrador/buscar_lares/${gatoId}/`)
+    fetch(`/lares_temporarios/buscar_lares/${gatoId}/`)
         .then(response => response.json())
         .then(data => {
             selectLar.innerHTML = "<option value=''>Selecione o voluntário</option>";
