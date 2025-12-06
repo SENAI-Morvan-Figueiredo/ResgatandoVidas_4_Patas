@@ -402,7 +402,7 @@ def editar_adocao(request, pk):
         if novo_gato != adotado.gato:
             if Adotados.objects.filter(gato=novo_gato).exists():
                 messages.warning(request, f"O gato {novo_gato.nome} já foi adotado!")
-                return redirect("administrador:dashboard_admin_adocoes")
+                return redirect("administrador:dashboard_admin_adotados")
 
             antigo_gato = adotado.gato
             antigo_gato.adotado = False
@@ -421,7 +421,7 @@ def editar_adocao(request, pk):
         adotado.save()
 
         messages.success(request, "Adoção atualizada com sucesso!")
-        return redirect("administrador:dashboard_admin_adocoes")
+        return redirect("administrador:dashboard_admin_adotados")
 
     gatos_adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
 
