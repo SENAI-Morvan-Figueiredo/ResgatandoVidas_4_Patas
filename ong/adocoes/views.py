@@ -364,7 +364,7 @@ def registrar_adocao(request):
         LarTemporarioAtual.objects.filter(gato=gato).delete()
 
         messages.success(request, "Adoção registrada com sucesso!")
-        return redirect("administrador:dashboard_admin_adocoes")
+        return redirect("administrador:dashboard_admin_adotados")
 
     # ---------------- GET ----------------
 
