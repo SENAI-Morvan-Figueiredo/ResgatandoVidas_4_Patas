@@ -16,7 +16,7 @@
         {% csrf_token %}
 
         <label>Gato</label>
-        <select name="gato" required>
+        <select name="gato" id="select-gato" class="form-control" required>
             <option value="">Selecione o gato</option>
             {% for gato in gatos %}
                 <option value="{{ gato.id }}"
@@ -28,7 +28,7 @@
         </select>
 
         <label>Adotante</label>
-        <select name="adotante" required>
+        <select name="adotante" id="select-adotante" class="form-control" required>
             <option value="">Selecione o adotante</option>
             {% for adotante in adotantes %}
                 <option value="{{ adotante.id }}"
@@ -51,5 +51,58 @@
     </form>
 
 </div>
+
+
+<!-- Javascript -->
+
+<!-- ---------------------------------------------------------
+Ajax para carregar os adotantes disponíveis para o gato selecionado
+--------------------------------------------------------- -->
+
+<script>
+document.getElementById("select-gato").addEventListener("change", function () {
+    let gatoId = this.value;
+    let selectAdotante = document.getElementById("select-adotante");
+
+    // Limpa e mostra carregando
+    selectAdotante.innerHTML = "<option value=''>Carregando...</option>";
+
+    if (!gatoId) {
+        selectAdotante.innerHTML = "<option value=''>Selecione o gato primeiro</option>";
+        return;
+    }
+
+    // Chama a URL configurada no urls.py
+    fetch(`/lares_temporarios/buscar_adotantes/${gatoId}/`) 
+        .then(response => response.json())
+        .then(data => {
+            selectAdotante.innerHTML = "<option value=''>Selecione o adotante</option>";
+
+            if (data.length === 0) {
+                 selectAdotante.innerHTML = "<option value=''>Nenhum formulário encontrado para este gato</option>";
+                 return;
+            }
+
+            data.forEach(a => {
+                let opt = document.createElement("option");
+                opt.value = a.id;
+                // a.nome e a.email vêm do values() na view Python
+                opt.textContent = `${a.nome} — ${a.email}`; 
+                selectAdotante.appendChild(opt);
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao buscar adotantes:', error);
+            selectAdotante.innerHTML = "<option value=''>Erro ao carregar adotantes</option>";
+        });
+});
+
+// Inicialização: Remove os adotantes que foram carregados (mas serão substituídos pelo AJAX)
+// Garante que o select esteja limpo se o gato já estiver pré-selecionado (para a edição, se fosse o caso)
+document.addEventListener("DOMContentLoaded", function() {
+    let selectAdotante = document.getElementById("select-adotante");
+    selectAdotante.innerHTML = "<option value=''>Selecione o gato primeiro</option>";
+});
+</script>
 
 {% endblock %}

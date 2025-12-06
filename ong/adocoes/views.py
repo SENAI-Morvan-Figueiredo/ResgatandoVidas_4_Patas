@@ -381,6 +381,10 @@ def registrar_adocao(request):
     return render(request, "adocoes/registrar_adocao.html", context)
 
 
+# -----------------------------------------
+# Função para editar um registro de adoção
+# -----------------------------------------
+
 @login_required(login_url='login')
 def editar_adocao(request, pk):
 
@@ -432,6 +436,25 @@ def editar_adocao(request, pk):
     }
 
     return render(request, "adocoes/registrar_adocao.html", context)
+
+
+# -----------------------------------------
+# Função para aparecer os adotantes vinculados a um gato específico
+# -----------------------------------------
+
+@login_required(login_url='login')
+def buscar_adotantes_para_gato(request, gato_id):
+    """
+    Busca os registros de Adocao (formulários preenchidos) que estão vinculados 
+    ao gato específico (gato_id).
+    """
+    # Filtra os objetos Adocao que têm o gato_id igual ao passado na URL
+    # Presumindo que o seu modelo Adocao tem um campo ForeignKey para Gato.
+    # Se o campo se chama 'gato', o filtro é:
+    adotantes = Adocao.objects.filter(gato_id=gato_id).values('id', 'nome', 'email')
+    
+    # Converte o QuerySet para uma lista de dicionários e retorna como JSON
+    return JsonResponse(list(adotantes), safe=False)
 
 # -------------------------------------------------------------------------------------------------- Da tela dashboard_admin_adotados
 

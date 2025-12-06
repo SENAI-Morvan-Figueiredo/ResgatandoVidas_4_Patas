@@ -12,6 +12,6 @@ urlpatterns = [
     path("registrar_adocao/", views.registrar_adocao, name="registrar_adocao"),
     path("excluir_adotado_ajax/<int:adotado_id>/", views.excluir_adotado_ajax, name="excluir_adotado_ajax"),    # Pop-up de confirmar exclusão
     path("editar/<int:pk>/", views.editar_adocao, name="editar_adocao"),
-
+    path('buscar_adotantes/<int:gato_id>/', views.buscar_adotantes_para_gato, name='buscar_adotantes'),
     
 ]
