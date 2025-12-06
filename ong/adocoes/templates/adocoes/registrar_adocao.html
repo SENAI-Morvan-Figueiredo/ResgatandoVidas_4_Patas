@@ -73,7 +73,7 @@ document.getElementById("select-gato").addEventListener("change", function () {
     }
 
     // Chama a URL configurada no urls.py
-    fetch(`/lares_temporarios/buscar_adotantes/${gatoId}/`) 
+    fetch(`/adocoes/buscar_adotantes/${gatoId}/`) 
         .then(response => response.json())
         .then(data => {
             selectAdotante.innerHTML = "<option value=''>Selecione o adotante</option>";
