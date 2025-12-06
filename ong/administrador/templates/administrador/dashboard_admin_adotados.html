@@ -50,7 +50,8 @@ Página do dashboard de mostra os gatos que estão adotados -->
                         data-imagem="{% if adotado.imagem %}{{ adotado.imagem.url }}{% endif %}"
                         data-adotante-nome="{{ adotado.adotante_nome }}"
                         data-adotante-email="{{ adotado.adotante_email }}"
-                        data-adotante-telefone="{{ adotado.adotante_telefone }}">
+                        data-adotante-telefone="{{ adotado.adotante_telefone }}"
+                        data-data-inicio="{{ adotado.data_inicio|date:'d/m/Y' }}">
 
                     {% if adotado.imagem %}
                         <img src="{{ adotado.imagem.url }}" class="card-img-top" alt="{{ adotado.gato.nome }}" style="object-fit: cover; height: 200px;"> 
@@ -151,7 +152,12 @@ Página do dashboard de mostra os gatos que estão adotados -->
                     <!-- Telefone -->
                     <div class="p-2 mb-2 rounded" style="background-color: #e6e9f6; color: #3b5998;"> Telefone:
                         <span id="modalAdotanteTelefone" class="ps-2" style="color: #3b5998;"></span>
-                    </div><br>
+                    </div>
+                    
+                    <div class="p-2 mb-2 rounded" style="background-color: #e6e9f6; color: #3b5998;"> Data Adoção:
+                        <span id="modalDataInicio" class="ps-2" style="color: #3b5998;"></span>
+                    </div>
+                    <br>
                     
                 </div>
             </div>
@@ -201,11 +207,11 @@ Página do dashboard de mostra os gatos que estão adotados -->
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === "ok") {
-                            // Remove o card da tela
-                            const card = this.closest(".col-lg-3, .col-md-4, .col-sm-6");
-                            if (card) card.remove();
                             alert(data.mensagem);
-                        } else {
+                            // 🛑 NOVO CÓDIGO: Recarrega a página completamente
+                            window.location.reload(); 
+                            
+                        } else {        
                             alert(data.mensagem);
                         }
                     })
@@ -235,6 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalAdotanteNome = document.getElementById('modalAdotanteNome');
   const modalAdotanteEmail = document.getElementById('modalAdotanteEmail');
   const modalAdotanteTelefone = document.getElementById('modalAdotanteTelefone');
+  const modalDataInicio = document.getElementById('modalDataInicio');
 
   // Seleciona todos os cards clicáveis
   document.querySelectorAll('.abrir-modal-gato').forEach(card => {
@@ -281,6 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
       modalAdotanteNome.textContent = card.dataset.adotanteNome || '—';
       modalAdotanteEmail.textContent = card.dataset.adotanteEmail || '—';
       modalAdotanteTelefone.textContent = card.dataset.adotanteTelefone || '—';
+      modalElementoDoModal.textContent = card.dataset.nomeDoDataAttribute || '—';
 
       // Exibe o modal
       modal.show();
