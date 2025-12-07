@@ -17,16 +17,16 @@
     </h1>
 
     <form method="post" action="
-            {% if lar_temporario %}
-                {% url 'lares_temporarios:editar_lar_temporario' tipo=tipo pk=lar_temporario.pk %}
-            {% else %}
-                {% url 'lares_temporarios:registrar_lar_temporario' %}
-            {% endif %}
-        ">
+        {% if lar_temporario %}
+            {% url 'lares_temporarios:editar_lar_temporario' tipo=tipo pk=lar_temporario.pk %}
+        {% else %}
+            {% url 'lares_temporarios:registrar_lar_temporario' %}
+        {% endif %}
+    ">
         {% csrf_token %}
 
         <label>Gato</label>
-        <select name="{{ form.gato.name }}" id="select-gato" class="form-control" required>
+        <select name="{{ form.gato.name }}" id="{{ form.gato.id_for_label }}" class="form-control" required>
             <option value="">Selecione o gato</option>
             {% for gato in gatos %}
             <option value="{{ gato.id }}" 
@@ -37,7 +37,7 @@
         </select>
 
         <label>Voluntário</label>
-        <select name="{{ form.lar_temporario.name }}" id="select-lar" class="form-control" required>
+        <select name="{{ form.lar_temporario.name }}" id="{{ form.lar_temporario.id_for_label }}" class="form-control" required>
             <option value="">Selecione o voluntário</option>
             {% for lar in lares %}
             <option value="{{ lar.id }}" 
