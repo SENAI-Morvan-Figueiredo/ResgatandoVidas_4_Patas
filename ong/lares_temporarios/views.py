@@ -401,7 +401,7 @@ def editar_lar_temporario(request, tipo, pk):
 def registrar_lar_temporario(request):
     if request.method == "POST":
         gato_id = request.POST.get("gato")
-        lar_id = request.POST.get("lar_temporario")
+        lar_id = request.POST.get("lar")
         data_inicio = request.POST.get("data_inicio")
 
         gato = get_object_or_404(Gato, id=gato_id)
