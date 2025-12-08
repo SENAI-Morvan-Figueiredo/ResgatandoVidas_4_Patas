@@ -184,7 +184,7 @@ header h1 em {
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1330px) {
   header.home-header {
     min-height: 450px;
   }
@@ -204,15 +204,16 @@ header h1 em {
   .menu-centralizado ul li a {
     font-size: 16px;
   }
-
-  .pataa, .patab, .patac, .patad {
-    top: 120px;
-  }
-
   .pataa { left: -40%; }
   .patab { left: -25%; }
   .patac { right: -25%; }
   .patad { right: -40%; }
+}
+
+@media (max-width: 1024px) {
+ .pataa, .patab, .patac, .patad {
+    top: 120px;
+  }
 }
 
 @media (max-width: 991px) {
@@ -590,17 +591,23 @@ header h1 em {
 
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1330px) {
   .doe-section {
     min-height: auto;
     padding: 50px 20px;
-    margin-left: -5%;
-    height: 60vh;
+    margin-left: -7.7%;
   }
 
   .doe-wrapper {
     justify-content: center;
     gap: 30px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .doe-section {
+    margin-left: -5%;
+    height: 60vh;
   }
 
   .doe-image img {
@@ -759,6 +766,12 @@ header h1 em {
 .onda-section {
   margin-left: -10%;
   margin-top: 10%;
+}
+}
+
+@media (max-width: 1330px){
+.onda-section {
+  margin-left: -7.7%;
 }
 }
 
@@ -977,11 +990,18 @@ header h1 em {
 }
 }
 
+@media (max-width: 1330px) {
+  .lar {
+    margin-left: -7.7%;
+    margin-top: -72%;
+    height: 140vh;
+}
+}
+
 @media (max-width: 1024px) {
   .lar {
     margin-left: -5%;
     margin-top: -70%;
-    height: 140vh;
 }
 }
 
@@ -1180,6 +1200,12 @@ header h1 em {
 @media (max-width: 1400px){
   .gato-adulto-section {
   margin-left: -10%;
+}
+}
+
+@media (max-width: 1330px){
+  .gato-adulto-section {
+  margin-left: -7.7%;
 }
 }
 
