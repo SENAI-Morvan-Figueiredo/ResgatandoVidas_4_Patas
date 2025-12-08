@@ -42,21 +42,62 @@
           {% if gato.temperamento %}
             <span class="badge tag">{{ gato.temperamento }}</span>
           {% endif %}
+
           {% if gato.cuidado %}
             <span class="badge tag">{{ gato.cuidado }}</span>
           {% endif %}
-          {% if gato.sociavel %}
-            <span class="badge tag">{{ gato.sociavel }}</span>
+          
+          {% if gato.moradia.casa_com_quintal or gato.moradia.apartamento %}
+          <span class="badge tag">
+            Vive bem em:
+            {% if gato.moradia.casa_com_quintal %}
+              Casa com quintal
+            {% endif %}
+
+            {% if gato.moradia.apartamento %}
+              {% if gato.moradia.casa_com_quintal %}, {% endif %}
+              Apartamento
+            {% endif %}
+          </span>
           {% endif %}
-          {% if gato.moradia %}
-            <span class="badge tag">{{ gato.moradia }}</span>
+
+          {% if gato.sociavel.gatos or gato.sociavel.desconhecidos or gato.sociavel.cachorros or gato.sociavel.criancas or gato.sociavel.nao_sociavel %}
+          <span class="badge tag">
+            Sociável com:
+            {% if gato.sociavel.gatos %}
+              Gatos
+            {% endif %}
+
+            {% if gato.sociavel.desconhecidos %}
+              {% if gato.sociavel.gatos %}, {% endif %}
+              Desconhecidos
+            {% endif %}
+
+            {% if gato.sociavel.cachorros %}
+              {% if gato.sociavel.gatos or gato.sociavel.desconhecidos %}, {% endif %}
+              Cachorros
+            {% endif %}
+
+            {% if gato.sociavel.criancas %}
+              {% if gato.sociavel.gatos or gato.sociavel.desconhecidos or gato.sociavel.cachorros %}, {% endif %}
+              Crianças
+            {% endif %}
+
+            {% if gato.sociavel.nao_sociavel %}
+              {% if gato.sociavel.gatos or gato.sociavel.desconhecidos or gato.sociavel.cachorros or gato.sociavel.criancas %}, {% endif %}
+              Não sociável
+            {% endif %}
+          </span>
           {% endif %}
+
           {% if gato.castrado %}
             <span class="badge tag">Castrado</span>
           {% endif %}
+
           {% if gato.vacinado %}
             <span class="badge tag">Vacinado</span>
           {% endif %}
+          
           {% if gato.vermifugado %}
             <span class="badge tag">Vermifugado</span>
           {% endif %}
