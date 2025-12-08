@@ -237,7 +237,7 @@ def formulario_lar_temporario(request):
             
             #-----------------------------------
 
-            messages.success(request, "Solicitação de lar temporário enviada com sucesso! ❤️🐾")
+            # messages.success(request, "Solicitação de lar temporário enviada com sucesso! ❤️🐾")
             return redirect('lares_temporarios:lar_temporario_sucess')
 
         else:

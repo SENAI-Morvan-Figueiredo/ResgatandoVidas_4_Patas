@@ -278,7 +278,7 @@ def formulario_adocao(request):
             email.send()
             
 
-            messages.success(request, "Sua solicitação foi enviada com sucesso! ❤️🐾")
+            # messages.success(request, "Sua solicitação foi enviada com sucesso! ❤️🐾")
             return redirect("adocoes:adocao_sucess")
         else:
             print("DEBUG: Form inválido")

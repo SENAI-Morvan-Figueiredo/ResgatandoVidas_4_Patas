@@ -13,7 +13,7 @@
     <form method="post">
         {% csrf_token %}
 
-        {% if messages %}
+        <!-- {% if messages %}
             <div class="form-messages">
                 {% for message in messages %}
                     <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
@@ -22,7 +22,7 @@
                     </div>
                 {% endfor %}
             </div>
-        {% endif %}
+        {% endif %} -->
         <!-- Informações do voluntario -->
         <div class="form-section">
             <h2 class="section-title">Informações do Voluntário</h2>
