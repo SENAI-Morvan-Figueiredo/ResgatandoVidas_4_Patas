@@ -22,7 +22,7 @@
                 <option value="{{ gato.id }}"
                     {% if adotado and adotado.gato.id == gato.id %}selected{% endif %}>
                     {{ gato.nome }}
-                    {% if gato.lar_temporario %}(Em Lar Temporário){% endif %}
+                    {% if gato.lar_temporario %}(Lar Temporário){% endif %}
                 </option>
             {% endfor %}
         </select>
