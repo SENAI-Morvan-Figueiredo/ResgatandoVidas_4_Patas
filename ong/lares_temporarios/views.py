@@ -379,14 +379,20 @@ def editar_lar_temporario(request, tipo, pk):
             return redirect("administrador:dashboard_admin_lar_temporario")
     else:
         form = form_class(instance=obj)
+        
+    gato_selecionado = obj.gato 
+    lar_selecionado = obj.lar_temporario
 
     context = {
-        "form": form,
-        "lar_temporario": obj,
-        "tipo": tipo,
-        "gatos": Gato.objects.all(),
-        "lares": LarTemporario.objects.all(),
-    }
+            "form": form,
+            "lar_temporario": obj,
+            "tipo": tipo,
+            "gatos": Gato.objects.all(), # Ou Gato.objects.filter(lar_temporario=True) dependendo da sua regra de negócio
+            "lares": LarTemporario.objects.all(),
+            # 🚨 NOVO: Adiciona ao contexto para pré-selecionar no template
+            "gato_selecionado": gato_selecionado, 
+            "lar_selecionado": lar_selecionado,
+        }
 
     return render(request, "lares_temporarios/registrar_lar_temporario.html", context)
 
