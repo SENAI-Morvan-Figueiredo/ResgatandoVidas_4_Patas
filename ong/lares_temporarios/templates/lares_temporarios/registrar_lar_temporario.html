@@ -23,7 +23,7 @@
         <select name="gato" id="select-gato" class="form-control" required>
             <option value="">Selecione o gato</option>
             {% for gato in gatos %}
-              <option value="{{ gato.id }}" {% if gato_selecionado and gato_selecionado.id == gato.id %}selected{% endif %}>
+                <option value="{{ gato.id }}" {% if gato_selecionado and gato_selecionado.id == gato.id %}selected{% endif %}>
             {% endfor %}
         </select>
 
