@@ -1,19 +1,25 @@
 import logging
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404, render, redirect
-from django.utils.timezone import now
 from django.contrib import messages
 from django.conf import settings
-from django.core.mail import send_mail
 from .models import Adocao, Adotados, Gato
 from .forms import AdocaoForm
-from django.utils.html import format_html
-from django.utils.html import strip_tags
 from django.core.mail import EmailMessage
-
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+from datetime import datetime
+from lares_temporarios.models import LarTemporarioAtual
 
 logger = logging.getLogger(__name__)
 
+# -------------------------------------------------------------------------------------------------- Da tela adocao_list
+
+# -----------------------------------------
+# Função para aparecer a lista de gatos
+# Gatos disponíveis para adoção
+# -----------------------------------------
 
 class GatoListView(ListView):
     model = Gato
@@ -65,6 +71,13 @@ class GatoListView(ListView):
         return context
 
 
+# -------------------------------------------------------------------------------------------------- Da tela adocao_detail
+
+# -----------------------------------------
+# Função para aparecer informações 
+# detalhadas do gato
+# -----------------------------------------
+
 class GatoDetailView(DetailView):
     model = Gato
     template_name = 'adocoes/adocao_detail.html'
@@ -76,8 +89,15 @@ class GatoDetailView(DetailView):
         return ctx
 
 
+# -------------------------------------------------------------------------------------------------- Da tela adocao_success
+
+# -------------------------------------------------------
+# Função que confirma o sucesso do formulário de adoção
+# -------------------------------------------------------
+
 def adocao_sucess(request):
     return render(request, 'adocoes/adocao_sucess.html')
+
 
 # -------------------------------------------------------------------------------------Formulário de Adoção
 
@@ -274,7 +294,13 @@ def formulario_adocao(request):
 
     return render(request, "adocoes/adocao_form.html", {"form": form, "gato": gato})
 
-# --------------------------------------------------------------------------------------------------
+
+# -------------------------------------------------------------------------------------------------- Da tela adotados_list
+
+# -----------------------------------------
+# Função para aparecer a lista de gatos
+# Gatos que já foram adotados
+# -----------------------------------------
 
 class AdotadosListView(ListView):
     model = Adotados
@@ -299,3 +325,152 @@ class AdotadosListView(ListView):
         ctx['show_all'] = getattr(self, 'show_all', False)
         ctx['total_count'] = Adotados.objects.count()
         return ctx
+
+# -------------------------------------------------------------------------------------------------- Da tela registrar_adocao
+
+# -----------------------------------------
+# Função para registrar uma adoção
+# -----------------------------------------
+
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
+def registrar_adocao(request):
+    if request.method == "POST":
+        gato_id = request.POST.get("gato")
+        adotante_id = request.POST.get("adotante") 
+        data_inicio = request.POST.get("data_inicio")
+        foto = request.FILES.get("foto")
+
+        gato = get_object_or_404(Gato, id=gato_id)
+        adotante = get_object_or_404(Adocao, id=adotante_id)
+
+        
+        if Adotados.objects.filter(gato=gato).exists():
+            messages.warning(request, f"O gato {gato.nome} já foi adotado!")
+            return redirect("administrador:dashboard_admin_adocoes")
+
+        # --- registro da adoção ---
+        Adotados.objects.create(
+            imagem=foto,
+            gato=gato,
+            adocao=adotante,
+            data_inicio=data_inicio or datetime.today().date()
+        )
+
+        # --- marca o gato como adotado ---
+        gato.adotado = True
+        gato.save()
+
+        # --- remove do lar atual se ele estava ---
+        LarTemporarioAtual.objects.filter(gato=gato).delete()
+
+        messages.success(request, "Adoção registrada com sucesso!")
+        return redirect("administrador:dashboard_admin_adotados")
+
+    # ---------------- GET ----------------
+
+    # remove apenas gatos já adotados
+    gatos_adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
+
+    gatos_disponiveis = Gato.objects.exclude(id__in=gatos_adotados_ids)
+
+    context = {
+        "gatos": gatos_disponiveis,
+        "adotantes": Adocao.objects.all(),  
+    }
+
+    return render(request, "adocoes/registrar_adocao.html", context)
+
+
+# -----------------------------------------
+# Função para editar um registro de adoção
+# -----------------------------------------
+
+@login_required(login_url='login')
+def editar_adocao(request, pk):
+
+    adotado = get_object_or_404(Adotados, id=pk)
+
+    if request.method == "POST":
+        gato_id = request.POST.get("gato")
+        adotante_id = request.POST.get("adotante")
+        data_inicio = request.POST.get("data_inicio")
+        foto = request.FILES.get("foto")
+
+        novo_gato = get_object_or_404(Gato, id=gato_id)
+        novo_adotante = get_object_or_404(Adocao, id=adotante_id)
+
+        if novo_gato != adotado.gato:
+            if Adotados.objects.filter(gato=novo_gato).exists():
+                messages.warning(request, f"O gato {novo_gato.nome} já foi adotado!")
+                return redirect("administrador:dashboard_admin_adotados")
+
+            antigo_gato = adotado.gato
+            antigo_gato.adotado = False
+            antigo_gato.save()
+
+            novo_gato.adotado = True
+            novo_gato.save()
+
+        adotado.gato = novo_gato
+        adotado.adocao = novo_adotante
+        adotado.data_inicio = data_inicio
+
+        if foto:
+            adotado.imagem = foto
+
+        adotado.save()
+
+        messages.success(request, "Adoção atualizada com sucesso!")
+        return redirect("administrador:dashboard_admin_adotados")
+
+    gatos_adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
+
+    gatos_disponiveis = Gato.objects.exclude(id__in=gatos_adotados_ids).union(
+        Gato.objects.filter(id=adotado.gato.id)
+    )
+
+    context = {
+        "gatos": gatos_disponiveis,
+        "adotantes": Adocao.objects.all(),
+        "adotado": adotado
+    }
+
+    return render(request, "adocoes/registrar_adocao.html", context)
+
+
+# -----------------------------------------
+# Função para aparecer os adotantes vinculados a um gato específico
+# -----------------------------------------
+
+@login_required(login_url='login')
+def buscar_adotantes_para_gato(request, gato_id):
+    """
+    Busca os registros de Adocao (formulários preenchidos) que estão vinculados 
+    ao gato específico (gato_id).
+    """
+    # Filtra os objetos Adocao que têm o gato_id igual ao passado na URL
+    # Presumindo que o seu modelo Adocao tem um campo ForeignKey para Gato.
+    # Se o campo se chama 'gato', o filtro é:
+    adotantes = Adocao.objects.filter(gato_id=gato_id).values('id', 'nome', 'email')
+    
+    # Converte o QuerySet para uma lista de dicionários e retorna como JSON
+    return JsonResponse(list(adotantes), safe=False)
+
+# -------------------------------------------------------------------------------------------------- Da tela dashboard_admin_adotados
+
+# -----------------------------------------------------------------------------
+# Função para excluir um registro de adoção - na tela dashboard_admin_adotados
+# -----------------------------------------------------------------------------
+
+
+# Juntamente com a Pop-up de confirmação de exclusão
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
+@require_POST
+def excluir_adotado_ajax(request, adotado_id):
+    try:
+        adotado = Adotados.objects.get(id=adotado_id)
+        adotado.delete()  
+        return JsonResponse({"status": "ok", "mensagem": f"Gato {adotado.gato.nome} excluído com sucesso!"})
+    except Adotados.DoesNotExist:
+        return JsonResponse({"status": "erro", "mensagem": "Registro não encontrado."}, status=404)
+    

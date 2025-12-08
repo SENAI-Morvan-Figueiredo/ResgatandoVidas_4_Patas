@@ -1,5 +1,6 @@
 from django.db import models
 from gatos.models import Gato
+from cloudinary.models import CloudinaryField
 
 
 class Adocao(models.Model):
@@ -81,7 +82,7 @@ class Adocao(models.Model):
         return f"{self.nome} - {self.gato.nome}"
 
 class Adotados(models.Model):
-    imagem = models.ImageField(upload_to="gatos/", verbose_name="Imagem")
+    imagem = CloudinaryField("imagem", folder="gatos")
     gato = models.ForeignKey(Gato, on_delete=models.CASCADE, verbose_name="Gato")
     adocao = models.ForeignKey(Adocao, on_delete=models.CASCADE, verbose_name="Adoção")
     data_inicio = models.DateField(verbose_name="Data de início")

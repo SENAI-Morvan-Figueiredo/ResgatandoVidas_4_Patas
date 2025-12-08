@@ -1,21 +1,26 @@
 import logging
-from django.views.generic import ListView, DetailView, CreateView, TemplateView
-from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, TemplateView
 from django.shortcuts import get_object_or_404 , render , redirect
 from django.contrib import messages
-from django.core.exceptions import FieldError
 from .models import LarTemporario , HistoricoLarTemporario , LarTemporarioAtual
 from gatos.models import Gato
+from adocoes.models import Adotados
 from .forms import LarTemporarioForm
-from django.utils.timezone import now
 from django.utils import timezone
-from django.core.mail import EmailMultiAlternatives
-from django.utils.html import strip_tags
 from django.core.mail import EmailMessage
 from django.conf import settings
-
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .forms import LarTemporarioAtualForm, HistoricoLarTemporarioForm
 
 logger = logging.getLogger(__name__)
+
+# -------------------------------------------------------------------------------------------------- Da tela lar_temporario_list
+
+# -----------------------------------------
+# Função para aparecer a lista de gatos
+# gatos que podem ser lar temporário
+# -----------------------------------------
 
 class GatoListView(ListView):
     model = Gato
@@ -66,6 +71,11 @@ class GatoListView(ListView):
         return context
 
 
+# -------------------------------------------------------------------------------------------------- Da tela lar_temporario_detail
+
+# -----------------------------------------
+# Função para aparecer os detalhes do gato
+# -----------------------------------------
 
 class GatoDetailView(DetailView):
     model = Gato
@@ -77,7 +87,10 @@ class GatoDetailView(DetailView):
         # Outros gatos para exibir — exclui o atual
         ctx['other_gatos'] = Gato.objects.filter(adotados__isnull=True).exclude(pk=self.object.pk)[:4]
         return ctx
-        
+
+
+# -------------------------------------------------------------------------------------------------- Da tela formulario_lar_temporario
+
 # ---------------------------------------------------------------------------------------------------------------
 # Função auxiliar para converter valores booleanos ou strings específicas em "Sim", "Não" ou "Parcialmente"
 # ---------------------------------------------------------------------------------------------------------------
@@ -133,7 +146,6 @@ def bool_para_texto(valor, campo=None):
 
     # Caso padrão
     return str(valor) if valor else "—"
-
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -240,11 +252,212 @@ def formulario_lar_temporario(request):
 
     return render(request, 'lares_temporarios/lar_temporario_form.html', {'form': form, 'gato': gato})
 
-# -----------------------------------------------------------------------------------------------------------------------
+
+
+# -------------------------------------------------------------------------------------------------- Da tela lar_temporario_list
+
+# -----------------------------------------
+# Função confirmando o sucesso do formulário
+# -----------------------------------------
 
 class LarTemporarioSuccessView(TemplateView):
     template_name = 'lares_temporarios/lar_temporario_sucess.html'
 
-# ------------------------
+
+# -------------------------------------------------------------------------------------------------- Da tela dashboard_admin_lar_temporario
+
+# ---------------------------------------------------------
+# Função para encerrar o lar temporário atual de um gato
+# ---------------------------------------------------------
+
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
+def finalizar_lar_temporario(request, gato_id):
+    lar_atual = get_object_or_404(LarTemporarioAtual, gato_id=gato_id)
+
+    # Criar o registro no histórico
+    HistoricoLarTemporario.objects.create(
+        gato=lar_atual.gato,
+        lar_temporario=lar_atual.lar_temporario,
+        data_inicio=lar_atual.data_inicio,
+        data_fim=timezone.localdate()
+    )
+
+    # Apagar registro atual
+    lar_atual.delete()
+
+    messages.success(request, "Lar temporário finalizado e movido para o histórico.")
+
+    return redirect("administrador:dashboard_admin_lar_temporario")
+
+# ---------------------------------------------------------------------------------------------
+# Função para apagar o registro de lar_temporario_atual de um gato - caso coloque sem querer
+# ---------------------------------------------------------------------------------------------
+
+@login_required(login_url='login')
+def excluir_lar_temporario_atual_ajax(request, lar_atual_id):
+    if request.method == "POST":
+        try:
+            # 1. Tenta obter o registro do Lar Temporário Atual
+            lar_atual = LarTemporarioAtual.objects.get(id=lar_atual_id)
+            # gato = lar_atual.gato  # Não precisamos mais do gato se não vamos atualizá-lo
+
+            # 2. Executa a exclusão
+            lar_atual.delete()
+
+            # 3. Retorna sucesso
+            return JsonResponse({
+                "status": "ok",
+                "mensagem": "Registro de Lar Temporário Atual excluído com sucesso (Status do Gato mantido)!",
+                "atualizado": True
+            })
+
+        except LarTemporarioAtual.DoesNotExist:
+            return JsonResponse({
+                "status": "erro", 
+                "mensagem": "Lar atual não encontrado.", 
+                "atualizado": False
+            })
+        except Exception as e:
+            return JsonResponse({
+                "status": "erro",
+                "mensagem": f"Erro interno ao excluir: {e}",
+                "atualizado": False
+            })
+
+    return JsonResponse({
+        "status": "erro",
+        "mensagem": "Requisição inválida. Use o método POST."
+    }, status=400)
+    
+    
+# ---------------------------------------------------------
+# Função para apagar um registro no histórico de um gato
+# ---------------------------------------------------------
+
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
+def excluir_historico_lar_temporario_ajax(request, adotado_id):
+    if request.method == "POST":
+        try:
+            registro = HistoricoLarTemporario.objects.get(id=adotado_id)
+            registro.delete()
+
+            return JsonResponse({
+                "status": "ok",
+                "mensagem": "Registro excluído com sucesso!",
+                "atualizado": True
+            })
+
+        except HistoricoLarTemporario.DoesNotExist:
+            return JsonResponse({
+                "status": "erro",
+                "mensagem": "Registro não encontrado."
+            })
+
+    return JsonResponse({
+        "status": "erro",
+        "mensagem": "Requisição inválida."
+    })
+
+# ---------------------------------------------------------
+# Função para editar um registro no histórico de um gato
+# ---------------------------------------------------------
+        
+@login_required(login_url='login')
+def editar_lar_temporario(request, tipo, pk):
+    if tipo == "atual":
+        obj = get_object_or_404(LarTemporarioAtual, pk=pk)
+        form_class = LarTemporarioAtualForm
+    else:
+        obj = get_object_or_404(HistoricoLarTemporario, pk=pk)
+        form_class = HistoricoLarTemporarioForm
+
+    if request.method == "POST":
+        form = form_class(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Alterações salvas!")
+            return redirect("administrador:dashboard_admin_lar_temporario")
+    else:
+        form = form_class(instance=obj)
+        
+    gato_selecionado = obj.gato 
+    lar_selecionado = obj.lar_temporario
+
+    context = {
+            "form": form,
+            "lar_temporario": obj,
+            "tipo": tipo,
+            "gatos": Gato.objects.all(), # Ou Gato.objects.filter(lar_temporario=True) dependendo da sua regra de negócio
+            "lares": LarTemporario.objects.all(),
+            # 🚨 NOVO: Adiciona ao contexto para pré-selecionar no template
+            "gato_selecionado": gato_selecionado, 
+            "lar_selecionado": lar_selecionado,
+        }
+
+    return render(request, "lares_temporarios/registrar_lar_temporario.html", context)
 
 
+# ---------------------------------------------------------------------------------------- Da tela formulario_lar_temporario
+
+# ---------------------------------------------------------
+# Função para registrar um lar temporário atual para um gato
+# ---------------------------------------------------------
+
+@login_required(login_url='login') # Garante que só usuários logados possam acessar essa view
+def registrar_lar_temporario(request):
+    if request.method == "POST":
+        gato_id = request.POST.get("gato")
+        lar_id = request.POST.get("lar_temporario")
+        data_inicio = request.POST.get("data_inicio")
+
+        gato = get_object_or_404(Gato, id=gato_id)
+        lar = get_object_or_404(LarTemporario, id=lar_id)
+
+        # Verifica se já está em lar atual
+        if LarTemporarioAtual.objects.filter(gato=gato).exists():
+            messages.warning(request, f"O gato {gato.nome} já está em um lar temporário ativo.")
+            return redirect("administrador:dashboard_admin_lar_temporario")
+
+        # Cria lar atual
+        lar_atual = LarTemporarioAtual.objects.create(
+            gato=gato,
+            lar_temporario=lar,
+            data_inicio=data_inicio
+        )
+
+        # Marca o gato como estando em lar temporário
+        gato.lar_temporario = True
+        gato.save()
+
+
+        messages.success(request, "Lar temporário registrado com sucesso!")
+        return redirect("administrador:dashboard_admin_lar_temporario")
+
+    # --------------------------
+
+    adotados_ids = Adotados.objects.values_list("gato_id", flat=True)
+
+    em_lar_ids = LarTemporarioAtual.objects.values_list("gato_id", flat=True)
+
+    # Filtrando gatos disponíveis
+    gatos_disponiveis = (
+        Gato.objects.filter(lar_temporario=True)          # precisam de lar
+            .exclude(id__in=adotados_ids)                # não estão adotados
+            .exclude(id__in=em_lar_ids)                  # não estão em lar ativo
+    )
+
+    context = {
+        "gatos": gatos_disponiveis,
+        "lares": LarTemporario.objects.all(),
+    }
+
+    return render(request, "lares_temporarios/registrar_lar_temporario.html", context)
+
+
+# ---------------------------------------------------------
+# Função para procurar os formularios preenchidos para aquele gato
+# ---------------------------------------------------------
+
+def buscar_lares(request, gato_id):
+    lares = LarTemporario.objects.filter(gato_id=gato_id).values('id', 'nome')
+    return JsonResponse(list(lares), safe=False)

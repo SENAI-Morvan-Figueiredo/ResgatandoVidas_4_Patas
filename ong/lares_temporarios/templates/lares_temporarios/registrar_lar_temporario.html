@@ -1,0 +1,102 @@
+{% extends "ong/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/registrar_lar.css' %}">
+<link rel="stylesheet" href="{% static 'css/adocao.css' %}">
+
+<a href="{% url 'administrador:dashboard_admin_lar_temporario' %}" class="back-link">&larr; Voltar</a>
+
+<div class="form-container">
+    <h1 class="form-title">
+        {% if lar_temporario %}
+            Editar Lar Temporário
+        {% else %}
+            Registrar Lar Temporário
+        {% endif %}
+    </h1>
+
+    <form method="post" action="{% if lar_temporario %}
+            {% url 'lares_temporarios:editar_lar_temporario' tipo=tipo pk=lar_temporario.pk %}
+        {% else %}
+            {% url 'lares_temporarios:registrar_lar_temporario' %}
+        {% endif %}">
+        
+        {% csrf_token %}
+
+        <label>Gato</label>
+        <select name="gato" id="select-gato" class="form-control" required>
+            <option value="">Selecione o gato</option>
+            {% for gato in gatos %}
+                <option value="{{ gato.id }}" {% if gato_selecionado and gato_selecionado.id == gato.id %}selected{% endif %}>
+                    {{ gato.nome }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Voluntário</label>
+        <select name="lar_temporario" id="select-lar" class="form-control" required>
+            <option value="">Selecione o voluntário</option>
+            {% for lar in lares %}
+            <option value="{{ lar.id }}" 
+                {% if lar_temporario.lar_temporario and lar_temporario.lar_temporario.id == lar.id %}selected{% endif %}>
+                {{ lar.nome }}           </option>
+            {% endfor %}
+        </select>
+
+        <label>Início</label>
+        <input type="date" name="data_inicio" class="form-control" required
+               value="{% if lar_temporario.data_inicio %}{{ lar_temporario.data_inicio|date:'Y-m-d' }}{% endif %}">
+        
+        {% if tipo == "historico" %}
+            <label>Fim</label>
+            <input type="date" name="data_fim" class="form-control"
+                   value="{% if lar_temporario.data_fim %}{{ lar_temporario.data_fim|date:'Y-m-d' }}{% endif %}">
+        {% endif %}
+        
+
+        <button type="submit" class="btn-submit">
+            {% if lar_temporario %}
+                Salvar Alterações
+            {% else %}
+                Registrar
+            {% endif %}
+        </button>
+    </form>
+</div>
+
+<!-- Javascript -->
+
+<!-- ---------------------------------------------------------
+Ajax para carregar os lares temporários disponíveis para o gato selecionado
+--------------------------------------------------------- -->
+
+<script>
+document.getElementById("select-gato").addEventListener("change", function () {
+    let gatoId = this.value;
+    let selectLar = document.getElementById("select-lar");
+
+    // Mostra carregando
+    selectLar.innerHTML = "<option value=''>Carregando...</option>";
+
+    if (!gatoId) {
+        selectLar.innerHTML = "<option value=''>Selecione o voluntário</option>";
+        return;
+    }
+
+    fetch(`/lares_temporarios/buscar_lares/${gatoId}/`)
+        .then(response => response.json())
+        .then(data => {
+            selectLar.innerHTML = "<option value=''>Selecione o voluntário</option>";
+
+            data.forEach(l => {
+                let opt = document.createElement("option");
+                opt.value = l.id;
+                opt.textContent = l.nome;
+                selectLar.appendChild(opt);
+            });
+        });
+});
+</script>
+
+{% endblock %}

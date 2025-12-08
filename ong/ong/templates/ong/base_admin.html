@@ -55,13 +55,13 @@
         <ul class="nav nav-tabs justify-content-center">
 
             <li class="nav-item">
-                <a class="nav-link {% if 'dashboard_admin_adocoes' in request.path %}active{% endif %}" href="{% url 'gatos:dashboard_admin_adocoes' %}"> Adoções </a>
+                <a class="nav-link {% if 'dashboard_admin_adocoes' in request.path %}active{% endif %}" href="{% url 'administrador:dashboard_admin_adocoes' %}"> Adoções </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if 'dashboard_admin_lar_temporario' in request.path %}active{% endif %}" href="{% url 'gatos:dashboard_admin_lar_temporario' %}"> Lares Temporários </a>
+                <a class="nav-link {% if 'dashboard_admin_lar_temporario' in request.path %}active{% endif %}" href="{% url 'administrador:dashboard_admin_lar_temporario' %}"> Lares Temporários </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if 'dashboard_admin_adotados' in request.path %}active{% endif %}" href="{% url 'gatos:dashboard_admin_adotados' %}"> Adotados </a> <!-- Colocar o url, quando a página estiver pronta -->
+                <a class="nav-link {% if 'dashboard_admin_adotados' in request.path %}active{% endif %}" href="{% url 'administrador:dashboard_admin_adotados' %}"> Adotados </a> <!-- Colocar o url, quando a página estiver pronta -->
             </li>
 
         </ul>

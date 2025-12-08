@@ -9,7 +9,7 @@
 
 <!-- Botão de voltar -->
 
-<a href="{% url 'gatos:dashboard_admin_adocoes' %}" class="back-link">&larr; Voltar</a>
+<a href="{% url 'administrador:dashboard_admin_adocoes' %}" class="back-link">&larr; Voltar</a>
 
 <!-- -------------------------------------------------------------------------------------------- -->
 
@@ -47,8 +47,11 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    {{ gato_form.data_nascimento.label_tag }} {{ gato_form.data_nascimento }}
-                    {{ gato_form.data_nascimento.errors }}
+                    <input type="date" 
+                        name="data_nascimento"
+                        value="{{ gato_form.instance.data_nascimento|date:'Y-m-d' }}"
+                        class="form-control">
+
                 </div>
 
                 <div class="form-group radio-field">

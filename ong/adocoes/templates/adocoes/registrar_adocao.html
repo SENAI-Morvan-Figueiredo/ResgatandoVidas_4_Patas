@@ -1,0 +1,135 @@
+{% extends "ong/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/registrar_adocao.css' %}">
+<link rel="stylesheet" href="{% static 'css/adocao.css' %}">
+
+<a href="{% url 'administrador:dashboard_admin_adotados' %}" class="back-link">&larr; Voltar</a>
+
+<div class="form-container">
+    <h1 class="form-title">
+    {% if adotado %}EDITAR ADOÇÃO{% else %}REGISTRAR UMA ADOÇÃO{% endif %}
+    </h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label>Gato</label>
+        <select name="gato" id="select-gato" class="form-control" required>
+            <option value="">Selecione o gato</option>
+            {% for gato in gatos %}
+                <option value="{{ gato.id }}"
+                    {% if adotado and adotado.gato.id == gato.id %}selected{% endif %}>
+                    {{ gato.nome }}
+                    {% if gato.lar_temporario %}(Lar Temporário){% endif %}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Adotante</label>
+        <select name="adotante" id="select-adotante" class="form-control" required>
+            {% if adotado %}
+                <option value="{{ adotado.adocao.id }}" selected>
+                    {{ adotado.adocao.nome }} — {{ adotado.adocao.email }}
+                </option>
+            {% else %}
+                <option value="">Selecione o gato primeiro</option>
+            {% endif %}
+        </select>
+
+        <label>Início</label>
+        <input type="date" name="data_inicio"
+            value="{% if adotado %}{{ adotado.data_inicio|date:'Y-m-d' }}{% endif %}"
+            required>
+
+
+        <label>Foto do gato</label>
+        <input type="file" name="foto">
+
+        <button type="submit">Registrar</button>
+    </form>
+
+</div>
+
+
+<!-- Javascript -->
+
+<!-- ---------------------------------------------------------
+Ajax para carregar os adotantes disponíveis para o gato selecionado
+--------------------------------------------------------- -->
+
+<script>
+// 1. Função principal que faz a requisição AJAX e preenche o Adotante
+function buscarAdotantes(gatoId, adotanteIdSelecionado = null) {
+    let selectAdotante = document.getElementById("select-adotante");
+
+    // Limpa e mostra carregando
+    selectAdotante.innerHTML = "<option value=''>Carregando...</option>";
+
+    if (!gatoId) {
+        selectAdotante.innerHTML = "<option value=''>Selecione o gato primeiro</option>";
+        return;
+    }
+
+    const urlBusca = `/adocoes/buscar_adotantes/${gatoId}/`;
+    
+    fetch(urlBusca) 
+        .then(response => response.json())
+        .then(data => {
+            selectAdotante.innerHTML = "<option value=''>Selecione o adotante</option>";
+
+            if (data.length === 0) {
+                 selectAdotante.innerHTML = "<option value=''>Nenhum formulário encontrado para este gato</option>";
+                 return;
+            }
+
+            data.forEach(a => {
+                let opt = document.createElement("option");
+                opt.value = a.id;
+                opt.textContent = `${a.nome} — ${a.email}`;
+                
+                // Marca como selecionado se o ID do loop for o ID que estamos editando
+                if (a.id == adotanteIdSelecionado) {
+                    opt.selected = true;
+                }
+                
+                selectAdotante.appendChild(opt);
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao buscar adotantes:', error);
+            selectAdotante.innerHTML = "<option value=''>Erro ao carregar adotantes</option>";
+        });
+}
+
+
+// 2. Event Listener para MUDANÇA do Gato
+document.getElementById("select-gato").addEventListener("change", function () {
+    let gatoId = this.value;
+    // Quando o usuário muda, o adotanteIdSelecionado é null, pois é um novo filtro
+    buscarAdotantes(gatoId, null);
+});
+
+
+// 3. Inicialização (para o modo de EDIÇÃO)
+document.addEventListener("DOMContentLoaded", function() {
+    // Verifica se estamos no modo de EDIÇÃO (se 'adotado' existe)
+    {% if adotado %}
+        let gatoInicialId = document.getElementById("select-gato").value;
+        let adotanteInicialId = "{{ adotado.adocao.id }}"; // Pega o ID do adotante atual
+
+        if (gatoInicialId) {
+            // Se houver um gato selecionado, disparamos a busca de adotantes,
+            // passando o adotanteIdAtual para que ele seja pré-selecionado na lista filtrada.
+            buscarAdotantes(gatoInicialId, adotanteInicialId);
+        }
+    {% else %}
+        // Para o modo de REGISTRO (não edição), garante que a lista de adotantes esteja limpa inicialmente.
+        let selectAdotante = document.getElementById("select-adotante");
+        selectAdotante.innerHTML = "<option value=''>Selecione o gato primeiro</option>";
+    {% endif %}
+});
+</script>
+
+{% endblock %}

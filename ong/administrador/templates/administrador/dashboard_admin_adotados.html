@@ -21,7 +21,7 @@ Página do dashboard de mostra os gatos que estão adotados -->
                 <h2 class="fw-bold text-primary">Gerenciar Gato Adotados</h2>
                 <p class="subtitle-custom mb-0">Adicione, edite ou remova  gatos Adotados</p>
             </div>
-            <a href="{% url 'gatos:registrar_adocao' %}" class="btn btn-danger fw-bold shadow-sm rounded-3"> + Registrar adoção </a>
+            <a href="{% url 'adocoes:registrar_adocao' %}" class="btn btn-danger fw-bold shadow-sm rounded-3"> + Registrar adoção </a>
         </div> 
 
         <!-- Barra de pesquisa e filtros -->
@@ -50,7 +50,8 @@ Página do dashboard de mostra os gatos que estão adotados -->
                         data-imagem="{% if adotado.imagem %}{{ adotado.imagem.url }}{% endif %}"
                         data-adotante-nome="{{ adotado.adotante_nome }}"
                         data-adotante-email="{{ adotado.adotante_email }}"
-                        data-adotante-telefone="{{ adotado.adotante_telefone }}">
+                        data-adotante-telefone="{{ adotado.adotante_telefone }}"
+                        data-data-inicio="{{ adotado.data_inicio|date:'d/m/Y' }}">
 
                     {% if adotado.imagem %}
                         <img src="{{ adotado.imagem.url }}" class="card-img-top" alt="{{ adotado.gato.nome }}" style="object-fit: cover; height: 200px;"> 
@@ -66,7 +67,7 @@ Página do dashboard de mostra os gatos que estão adotados -->
                                 <span class="text-primary fw-bold">{{ adotado.gato.nome }}</span>
                             </h5>
                             <div class="d-flex gap-1"> 
-                                <a href="{% url 'gatos:editar_gato' adotado.gato.id %}" class="btn btn-light p-1" title="Editar"> 
+                                <a href="{% url 'adocoes:editar_adocao' adotado.id %}" class="btn btn-light p-1" title="Editar"> 
                                     <img src="{% static 'img/Icone_Editar.svg' %}" alt="Editar" style="width: 35px; height: 35px;"> 
                                 </a> 
                                 <a href="javascript:void(0);" class="btn btn-light p-1 excluir-adotado" data-id="{{ adotado.id }}" data-nome="{{ adotado.gato.nome }}" title="Excluir">
@@ -151,7 +152,12 @@ Página do dashboard de mostra os gatos que estão adotados -->
                     <!-- Telefone -->
                     <div class="p-2 mb-2 rounded" style="background-color: #e6e9f6; color: #3b5998;"> Telefone:
                         <span id="modalAdotanteTelefone" class="ps-2" style="color: #3b5998;"></span>
-                    </div><br>
+                    </div>
+                    
+                    <div class="p-2 mb-2 rounded" style="background-color: #e6e9f6; color: #3b5998;"> Data Adoção:
+                        <span id="modalDataInicio" class="ps-2" style="color: #3b5998;"></span>
+                    </div>
+                    <br>
                     
                 </div>
             </div>
@@ -191,7 +197,7 @@ Página do dashboard de mostra os gatos que estão adotados -->
                 const gatoNome = this.dataset.nome;
 
                 if (confirm(`Tem certeza que deseja excluir o registro de adoção do gato ${gatoNome}?`)) {
-                    fetch(`/gatos/excluir_adotado_ajax/${adotadoId}/`, {
+                    fetch(`/adocoes/excluir_adotado_ajax/${adotadoId}/`, {
                         method: "POST",
                         headers: {
                             "X-CSRFToken": "{{ csrf_token }}",
@@ -201,11 +207,11 @@ Página do dashboard de mostra os gatos que estão adotados -->
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === "ok") {
-                            // Remove o card da tela
-                            const card = this.closest(".col-lg-3, .col-md-4, .col-sm-6");
-                            if (card) card.remove();
                             alert(data.mensagem);
-                        } else {
+                            // 🛑 NOVO CÓDIGO: Recarrega a página completamente
+                            window.location.reload(); 
+                            
+                        } else {        
                             alert(data.mensagem);
                         }
                     })
@@ -235,6 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalAdotanteNome = document.getElementById('modalAdotanteNome');
   const modalAdotanteEmail = document.getElementById('modalAdotanteEmail');
   const modalAdotanteTelefone = document.getElementById('modalAdotanteTelefone');
+  const modalDataInicio = document.getElementById('modalDataInicio');
 
   // Seleciona todos os cards clicáveis
   document.querySelectorAll('.abrir-modal-gato').forEach(card => {
@@ -281,6 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
       modalAdotanteNome.textContent = card.dataset.adotanteNome || '—';
       modalAdotanteEmail.textContent = card.dataset.adotanteEmail || '—';
       modalAdotanteTelefone.textContent = card.dataset.adotanteTelefone || '—';
+      modalDataInicio.textContent = card.dataset.dataInicio || '—';
 
       // Exibe o modal
       modal.show();
