@@ -604,9 +604,14 @@ header h1 em {
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1230px) {
   .doe-section {
     margin-left: -5%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .doe-section {
     height: 60vh;
   }
 
@@ -775,7 +780,7 @@ header h1 em {
 }
 }
 
-@media (max-width: 1024px){
+@media (max-width: 1230px){
 .onda-section {
   margin-left: -5%;
 }
@@ -998,7 +1003,7 @@ header h1 em {
 }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1230px) {
   .lar {
     margin-left: -5%;
     margin-top: -70%;
@@ -1209,7 +1214,7 @@ header h1 em {
 }
 }
 
-@media (max-width: 1024px){
+@media (max-width: 1230px){
   .gato-adulto-section {
   margin-left: -5%;
 }
