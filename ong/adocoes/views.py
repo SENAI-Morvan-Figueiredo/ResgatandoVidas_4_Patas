@@ -324,13 +324,6 @@ class AdotadosListView(ListView):
         ctx = super().get_context_data(**kwargs)
         ctx['show_all'] = getattr(self, 'show_all', False)
         ctx['total_count'] = Adotados.objects.count()
-        
-        # Pega só o primeiro nome de cada adotado
-        ctx['primeiros_nomes'] = [
-            adotado.nome.split()[0] if adotado.nome else ''
-            for adotado in ctx['adotados']
-        ]
-        
         return ctx
 
 # -------------------------------------------------------------------------------------------------- Da tela registrar_adocao

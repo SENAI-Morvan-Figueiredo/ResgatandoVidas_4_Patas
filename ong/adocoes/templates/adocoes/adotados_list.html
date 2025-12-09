@@ -33,9 +33,12 @@
 
             <div class="card-body d-flex flex-column">
 
-                <h5 class="card-title mb-2 text-center">
-                    {{ adotado.adotante_primeiro_nome }} adotou {{ item.gato.nome }}
-                </h5>
+            <h5 class="card-title mb-2 text-center">
+                <span class="adotante-nome" style="display:none;">{{ item.adocao.nome }}</span>
+                <span class="gato-nome" style="display:none;">{{ item.gato.nome }}</span>
+                <span class="nome-formatado"></span>
+            </h5>
+
                 
             </div>
         </div>
@@ -60,5 +63,24 @@
     </a>
     {% endif %}
 </div>
+
+{% comment %} JavaScript {% endcomment %}
+
+{% comment %} Função para pegar so o primeiro nome do adotante {% endcomment %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".card").forEach(card => {
+        const adotante = card.querySelector(".adotante-nome")?.innerText.trim() || "";
+        const gato = card.querySelector(".gato-nome")?.innerText.trim() || "";
+
+        const primeiroAdotante = adotante.split(" ")[0];
+        const nomeGato = gato; // se quiser só o primeiro nome: gato.split(" ")[0]
+
+        card.querySelector(".nome-formatado").innerText =
+            `${primeiroAdotante} adotou ${nomeGato}`;
+    });
+});
+</script>
+
 
 {% endblock %}
