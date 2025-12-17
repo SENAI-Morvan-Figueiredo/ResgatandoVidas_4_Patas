@@ -178,13 +178,19 @@ header h1 em {
 .patad { right: -35%; }
 
 /* RESPONSIVIDADE HEADER */
+@media (max-width: 1600px) {
+  .pataa, .patab, .patac, .patad {
+    top: -35px;
+  }
+}
+
 @media (max-width: 1400px) {
   .pataa, .patab, .patac, .patad {
     top: -15px;
   }
 }
 
-@media (max-width: 1330px) {
+@media (max-width: 1024px) {
   header.home-header {
     min-height: 450px;
   }
@@ -204,16 +210,15 @@ header h1 em {
   .menu-centralizado ul li a {
     font-size: 16px;
   }
+
+  .pataa, .patab, .patac, .patad {
+    top: 120px;
+  }
+
   .pataa { left: -40%; }
   .patab { left: -25%; }
   .patac { right: -25%; }
   .patad { right: -40%; }
-}
-
-@media (max-width: 1024px) {
- .pataa, .patab, .patac, .patad {
-    top: 120px;
-  }
 }
 
 @media (max-width: 991px) {
@@ -399,6 +404,17 @@ header h1 em {
 }
 
 /* RESPONSIVIDADE */
+@media (max-width: 1600px){
+  .intro-content {
+  max-width: 600px;
+}
+
+.intro-image .circle-img {
+  margin-top: -80%;
+}
+
+}
+
 @media (max-width: 1400px){
   .intro-content {
   max-width: 600px;
@@ -579,6 +595,17 @@ header h1 em {
 }
 
 /* RESPONSIVO */
+@media (max-width: 1600px){
+.doe-section {
+  margin: -10%;
+  margin-top: 1%;
+}
+
+.doe-image {
+  margin-left: -16%;
+}
+}
+
 @media (max-width: 1400px){
 .doe-section {
   margin: -10%;
@@ -588,7 +615,6 @@ header h1 em {
 .doe-image {
   margin-left: -10%;
 }
-
 }
 
 @media (max-width: 1330px) {
@@ -604,9 +630,14 @@ header h1 em {
   }
 }
 
+@media (max-width: 1230px) {
+  .doe-section {
+    margin-left: -15%;
+  }
+}
+
 @media (max-width: 1024px) {
   .doe-section {
-    margin-left: -5%;
     height: 60vh;
   }
 
@@ -762,6 +793,13 @@ header h1 em {
 }
 
 /* RESPONSIVIDADE */
+@media (max-width: 1600px){
+.onda-section {
+  margin-left: -10%;
+  margin-top: 10%;
+}
+}
+
 @media (max-width: 1400px){
 .onda-section {
   margin-left: -10%;
@@ -775,7 +813,7 @@ header h1 em {
 }
 }
 
-@media (max-width: 1024px){
+@media (max-width: 1230px){
 .onda-section {
   margin-left: -5%;
 }
@@ -982,6 +1020,14 @@ header h1 em {
 /* =======================
    RESPONSIVIDADE LAR
 ======================= */
+@media (max-width: 1600px){
+  .lar {
+    margin-left: -10%;
+    margin-top: -72%;
+    height: 125vh;
+}
+}
+
 @media (max-width: 1400px){
   .lar {
     margin-left: -10%;
@@ -998,7 +1044,7 @@ header h1 em {
 }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1230px) {
   .lar {
     margin-left: -5%;
     margin-top: -70%;
@@ -1197,6 +1243,12 @@ header h1 em {
 }
 
 /* RESPONSIVIDADE */
+@media (max-width: 1600px){
+  .gato-adulto-section {
+  margin-left: -10%;
+}
+}
+
 @media (max-width: 1400px){
   .gato-adulto-section {
   margin-left: -10%;
@@ -1209,7 +1261,7 @@ header h1 em {
 }
 }
 
-@media (max-width: 1024px){
+@media (max-width: 1230px){
   .gato-adulto-section {
   margin-left: -5%;
 }
