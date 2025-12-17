@@ -224,7 +224,7 @@ def formulario_lar_temporario(request):
 
             # ----------------- ENVIO DO E-MAIL -----------------
             assunto = f"Novo pedido de lar temporário: {lar.nome}"
-            destinatarios = ["raicarvalho343@gmail.com"]  # e-mail da ONG
+            destinatarios = ["rai.figueiredo@aluno.senai.br"]  # e-mail da ONG
 
             email = EmailMessage(
                 subject=assunto,

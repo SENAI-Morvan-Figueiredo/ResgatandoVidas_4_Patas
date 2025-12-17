@@ -266,7 +266,7 @@ def formulario_adocao(request):
             #              ENVIO DO E-MAIL
             # ---------------------------------------------
             assunto = f"Nova solicitação de adoção: {adocao.nome}"
-            destinatarios = ["raicarvalho343@gmail.com"]  # Trocar pelo e-mail da ONG
+            destinatarios = ["rai.figueiredo@aluno.senai.br"]  # Trocar pelo e-mail da ONG
 
             email = EmailMessage(
                 subject=assunto,
