@@ -11,6 +11,8 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from datetime import datetime
 from lares_temporarios.models import LarTemporarioAtual
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +23,8 @@ logger = logging.getLogger(__name__)
 # Gatos disponíveis para adoção
 # -----------------------------------------
 
+
+@method_decorator(cache_page(60 * 7), name='dispatch')  # 7 minutos
 class GatoListView(ListView):
     model = Gato
     template_name = 'adocoes/adocao_list.html'
@@ -78,6 +82,7 @@ class GatoListView(ListView):
 # detalhadas do gato
 # -----------------------------------------
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class GatoDetailView(DetailView):
     model = Gato
     template_name = 'adocoes/adocao_detail.html'
@@ -302,6 +307,7 @@ def formulario_adocao(request):
 # Gatos que já foram adotados
 # -----------------------------------------
 
+@method_decorator(cache_page(60 * 7), name='dispatch')  # 7 minutos
 class AdotadosListView(ListView):
     model = Adotados
     template_name = 'adocoes/adotados_list.html'

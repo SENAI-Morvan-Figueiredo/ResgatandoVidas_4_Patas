@@ -12,6 +12,8 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .forms import LarTemporarioAtualForm, HistoricoLarTemporarioForm
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +24,7 @@ logger = logging.getLogger(__name__)
 # gatos que podem ser lar temporário
 # -----------------------------------------
 
+@method_decorator(cache_page(60 * 7), name='dispatch')  # 7 minutos
 class GatoListView(ListView):
     model = Gato
     template_name = 'lares_temporarios/lar_temporario_list.html'
@@ -77,6 +80,7 @@ class GatoListView(ListView):
 # Função para aparecer os detalhes do gato
 # -----------------------------------------
 
+@method_decorator(cache_page(60 * 5), name='dispatch')  # 5 minutos
 class GatoDetailView(DetailView):
     model = Gato
     template_name = 'lares_temporarios/lar_temporario_detail.html'
